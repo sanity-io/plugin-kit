@@ -1,0 +1,15 @@
+{
+  "name": "sanity-plugin-valid",
+  "version": "1.0.0",
+  "description": "Just a valid Sanity plugin fixture. Do not publish.",
+  "main": "./src/one.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "sanity",
+    "sanity-plugin"
+  ],
+  "author": "Espen Hovlandsdal",
+  "license": "MIT"
+}
