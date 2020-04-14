@@ -4,10 +4,11 @@ const npmRunPath = require('npm-run-path')
 const findBabelConfig = require('find-babel-config')
 const {getPaths} = require('../sanity/manifest')
 const {getPackage} = require('../npm/package')
+const {buildExtensions} = require('../configs/buildExtensions')
 
-const defaultBabelConfigPath = path.join(__dirname, '..', '..', 'configs', 'babelrc.js')
+const defaultBabelConfigPath = path.join(__dirname, '..', 'configs', 'babelrc.js')
 
-module.exports = async ({basePath, flags}) => {
+module.exports = async function build({basePath, flags}) {
   const babelConfig = await findBabelConfig(basePath)
   const configPath = babelConfig.file || defaultBabelConfigPath
   const pkg = await getPackage({basePath, flags})
@@ -28,6 +29,10 @@ module.exports = async ({basePath, flags}) => {
       // Babel configuration
       '--config-file',
       configPath,
+
+      // Compile JSX, typescript as well
+      '--extensions',
+      buildExtensions.join(','),
 
       // Where to actually output the stuff
       '--out-dir',

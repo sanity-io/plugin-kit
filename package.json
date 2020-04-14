@@ -41,6 +41,7 @@
     "find-babel-config": "^1.2.0",
     "meow": "^6.1.0",
     "npm-run-path": "^4.0.1",
+    "p-any": "^3.0.0",
     "validate-npm-package-name": "^3.0.0"
   },
   "devDependencies": {
