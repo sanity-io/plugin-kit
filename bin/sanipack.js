@@ -1,13 +1,14 @@
 #!/usr/bin/env node
 'use strict'
 const meow = require('meow')
+const log = require('../src/util/log')
 const commands = require('../src/cmds')
 const pkg = require('../package.json')
 
 const cli = meow(
   `
 	Usage
-	  $ ${pkg.name} [--help] <command> [<args>]
+	  $ ${pkg.name} [--help] [--debug] <command> [<args>]
 
   These are common commands used in various situations:
 
@@ -21,6 +22,12 @@ const cli = meow(
 `,
   {
     autoHelp: false,
+    flags: {
+      debug: {
+        default: false,
+        type: 'boolean',
+      },
+    },
   }
 )
 
@@ -42,4 +49,6 @@ const cmd = require(commands[commandName])
 cmd({
   parent: pkg.name,
   argv: process.argv.slice(3),
+}).catch((err) => {
+  log.error(cli.flags.debug ? err.stack : err.message)
 })

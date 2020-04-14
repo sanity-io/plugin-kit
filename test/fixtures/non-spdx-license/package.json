@@ -1,0 +1,16 @@
+{
+  "name": "sanity-plugin-non-spdx-license",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Just a fixture",
+  "main": "./lib/one.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "sanity",
+    "sanity-plugin"
+  ],
+  "author": "Some person",
+  "license": "lol"
+}

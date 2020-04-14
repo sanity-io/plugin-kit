@@ -30,7 +30,7 @@ const flags = {
 function run({argv}) {
   const cli = meow(help, {flags, argv, description})
   const basePath = path.resolve(cli.input[0] || process.cwd())
-  verify({basePath, flags: cli.flags})
+  return verify({basePath, flags: cli.flags})
 }
 
 module.exports = run
