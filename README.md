@@ -1,5 +1,7 @@
 # sanipack
 
+**Work in progress**. Don't use (yet).
+
 ## Installing
 
 ```bash
