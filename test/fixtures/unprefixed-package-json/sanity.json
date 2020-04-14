@@ -1,0 +1,13 @@
+{
+  "paths": {
+    "source": "./src",
+    "compiled": "./lib"
+  },
+
+  "parts": [
+    {
+      "name": "part:invalid-package-json/some/thing",
+      "path": "one.js"
+    }
+  ]
+}

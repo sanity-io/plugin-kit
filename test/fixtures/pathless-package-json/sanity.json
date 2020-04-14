@@ -1,0 +1,8 @@
+{
+  "parts": [
+    {
+      "name": "part:pathless/some/thing",
+      "path": "one.js"
+    }
+  ]
+}

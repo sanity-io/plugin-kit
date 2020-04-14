@@ -23,6 +23,12 @@ async function getPackage(options) {
   try {
     content = await readFile(manifestPath, 'utf8')
   } catch (err) {
+    if (err.code === 'ENOENT') {
+      throw new Error(
+        'No package.json found. package.json is required to publish to npm. Use `sanipack init` for a new plugin, or `npm init` for an existing one'
+      )
+    }
+
     throw new Error(`Failed to read "${manifestPath}": ${err.message}`)
   }
 
@@ -84,36 +90,6 @@ function validatePackageName(manifest, options) {
       `Invalid package.json: "name" should be prefixed with "sanity-plugin-" (or scoped - @your-company/plugin-name)`
     )
   }
-}
-
-// I'm pretty sure I'll need this at some point, so leaving it around for now
-// eslint-disable-next-line no-unused-vars
-function getCompiledFilePath(file, paths) {
-  // /plugin/src/MyComponent.tsx => MyComponent.tsx
-  const input = path.basename(file)
-
-  // /plugin/src/MyComponent.tsx => /plugin/src
-  const inputPath = path.dirname(file)
-
-  // MyComponent.tsx => .tsx
-  const extension = path.extname(input)
-
-  // MyComponent.tsx => MyComponent
-  const withoutExtension = path.basename(input, extension)
-
-  // .css, .md = false
-  // .js, .tsx = true
-  const isCompilable = buildExtensions.includes(extension)
-
-  // MyComponent => MyComponent.js
-  // styles.css  => styles.css
-  const output = `${withoutExtension}${isCompilable ? '.js' : extension}`
-
-  // MyComponent.js => /plugin/src/MyComponent.js
-  const outputPath = path.join(inputPath, output)
-
-  // /plugin/src/MyComponent.tsx => /plugin/lib/MyComponent.js
-  return outputPath.replace(paths.source, paths.compiled)
 }
 
 function hasSourceEquivalent(file, paths) {
@@ -183,10 +159,15 @@ async function validatePaths(manifest, options) {
 
     // If it _doesn't_ exist and it _won't_ exist, then there isn't much point in continuing, is there?
     if (!exists(manifest[key]) && !(await willExist(manifest[key]))) {
+      if (!paths) {
+        throw new Error(`Invalid package.json: "${key}" points to file that does not exist`)
+      }
+
+      const inOutDir = !abs(manifest[key]).startsWith(paths.compiled)
       throw new Error(
-        paths
+        inOutDir
           ? `Invalid package.json: "${key}" points to file that does not exist, and "paths" is not configured to compile to this location`
-          : `Invalid package.json: "${key}" points to file that does not exist`
+          : `Invalid package.json: "${key}" points to file that does not exist, and no equivalent is found in source directory`
       )
     }
   }

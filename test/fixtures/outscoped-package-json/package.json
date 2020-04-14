@@ -1,0 +1,13 @@
+{
+  "name": "sanity-plugin-outscoped",
+  "private": true,
+  "version": "1.0.0",
+  "description": "",
+  "main": "./foo/one.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Some person",
+  "license": "ISC"
+}

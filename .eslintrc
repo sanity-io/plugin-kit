@@ -9,6 +9,7 @@
     "no-console": "off",
     "complexity": "off",
     "id-length": "off",
+    "max-depth": "off",
     "no-sync": "off",
     "strict": "off"
   }
