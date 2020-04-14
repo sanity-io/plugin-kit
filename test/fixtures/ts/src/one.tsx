@@ -3,10 +3,8 @@ import two from './two'
 import styles from './one.css'
 
 export default class One extends React.PureComponent {
-  // plugin-proposal-class-properties
   state = {i: 0}
 
-  // plugin-proposal-class-properties
   handleClick = () => {
     this.setState((prev) => ({i: prev.i + 1}))
   }

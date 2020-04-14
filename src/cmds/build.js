@@ -1,50 +1,36 @@
 const path = require('path')
-const childProcess = require('child_process')
-const npmRunPath = require('npm-run-path')
-const findBabelConfig = require('find-babel-config')
-const {getPaths} = require('../sanity/manifest')
-const {getPackage} = require('../npm/package')
+const meow = require('meow')
+const pkg = require('../../package.json')
+const build = require('../actions/build')
 
-const defaultBabelConfigPath = path.join(__dirname, '..', '..', 'configs', 'babelrc.js')
+const description = `Verify, build and compile a Sanity plugin`
 
-module.exports = async ({basePath}) => {
-  const babelConfig = await findBabelConfig(basePath)
-  const configPath = babelConfig.file || defaultBabelConfigPath
-  const pkg = await getPackage({basePath})
-  const paths = await getPaths({basePath, pluginName: pkg.name})
-  if (!paths) {
-    console.warn(`No "paths" property declared in sanity.json, will not compile with babel`)
-    return
-  }
+const help = `
+Usage
+  $ ${pkg.name} build [<dir>]
 
-  console.log('Compiling source with babel')
-  await spawn(
-    'babel',
-    [
-      // Booleans
-      '--copy-files',
-      '--delete-dir-on-start',
+Examples
+  # Build the plugin in the current directory
+  $ ${pkg.name} build
 
-      // Babel configuration
-      '--config-file',
-      configPath,
+  # Build the plugin in ~/my-plugin
+  $ ${pkg.name} build ~/my-plugin
 
-      // Where to actually output the stuff
-      '--out-dir',
-      paths.compiled,
+  # Allow package.json to reference files inside the uncompiled source folder
+  $ ${pkg.name} build --allow-source-target
+`
 
-      // Where to read source from
-      paths.source,
-    ],
-    {
-      env: npmRunPath.env(),
-      stdio: 'inherit',
-    }
-  )
+const flags = {
+  allowSourceTarget: {
+    type: 'boolean',
+    default: false,
+  },
 }
 
-function spawn(cmd, args, options) {
-  return new Promise((resolve, reject) => {
-    childProcess.spawn(cmd, args, options).on('error', reject).on('close', resolve)
-  })
+function run({argv}) {
+  const cli = meow(help, {flags, argv, description})
+  const basePath = path.resolve(cli.input[0] || process.cwd())
+  build({basePath, flags: cli.flags})
 }
+
+module.exports = run

@@ -2,6 +2,7 @@ const fs = require('fs')
 const path = require('path')
 const util = require('util')
 const validateNpmPackageName = require('validate-npm-package-name')
+const {getPaths} = require('../sanity/manifest')
 
 const readFile = util.promisify(fs.readFile)
 
@@ -29,11 +30,11 @@ async function getPackage(options) {
     throw new Error(`Error parsing "${manifestPath}": ${err.message}`)
   }
 
-  validatePackage(parsed, options)
+  await validatePackage(parsed, options)
   return parsed
 }
 
-function validatePackage(manifest, opts = {}) {
+async function validatePackage(manifest, opts = {}) {
   validateOptions(opts)
 
   const options = {isPlugin: true, ...opts}
@@ -42,7 +43,7 @@ function validatePackage(manifest, opts = {}) {
   }
 
   if (options.isPlugin) {
-    validatePluginPackage(manifest, options)
+    await validatePluginPackage(manifest, options)
   }
 
   validateLockFiles(options)
@@ -58,9 +59,10 @@ function validateOptions(opts) {
     throw new Error(`"options.basePath" must be a string (path to plugin base path)`)
   }
 }
-function validatePluginPackage(manifest, options) {
+
+async function validatePluginPackage(manifest, options) {
   validatePackageName(manifest, options)
-  validatePaths(manifest, options)
+  await validatePaths(manifest, options)
 }
 
 function validatePackageName(manifest, options) {
@@ -81,7 +83,16 @@ function validatePackageName(manifest, options) {
   }
 }
 
-function validatePaths(manifest, options) {
+async function validatePaths(manifest, options) {
+  const paths = await getPaths({...options, pluginName: manifest.name})
+  const abs = (file) =>
+    path.isAbsolute(file) ? file : path.resolve(path.join(options.basePath, file))
+
+  const exists = (file) => fs.existsSync(abs(file))
+  const willExist = (file) => paths && exists(abs(file).replace(paths.compiled, paths.source))
+  const withinSourceDir = (file) => paths && abs(file).startsWith(paths.source)
+  const withinTargetDir = (file) => paths && abs(file).startsWith(paths.compiled)
+
   pathKeys.forEach((key) => {
     if (!(key in manifest)) {
       return
@@ -91,8 +102,30 @@ function validatePaths(manifest, options) {
       throw new Error(`Invalid package.json: "${key}" must be a string if defined`)
     }
 
-    if (!fs.existsSync(path.join(options.basePath, manifest[key]))) {
-      throw new Error(`Invalid package.json: "${key}" points to file that does not exist`)
+    // We don't want to reference `./src/someFile.js` containing a bunch of JSX and whatnot,
+    // instead we want to target `./lib/someFile.js` which is the location it'll be compiled to
+    if (!options.flags.allowSourceTarget && paths && withinSourceDir(manifest[key])) {
+      throw new Error(
+        `Invalid package.json: "${key}" points to file within source (uncompiled) directory. Use --allow-source-target if you really want to do this.`
+      )
+    }
+
+    // Does it exist only because it was there prior to compilation?
+    // We're clearing the folder on compilation, so we shouldn't allow it
+    const fileExists = exists(manifest[key])
+    if (fileExists && paths && withinTargetDir(manifest[key]) && !willExist(manifest[key])) {
+      throw new Error(
+        `Invalid package.json: "${key}" points to file that will not exist after compiling`
+      )
+    }
+
+    // If it _doesn't_ exist and it _won't_ exist, then there isn't much point in continuing, is there?
+    if (!exists(manifest[key]) && !willExist(manifest[key])) {
+      throw new Error(
+        paths
+          ? `Invalid package.json: "${key}" points to file that does not exist, and "paths" is not configured to compile to this location`
+          : `Invalid package.json: "${key}" points to file that does not exist`
+      )
     }
   })
 }

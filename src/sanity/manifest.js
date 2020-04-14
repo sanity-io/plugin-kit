@@ -18,7 +18,7 @@ async function getPaths(options = {}) {
     return null
   }
 
-  const getPath = (relative) => path.normalize(path.join(basePath, relative))
+  const getPath = (relative) => path.resolve(path.join(basePath, relative))
   return {
     compiled: getPath(manifest.paths.compiled),
     source: getPath(manifest.paths.source),
@@ -127,6 +127,8 @@ function validatePaths(manifest, options) {
   if (typeof manifest.paths.source !== 'string') {
     throw new Error(`Invalid sanity.json: "paths" must have a "source" property if declared`)
   }
+
+  // @todo check if these files actually exists
 }
 
 function validateParts(manifest, options) {

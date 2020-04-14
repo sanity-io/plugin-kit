@@ -7,6 +7,7 @@
   "rules": {
     "no-console": "off",
     "no-sync": "off",
-    "strict": "off"
+    "strict": "off",
+    "complexity": "off"
   }
 }
