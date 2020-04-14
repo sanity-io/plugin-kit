@@ -5,10 +5,11 @@
     "ecmaVersion": 2018
   },
   "rules": {
+    "no-await-in-loop": "off",
     "no-console": "off",
-    "no-sync": "off",
-    "strict": "off",
     "complexity": "off",
-    "no-await-in-loop": "off"
+    "id-length": "off",
+    "no-sync": "off",
+    "strict": "off"
   }
 }

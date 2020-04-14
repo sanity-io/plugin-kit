@@ -1,6 +1,6 @@
 import React from 'react'
 import two from './two'
-import styles from './one.css'
+import styles from './styles/one.css'
 
 export default class One extends React.PureComponent {
   // plugin-proposal-class-properties

@@ -1,10 +1,11 @@
 {
-  "name": "sanipack",
+  "name": "@rexxars/sanipack",
   "version": "1.0.0",
   "description": "Enhanced Sanity.io plugin development",
   "main": "src/sanipack.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "tap",
+    "coverage": "tap test/*.test.js --coverage-report=html --no-browser"
   },
   "bin": {
     "sanipack": "./bin/sanipack.js"
@@ -40,15 +41,20 @@
     "@babel/preset-typescript": "^7.9.0",
     "find-babel-config": "^1.2.0",
     "meow": "^6.1.0",
+    "npm-packlist": "^2.1.1",
     "npm-run-path": "^4.0.1",
     "p-any": "^3.0.0",
+    "pkgfiles": "^2.3.2",
     "validate-npm-package-name": "^3.0.0"
   },
   "devDependencies": {
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.10.1",
     "eslint-config-sanity": "^1.149.0",
-    "jest": "^25.3.0",
-    "prettier": "^2.0.4"
+    "execa": "^4.0.0",
+    "prettier": "^2.0.4",
+    "readdirp": "^3.4.0",
+    "rimraf": "^3.0.2",
+    "tap": "^14.10.7"
   }
 }
