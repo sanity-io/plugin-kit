@@ -1,6 +1,8 @@
 const fs = require('fs')
 const path = require('path')
 const util = require('util')
+const {buildExtensions} = require('../configs/buildExtensions')
+const {hasSourceFile, hasCompiledFile} = require('../util/files')
 
 const stat = util.promisify(fs.stat)
 const readFile = util.promisify(fs.readFile)
@@ -19,11 +21,18 @@ async function getPaths(options = {}) {
     return null
   }
 
+  return absolutifyPaths(manifest.paths, basePath)
+}
+
+function absolutifyPaths(paths, basePath) {
   const getPath = (relative) => path.resolve(path.join(basePath, relative))
-  return {
-    compiled: getPath(manifest.paths.compiled),
-    source: getPath(manifest.paths.source),
-  }
+  return paths
+    ? {
+        basePath,
+        compiled: getPath(paths.compiled),
+        source: getPath(paths.source),
+      }
+    : {basePath}
 }
 
 async function readManifest(options) {
@@ -74,7 +83,10 @@ async function validateManifest(manifest, opts = {}) {
     throw new Error(`Invalid sanity.json: "root" property must be a boolean if declared`)
   }
 
-  validateParts(manifest, options)
+  await validateParts(manifest, {
+    ...options,
+    paths: absolutifyPaths(manifest.paths, options.basePath),
+  })
 }
 
 function validateOptions(opts) {
@@ -89,6 +101,14 @@ function validateOptions(opts) {
 
   if (typeof options.pluginName !== 'string') {
     throw new Error(`"options.pluginName" must be a string (npm module name)`)
+  }
+
+  if ('verifySourceParts' in options && typeof options.verifySourceParts !== 'boolean') {
+    throw new Error(`"options.verifySourceParts" must be a boolean if present`)
+  }
+
+  if ('verifyCompiledParts' in options && typeof options.verifyCompiledParts !== 'boolean') {
+    throw new Error(`"options.verifyCompiledParts" must be a boolean if present`)
   }
 }
 
@@ -158,7 +178,7 @@ async function validatePaths(manifest, options) {
   }
 }
 
-function validateParts(manifest, options) {
+async function validateParts(manifest, options) {
   if (!('parts' in manifest)) {
     return
   }
@@ -167,10 +187,14 @@ function validateParts(manifest, options) {
     throw new Error(`Invalid sanity.json: "parts" must be an array if declared`)
   }
 
-  manifest.parts.some((part, i) => validatePart(part, i, options))
+  let i = 0
+  for (const part of manifest.parts) {
+    await validatePart(part, i, options)
+    i++
+  }
 }
 
-function validatePart(part, index, options) {
+async function validatePart(part, index, options) {
   if (!isObject(part)) {
     throw new Error(`Invalid sanity.json: "parts[${index}]" must be an object`)
   }
@@ -178,7 +202,44 @@ function validatePart(part, index, options) {
   validateAllowedPartKeys(part, index)
   validatePartStringValues(part, index)
   validatePartNames(part, index, options)
-  // @todo validate that files exist and is not doubly-specified inside of configured paths
+  await validatePartFiles(part, index, options)
+}
+
+async function validatePartFiles(part, index, options) {
+  const {verifyCompiledParts, verifySourceParts, paths} = options
+  if (!part.path) {
+    return
+  }
+
+  const ext = path.extname(part.path)
+  if (paths.source && ext && ext !== '.js' && buildExtensions.includes(ext)) {
+    throw new Error(
+      `Invalid sanity.json: Part path has extension which is not applicable after compiling. ${ext} becomes .js after compiling. Specify filename without extension (${path.basename(
+        part.path
+      )}) (parts[${index}])`
+    )
+  }
+
+  if (!verifySourceParts && !verifyCompiledParts) {
+    return
+  }
+
+  const [srcExists, libExists] = await Promise.all([
+    hasSourceFile(part.path, paths),
+    verifyCompiledParts && hasCompiledFile(part.path, paths),
+  ])
+
+  if (!srcExists) {
+    throw new Error(
+      `Invalid sanity.json: Part path references file that does not exist in source directory (${paths.source}) (parts[${index}])`
+    )
+  }
+
+  if (verifyCompiledParts && !libExists) {
+    throw new Error(
+      `Invalid sanity.json: Part path references file that does not exist in compiled directory (${paths.compiled}) (parts[${index}])`
+    )
+  }
 }
 
 function validatePartNames(part, index, options) {

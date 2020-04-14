@@ -7,7 +7,7 @@
   "parts": [
     {
       "name": "part:ts/some/thing",
-      "path": "one.js"
+      "path": "one"
     }
   ]
 }

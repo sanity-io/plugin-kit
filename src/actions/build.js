@@ -10,7 +10,7 @@ const defaultBabelConfigPath = path.join(__dirname, '..', 'configs', 'babelrc.js
 
 module.exports = async function build({basePath, flags}) {
   const pkg = await getPackage({basePath, flags})
-  const paths = await getPaths({basePath, pluginName: pkg.name, flags})
+  const paths = await getPaths({basePath, pluginName: pkg.name, flags, verifySourceParts: true})
   if (!paths) {
     console.warn(`No "paths" property declared in sanity.json, will not compile with babel`)
     return

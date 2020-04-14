@@ -1,12 +1,10 @@
 const fs = require('fs')
 const path = require('path')
 const util = require('util')
-const pAny = require('p-any')
 const validateNpmPackageName = require('validate-npm-package-name')
-const {buildExtensions} = require('../configs/buildExtensions')
 const {getPaths} = require('../sanity/manifest')
+const {hasSourceEquivalent} = require('../util/files')
 
-const stat = util.promisify(fs.stat)
 const readFile = util.promisify(fs.readFile)
 
 const pathKeys = ['main', 'module', 'browser', 'types', 'typings']
@@ -92,32 +90,14 @@ function validatePackageName(manifest, options) {
   }
 }
 
-function hasSourceEquivalent(file, paths) {
-  // /plugin/lib/MyComponent.js => /plugin/src
-  const baseDir = path.dirname(file.replace(paths.compiled, paths.source))
-
-  // /plugin/lib/MyComponent.js => MyComponent
-  const baseName = path.basename(file, path.extname(file))
-
-  // MyComponent => /plugin/src/MyComponent
-  const pathStub = path.join(baseDir, baseName)
-
-  /*
-   * /plugin/src/MyComponent => [
-   *   /plugin/src/MyComponent.jsx,
-   *   /plugin/src/MyComponent.mjs,
-   *   ...
-   * ]
-   */
-  const candidates = buildExtensions.map((ext) => `${pathStub}${ext}`)
-
-  return pAny(candidates.map((candidate) => stat(candidate)))
-    .then(() => true)
-    .catch(() => false)
-}
-
 async function validatePaths(manifest, options) {
-  const paths = await getPaths({...options, pluginName: manifest.name})
+  const paths = await getPaths({
+    ...options,
+    pluginName: manifest.name,
+    verifySourceParts: false,
+    verifyCompiledParts: false,
+  })
+
   const abs = (file) =>
     path.isAbsolute(file) ? file : path.resolve(path.join(options.basePath, file))
 
