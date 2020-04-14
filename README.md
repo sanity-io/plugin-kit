@@ -13,10 +13,10 @@ $ npm install -g sanipack
 - [x] Tests
 - [x] Verify command
   - [x] Referenced parts exists in compiled and uncompiled versions
-  - [ ] All files in parts are to be published
-  - [ ] All files listed in package.json are to be published
-  - [ ] Has readme
-  - [ ] Has license (file + npm)
+  - [x] All files in parts are to be published
+  - [x] All files listed in package.json are to be published
+  - [x] Has readme
+  - [x] Has license (file + npm)
   - [ ] Warn if no git
   - [ ] Warn on config files to be published
   - [ ] Validate any dist config

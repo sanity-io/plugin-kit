@@ -10,7 +10,7 @@ const readFile = util.promisify(fs.readFile)
 const allowedPartProps = ['name', 'implements', 'path', 'description']
 const disallowedPluginProps = ['api', 'project', 'plugins', 'env']
 
-module.exports = {getPaths, readManifest, validateManifest}
+module.exports = {getPaths, readManifest, validateManifest, getReferencesPartPaths}
 
 async function getPaths(options = {}) {
   validateOptions(options)
@@ -237,7 +237,7 @@ async function validatePartFiles(part, index, options) {
 
   if (verifyCompiledParts && !libExists) {
     throw new Error(
-      `Invalid sanity.json: Part path references file that does not exist in compiled directory (${paths.compiled}) (parts[${index}])`
+      `Invalid sanity.json: Part path references file ("${part.path}") that does not exist in compiled directory (${paths.compiled}) (parts[${index}])`
     )
   }
 }
@@ -289,4 +289,19 @@ function validatePartStringValues(part, index) {
 
 function isObject(obj) {
   return !Array.isArray(obj) && obj !== null && typeof obj === 'object'
+}
+
+function getReferencesPartPaths(manifest) {
+  const {paths, parts} = {paths: {}, parts: [], ...manifest}
+  const compiledPath = paths.compiled || ''
+
+  return parts
+    .filter((part) => part.path)
+    .map((part) => part.path)
+    .map((partPath) => (path.extname(partPath) === '' ? `${partPath}.js` : partPath))
+    .map((partPath) =>
+      path.isAbsolute(partPath)
+        ? partPath // Not sure if this ever happens, but :shrugs:
+        : path.join(compiledPath, partPath)
+    )
 }

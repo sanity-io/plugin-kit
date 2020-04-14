@@ -1,7 +1,7 @@
 const npmPacklist = require('npm-packlist')
 
-module.exports = {getStagedFiles}
+module.exports = {getPublishableFiles}
 
-function getStagedFiles(path) {
+function getPublishableFiles(path) {
   return npmPacklist({path})
 }

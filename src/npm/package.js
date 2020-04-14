@@ -9,7 +9,7 @@ const readFile = util.promisify(fs.readFile)
 
 const pathKeys = ['main', 'module', 'browser', 'types', 'typings']
 
-module.exports = {getPackage, validatePackage}
+module.exports = {getPackage, validatePackage, getReferencedPaths}
 
 async function getPackage(options) {
   validateOptions(options)
@@ -163,4 +163,8 @@ function validateLockFiles(options) {
   if (npm && yarn) {
     throw new Error(`Invalid plugin: contains both package-lock.json and yarn.lock`)
   }
+}
+
+function getReferencedPaths(pkg) {
+  return pathKeys.filter((key) => key in pkg).map((key) => pkg[key])
 }
