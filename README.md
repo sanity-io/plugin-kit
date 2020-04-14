@@ -10,11 +10,11 @@ $ npm install -g sanipack
 
 ## Todo
 
-- [ ] Tests
-- [ ] Verify that referenced parts exists in compiled and uncompiled versions
-- [ ] Verify that all files in parts are to be published
-- [ ] Verify that all files listed in package.json are to be published
+- [x] Tests
 - [ ] Verify command
+  - [ ] Referenced parts exists in compiled and uncompiled versions
+  - [ ] All files in parts are to be published
+  - [ ] All files listed in package.json are to be published
   - [ ] Has readme
   - [ ] Has license (file + npm)
   - [ ] Warn if no git
