@@ -1,0 +1,13 @@
+{
+  "paths": {
+    "source": "./src",
+    "compiled": "./lib"
+  },
+
+  "parts": [
+    {
+      "implements": "some-part-name",
+      "path": "one.js"
+    }
+  ]
+}

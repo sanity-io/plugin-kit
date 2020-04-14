@@ -35,6 +35,12 @@ async function readManifest(options) {
   try {
     content = await readFile(manifestPath, 'utf8')
   } catch (err) {
+    if (err.code === 'ENOENT') {
+      throw new Error(
+        'No sanity.json found. sanity.json is required for plugins to function. Use `sanipack init` for a new plugin, or create an empty `sanity.json` with an empty object (`{}`) for existing ones.'
+      )
+    }
+
     throw new Error(`Failed to read "${manifestPath}": ${err.message}`)
   }
 
@@ -100,7 +106,9 @@ function validatePluginManifest(manifest, options) {
     const plural = disallowed.length > 1 ? 's' : ''
     const joined = disallowed.join(', ')
     throw new Error(
-      `Invalid sanity.json: Key${plural} ${joined} are not allowed in a plugin manifest`
+      `Invalid sanity.json: Key${plural} ${joined} ${
+        plural ? 'are' : 'is'
+      } not allowed in a plugin manifest`
     )
   }
 
@@ -121,14 +129,18 @@ function validatePaths(manifest, options) {
   }
 
   if (typeof manifest.paths.compiled !== 'string') {
-    throw new Error(`Invalid sanity.json: "paths" must have a "compiled" property if declared`)
+    throw new Error(
+      `Invalid sanity.json: "paths" must have a (string) "compiled" property if declared`
+    )
   }
 
   if (typeof manifest.paths.source !== 'string') {
-    throw new Error(`Invalid sanity.json: "paths" must have a "source" property if declared`)
+    throw new Error(
+      `Invalid sanity.json: "paths" must have a (string) "source" property if declared`
+    )
   }
 
-  // @todo check if these files actually exists
+  // @todo check if source directory exists
 }
 
 function validateParts(manifest, options) {
@@ -151,25 +163,20 @@ function validatePart(part, index, options) {
   validateAllowedPartKeys(part, index)
   validatePartStringValues(part, index)
   validatePartNames(part, index, options)
+  // @todo validate that files exist and is not doubly-specified inside of configured paths
 }
 
 function validatePartNames(part, index, options) {
   const pluginName = options.pluginName.replace(/^sanity-plugin-/, '')
-  if (part.name && !part.name.startsWith('part:')) {
+  if (part.name && !part.name.startsWith(`part:${pluginName}/`)) {
     throw new Error(
-      `Invalid sanity.json: "name" must be prefixed with "part:" - got "${part.name}" (parts[${index}])`
+      `Invalid sanity.json: "name" must be prefixed with "part:${pluginName}/" - got "${part.name}" (parts[${index}])`
     )
   }
 
   if (part.implements && !part.implements.startsWith('part:')) {
     throw new Error(
       `Invalid sanity.json: "implements" must be prefixed with "part:" - got "${part.implements}" (parts[${index}])`
-    )
-  }
-
-  if (part.name && !part.name.slice(5).startsWith(`${pluginName}/`)) {
-    throw new Error(
-      `Invalid sanity.json: "name" must be prefixed with "part:${pluginName}/" - got "${part.name}" (parts[${index}])`
     )
   }
 }
@@ -183,14 +190,16 @@ function validateAllowedPartKeys(part, index) {
     const plural = disallowed.length > 1 ? 's' : ''
     const joined = disallowed.join(', ')
     throw new Error(
-      `Invalid sanity.json: Key${plural} ${joined} are not allowed in a part declaration (parts[${index}])`
+      `Invalid sanity.json: Key${plural} ${joined} ${
+        plural ? 'are' : 'is'
+      } not allowed in a part declaration (parts[${index}])`
     )
   }
 }
 
 function validatePartStringValues(part, index) {
   const nonStrings = Object.keys(part)
-    .filter((key) => typeof key !== 'string')
+    .filter((key) => typeof part[key] !== 'string')
     .map((key) => `"${key}"`)
 
   if (nonStrings.length > 0) {

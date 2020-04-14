@@ -1,8 +1,7 @@
 {
-  "name": "sanity-plugin-valid",
+  "name": "sanity-plugin-invalid-sanity-json-shape",
   "version": "1.0.0",
   "private": true,
-  "description": "Just a valid Sanity plugin fixture. Do not publish.",
   "main": "./lib/one.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

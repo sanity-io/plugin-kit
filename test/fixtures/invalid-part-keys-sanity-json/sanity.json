@@ -1,0 +1,18 @@
+{
+  "paths": {
+    "source": "./src",
+    "compiled": "./lib"
+  },
+
+  "parts": [
+    {
+      "name": "part:invalid-part-keys-sanity-json/foo/bar",
+      "path": "one.js"
+    },
+    {
+      "name": "part:invalid-part-keys-sanity-json/foo/other",
+      "path": "two.js",
+      "unknown": "key"
+    }
+  ]
+}
