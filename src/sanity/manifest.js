@@ -2,6 +2,7 @@ const fs = require('fs')
 const path = require('path')
 const util = require('util')
 
+const stat = util.promisify(fs.stat)
 const readFile = util.promisify(fs.readFile)
 
 const allowedPartProps = ['name', 'implements', 'path', 'description']
@@ -51,11 +52,11 @@ async function readManifest(options) {
     throw new Error(`Error parsing "${manifestPath}": ${err.message}`)
   }
 
-  validateManifest(parsed, options)
+  await validateManifest(parsed, options)
   return parsed
 }
 
-function validateManifest(manifest, opts = {}) {
+async function validateManifest(manifest, opts = {}) {
   const options = {isPlugin: true, ...opts}
   validateOptions(options)
 
@@ -64,9 +65,9 @@ function validateManifest(manifest, opts = {}) {
   }
 
   if (options.isPlugin) {
-    validatePluginManifest(manifest, options)
+    await validatePluginManifest(manifest, options)
   } else {
-    validateProjectManifest(manifest, options)
+    await validateProjectManifest(manifest, options)
   }
 
   if ('root' in manifest && typeof manifest.root !== 'boolean') {
@@ -97,7 +98,7 @@ function validateProjectManifest(manifest, options) {
   }
 }
 
-function validatePluginManifest(manifest, options) {
+async function validatePluginManifest(manifest, options) {
   const disallowed = Object.keys(manifest)
     .filter((key) => disallowedPluginProps.includes(key))
     .map((key) => `"${key}"`)
@@ -116,10 +117,10 @@ function validatePluginManifest(manifest, options) {
     throw new Error(`Invalid sanity.json: "root" cannot be truthy in a plugin manifest`)
   }
 
-  validatePaths(manifest, options)
+  await validatePaths(manifest, options)
 }
 
-function validatePaths(manifest, options) {
+async function validatePaths(manifest, options) {
   if (!('paths' in manifest)) {
     return
   }
@@ -140,7 +141,21 @@ function validatePaths(manifest, options) {
     )
   }
 
-  // @todo check if source directory exists
+  const sourcePath = path.resolve(options.basePath, manifest.paths.source)
+  let srcStats
+  try {
+    srcStats = await stat(sourcePath)
+  } catch (err) {
+    if (err.code === 'ENOENT') {
+      throw new Error(`sanity.json references "source" path which does not exist: "${sourcePath}"`)
+    }
+  }
+
+  if (!srcStats.isDirectory()) {
+    throw new Error(
+      `sanity.json references "source" path which is not a directory: "${sourcePath}"`
+    )
+  }
 }
 
 function validateParts(manifest, options) {
