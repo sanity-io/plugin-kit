@@ -17,8 +17,7 @@ $ npm install -g sanipack
   - [x] All files listed in package.json are to be published
   - [x] Has readme
   - [x] Has license (file + npm)
-  - [ ] Warn if no git
-  - [ ] Warn on config files to be published
+  - [x] Warn on config files to be published
   - [ ] Validate any dist config
   - [ ] Check dependencies (react as peer, prop-types as dep, no direct @sanity/studio)
   - [ ] Introspect JS, find all imports/requires to undeclared dependencies

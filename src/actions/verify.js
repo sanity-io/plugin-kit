@@ -2,7 +2,7 @@ const path = require('path')
 const {readManifest, getReferencesPartPaths} = require('../sanity/manifest')
 const {getPackage, getReferencedPaths} = require('../npm/package')
 const {getPublishableFiles} = require('../npm/publish')
-const {fileExists} = require('../util/files')
+const {fileExists, uselessFiles} = require('../util/files')
 
 module.exports = async function verify({basePath, flags}) {
   const pkg = await getPackage({basePath, flags})
@@ -14,11 +14,18 @@ module.exports = async function verify({basePath, flags}) {
     verifySourceParts: true,
   })
 
-  verifyPublishableFiles({basePath, pkg, manifest})
-  verifyLicenseKey(pkg)
+  // Get all files intended to be published from npm
+  const publishableFiles = await getPublishableFiles(basePath)
+
+  // Errors
+  await verifyPublishableFiles({basePath, pkg, manifest, publishableFiles})
+  await verifyLicenseKey(pkg)
+
+  // Warnings
+  await warnOnUselessFiles(publishableFiles)
 }
 
-async function verifyPublishableFiles({pkg, manifest, basePath}) {
+async function verifyPublishableFiles({pkg, manifest, basePath, publishableFiles}) {
   const explicitlyRequired = ['README.md', 'LICENSE']
 
   // Validate that these files exists, not just that they are publishable
@@ -41,11 +48,8 @@ async function verifyPublishableFiles({pkg, manifest, basePath}) {
     // Remove duplicates
     .filter((file, index, arr) => arr.indexOf(file, index + 1) === -1)
 
-  // Get all files intended to be published from npm
-  const publishable = await getPublishableFiles(basePath)
-
   // Verify that all explicitly referenced files are publishable
-  const unpublishable = files.filter((file) => !publishable.includes(file))
+  const unpublishable = files.filter((file) => !publishableFiles.includes(file))
 
   // Warn with "default error" for unknowns
   const unknowns = unpublishable
@@ -77,4 +81,26 @@ function verifyLicenseKey(pkg) {
       `package.json is missing "license" key: see https://docs.npmjs.com/files/package.json#license and make sure it matches your "LICENSE" file.`
     )
   }
+}
+
+function warnOnUselessFiles(files) {
+  const warnFor = files
+    .filter(
+      (file) =>
+        uselessFiles.includes(file) ||
+        uselessFiles.some((useless) => file.startsWith(`${useless}/`))
+    )
+    .map((file) => `"${file}"`)
+    .join(', ')
+
+  if (warnFor.length === 0) {
+    return
+  }
+
+  console.warn(
+    `This plugin is set to publish the following files, which are generally not needed in a published npm module: ${warnFor}.`
+  )
+  console.warn(
+    `Consider adding these files to an .npmignore or the package.json "files" property. See https://docs.npmjs.com/using-npm/developers.html#keeping-files-out-of-your-package for more information.`
+  )
 }

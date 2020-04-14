@@ -3,10 +3,11 @@ const path = require('path')
 const util = require('util')
 const pAny = require('p-any')
 const {buildExtensions} = require('../configs/buildExtensions')
+const {uselessFiles} = require('../configs/uselessFiles')
 
 const stat = util.promisify(fs.stat)
 
-module.exports = {hasSourceEquivalent, hasSourceFile, hasCompiledFile, fileExists}
+module.exports = {hasSourceEquivalent, hasSourceFile, hasCompiledFile, fileExists, uselessFiles}
 
 function hasSourceEquivalent(compiledFile, paths) {
   if (!paths.source) {

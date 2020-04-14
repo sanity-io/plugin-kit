@@ -13,7 +13,8 @@
     "sanity-plugin"
   ],
   "files": [
-    "lib"
+    "lib",
+    ".eslintignore"
   ],
   "author": "Some person",
   "license": "MIT"
