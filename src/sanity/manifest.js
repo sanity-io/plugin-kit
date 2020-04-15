@@ -294,9 +294,9 @@ function isObject(obj) {
   return !Array.isArray(obj) && obj !== null && typeof obj === 'object'
 }
 
-function getReferencesPartPaths(manifest) {
+function getReferencesPartPaths(manifest, basePath) {
   const {paths, parts} = {paths: {}, parts: [], ...manifest}
-  const compiledPath = paths.compiled || ''
+  const compiledPath = path.resolve(basePath, paths.compiled || '')
 
   return parts
     .filter((part) => part.path)
@@ -305,6 +305,6 @@ function getReferencesPartPaths(manifest) {
     .map((partPath) =>
       path.isAbsolute(partPath)
         ? partPath // Not sure if this ever happens, but :shrugs:
-        : path.join(compiledPath, partPath)
+        : path.resolve(compiledPath, partPath)
     )
 }

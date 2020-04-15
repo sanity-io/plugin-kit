@@ -13,6 +13,7 @@ module.exports = {
   hasSourceFile,
   hasCompiledFile,
   fileExists,
+  readFile,
   readJsonFile,
   uselessFiles,
 }
@@ -78,10 +79,12 @@ function hasCompiledFile(filePath, paths) {
   // components/SomeInput => /plugin/lib/components/SomeInput
   const absPath = path.isAbsolute(filePath) ? filePath : path.resolve(paths.compiled, filePath)
 
-  // /plugin/lib/components/SomeInput    => /plugin/lib/components/SomeInput.js
-  // /plugin/lib/components/SomeInput.js => /plugin/lib/components/SomeInput.js
+  // /plugin/lib/components/SomeInput     => /plugin/lib/components/SomeInput.js
+  // /plugin/lib/components/SomeInput.js  => /plugin/lib/components/SomeInput.js
+  // /plugin/lib/components/SomeInput.css => /plugin/lib/components/SomeInput.css
+  const fileExt = path.extname(absPath)
+  const withExt = fileExt === '' ? `${absPath}.js` : absPath
 
-  const withExt = absPath.endsWith('.js') ? absPath : `${absPath}.js`
   return fileExists(withExt)
 }
 

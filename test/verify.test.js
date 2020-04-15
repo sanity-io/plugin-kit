@@ -91,3 +91,11 @@ tap.test('verifies plugin with no compilation', async (t) => {
   t.equal(stdout, '')
   t.equal(exitCode, 0)
 })
+
+tap.test('verifies plugin with CSS-part referenced', async (t) => {
+  const fixtureDir = path.join(baseFixturesDir, 'css-part')
+  const {stdout, stderr, exitCode} = await execa(sanipack, ['verify', fixtureDir], {reject: false})
+  t.equal(stderr, '')
+  t.equal(stdout, '')
+  t.equal(exitCode, 0)
+})

@@ -166,6 +166,12 @@ function validateLockFiles(options) {
   }
 }
 
-function getReferencedPaths(pkg) {
-  return pathKeys.filter((key) => key in pkg).map((key) => pkg[key])
+function getReferencedPaths(packageJson, basePath) {
+  return pathKeys
+    .filter((key) => key in packageJson)
+    .map((key) =>
+      path.isAbsolute(packageJson[key])
+        ? packageJson[key]
+        : path.resolve(basePath, packageJson[key])
+    )
 }

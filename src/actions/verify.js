@@ -2,9 +2,9 @@ const path = require('path')
 const spdxLicenseIds = require('spdx-license-ids')
 const log = require('../util/log')
 const {readManifest, getReferencesPartPaths} = require('../sanity/manifest')
+const {fileExists, uselessFiles, readJsonFile} = require('../util/files')
 const {getPackage, getReferencedPaths} = require('../npm/package')
 const {getPublishableFiles} = require('../npm/publish')
-const {fileExists, uselessFiles, readJsonFile} = require('../util/files')
 
 module.exports = async function verify({basePath, flags}) {
   const pkg = await getPackage({basePath, flags})
@@ -45,7 +45,7 @@ async function verifyPublishableFiles({pkg, manifest, basePath, publishableFiles
   // Always, uhm... "kindly suggest", to include these files
   const files = explicitlyRequired
     // Get files from parts as well as the ones references in package.json
-    .concat(getReferencesPartPaths(manifest), getReferencedPaths(pkg))
+    .concat(getReferencesPartPaths(manifest, basePath), getReferencedPaths(pkg, basePath))
     // Make all paths relative to base path
     .map((file) =>
       path.relative(basePath, path.isAbsolute(file) ? file : path.resolve(basePath, file))
