@@ -2,6 +2,7 @@ const path = require('path')
 const meow = require('meow')
 const pkg = require('../../package.json')
 const build = require('../actions/build')
+const log = require('../util/log')
 
 const allowedSourceMaps = ['true', 'false', 'inline', 'both']
 const description = `Verify, build and compile a Sanity plugin`
@@ -11,7 +12,7 @@ Usage
   $ ${pkg.binname} build [<dir>]
 
 Options
-  --source-maps, -s [${allowedSourceMaps.join('')}]
+  --source-maps, -s [${allowedSourceMaps.join('|')}]
   --silent       Do not print info and warning messages
   --verbose     Log everything. This option conflicts with --silent
   --version     Output the version number
@@ -55,7 +56,8 @@ function run({argv}) {
   const cli = meow(help, {flags, argv, description})
   const basePath = path.resolve(cli.input[0] || process.cwd())
   if (!allowedSourceMaps.includes(cli.flags.sourceMaps)) {
-    throw new Error(`Invalid --source-maps option: "${cli.flags.sourceMaps}"`)
+    log.error(`Invalid --source-maps option: "${cli.flags.sourceMaps}"`)
+    cli.showHelp() // Exits
   }
 
   return build({basePath, flags: cli.flags})

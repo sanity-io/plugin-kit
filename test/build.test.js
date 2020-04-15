@@ -101,3 +101,16 @@ tap.test('can "build" (skip) plugin without compilation (silent)', async (t) => 
   t.equal(stdout, '')
   t.strictSame(await contents(fixtureDir), before)
 })
+
+tap.test('throws on invalid source map flag', async (t) => {
+  const fixtureDir = path.join(baseFixturesDir, 'valid')
+  const {stdout, stderr, exitCode} = await execa(sanipack, ['build', '--source-maps', 'foo'], {
+    cwd: fixtureDir,
+    reject: false,
+  })
+  const before = await contents(fixtureDir)
+  t.equal(exitCode, 2)
+  t.includes(stderr, 'Invalid --source-maps option: "foo"')
+  t.includes(stdout, '[true|false|inline|both]')
+  t.strictSame(await contents(fixtureDir), before)
+})
