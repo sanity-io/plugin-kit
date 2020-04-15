@@ -10,15 +10,7 @@ $ npm install -g sanipack
 
 ## Todo
 
-- [x] Tests
-- [x] Verify command
-  - [x] Referenced parts exists in compiled and uncompiled versions
-  - [x] All files in parts are to be published
-  - [x] All files listed in package.json are to be published
-  - [x] Has readme
-  - [x] Has license (file + npm)
-  - [x] Warn on config files to be published
-  - [x] Validate any dist config
+- [ ] Verify command
   - [ ] Check dependencies (react as peer, prop-types as dep, no direct @sanity/studio)
   - [ ] Introspect JS, find all imports/requires to undeclared dependencies
 - [ ] init command
