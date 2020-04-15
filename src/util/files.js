@@ -5,9 +5,17 @@ const pAny = require('p-any')
 const {buildExtensions} = require('../configs/buildExtensions')
 const {uselessFiles} = require('../configs/uselessFiles')
 
+const readFile = util.promisify(fs.readFile)
 const stat = util.promisify(fs.stat)
 
-module.exports = {hasSourceEquivalent, hasSourceFile, hasCompiledFile, fileExists, uselessFiles}
+module.exports = {
+  hasSourceEquivalent,
+  hasSourceFile,
+  hasCompiledFile,
+  fileExists,
+  readJsonFile,
+  uselessFiles,
+}
 
 function hasSourceEquivalent(compiledFile, paths) {
   if (!paths.source) {
@@ -89,4 +97,9 @@ function fileExists(filePath) {
   return stat(filePath)
     .then(() => true)
     .catch(() => false)
+}
+
+async function readJsonFile(filePath) {
+  const content = await readFile(filePath, 'utf8')
+  return JSON.parse(content)
 }

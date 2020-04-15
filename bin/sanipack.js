@@ -8,17 +8,23 @@ const pkg = require('../package.json')
 const cli = meow(
   `
 	Usage
-	  $ ${pkg.name} [--help] [--debug] <command> [<args>]
+	  $ ${pkg.binname} [--help] [--debug] <command> [<args>]
 
   These are common commands used in various situations:
 
-    build   Compile a Sanity plugin (prior to publishing)
-    init    Create a new Sanity plugin
-    splat   Inject ${pkg.name} into an existing Sanity plugin
-    verify  Verify a Sanity plugin prior to publishing
+    build    Compile a Sanity plugin (prior to publishing)
+    init     Create a new Sanity plugin
+    splat    Inject ${pkg.name} into an existing Sanity plugin
+    verify   Verify a Sanity plugin prior to publishing
+    version  Show the version of ${pkg.name} currently installed
 
-	Examples
-    $ ${pkg.name} build
+  Examples
+    # Build a Sanity plugin for publishing
+    $ ${pkg.binname} build
+
+    # Verify that a Sanity plugin is ready to be published
+    # (great for pre-publish step!)
+    $ ${pkg.binname} verify
 `,
   {
     autoHelp: false,
@@ -46,9 +52,15 @@ if (!(commandName in commands)) {
 const cmd = require(commands[commandName])
 
 // And run it
-cmd({
-  parent: pkg.name,
-  argv: process.argv.slice(3),
-}).catch((err) => {
-  log.error(cli.flags.debug ? err.stack : err.message)
-})
+async function sanipack() {
+  try {
+    await cmd({argv: process.argv.slice(3)})
+  } catch (err) {
+    log.error(cli.flags.debug ? err.stack : err.message)
+
+    // eslint-disable-next-line no-process-exit
+    process.exit(1)
+  }
+}
+
+sanipack()

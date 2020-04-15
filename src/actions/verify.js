@@ -4,7 +4,7 @@ const log = require('../util/log')
 const {readManifest, getReferencesPartPaths} = require('../sanity/manifest')
 const {getPackage, getReferencedPaths} = require('../npm/package')
 const {getPublishableFiles} = require('../npm/publish')
-const {fileExists, uselessFiles} = require('../util/files')
+const {fileExists, uselessFiles, readJsonFile} = require('../util/files')
 
 module.exports = async function verify({basePath, flags}) {
   const pkg = await getPackage({basePath, flags})
@@ -22,6 +22,7 @@ module.exports = async function verify({basePath, flags}) {
   // Errors
   await verifyPublishableFiles({basePath, pkg, manifest, publishableFiles})
   await verifyLicenseKey(pkg)
+  await verifyPluginConfig(basePath)
 
   // Warnings
   await warnOnUselessFiles(publishableFiles)
@@ -78,6 +79,30 @@ function verifyLicenseKey(pkg) {
   if (pkg.license !== 'UNLICENSED' && !spdxLicenseIds.includes(pkg.license)) {
     throw new Error(
       `package.json has an invalid "license" key: it should be either an SPDX license ID (https://spdx.org/licenses/) or "UNLICENSE". See https://docs.npmjs.com/files/package.json#license and refer to https://choosealicense.com/ for help on choosing a license.`
+    )
+  }
+}
+
+async function verifyPluginConfig(basePath) {
+  const configPath = path.join(basePath, 'config.dist.json')
+  if (!(await fileExists(configPath))) {
+    return
+  }
+
+  let config
+  try {
+    config = await readJsonFile(configPath)
+  } catch (err) {
+    throw new Error(`Error reading plugin config (${configPath}): ${err.message}`)
+  }
+
+  if (typeof config !== 'object' || Array.isArray(config) || !config) {
+    throw new Error(
+      `Error reading plugin config (${configPath}): must be an object, got:\n${JSON.stringify(
+        config,
+        null,
+        2
+      )}`
     )
   }
 }

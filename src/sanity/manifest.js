@@ -1,6 +1,7 @@
 const fs = require('fs')
 const path = require('path')
 const util = require('util')
+const pkg = require('../../package.json')
 const {buildExtensions} = require('../configs/buildExtensions')
 const {hasSourceFile, hasCompiledFile} = require('../util/files')
 
@@ -47,7 +48,7 @@ async function readManifest(options) {
   } catch (err) {
     if (err.code === 'ENOENT') {
       throw new Error(
-        'No sanity.json found. sanity.json is required for plugins to function. Use `sanipack init` for a new plugin, or create an empty `sanity.json` with an empty object (`{}`) for existing ones.'
+        `No sanity.json found. sanity.json is required for plugins to function. Use \`${pkg.binname} init\` for a new plugin, or create an empty \`sanity.json\` with an empty object (\`{}\`) for existing ones.`
       )
     }
 
@@ -231,7 +232,9 @@ async function validatePartFiles(part, index, options) {
 
   if (!srcExists) {
     throw new Error(
-      `Invalid sanity.json: Part path references file that does not exist in source directory (${paths.source}) (parts[${index}])`
+      `Invalid sanity.json: Part path references file that does not exist in source directory (${
+        paths.source || paths.basePath
+      }) (parts[${index}])`
     )
   }
 

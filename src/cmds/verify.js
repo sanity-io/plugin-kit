@@ -7,17 +7,17 @@ const description = `Verify that a Sanity plugin is ready for publishing`
 
 const help = `
 Usage
-  $ ${pkg.name} verify [<dir>]
+  $ ${pkg.binname} verify [<dir>]
 
 Examples
   # Verify the plugin in the current directory
-  $ ${pkg.name} verify
+  $ ${pkg.binname} verify
 
   # Verify the plugin in ~/my-plugin
-  $ ${pkg.name} verify ~/my-plugin
+  $ ${pkg.binname} verify ~/my-plugin
 
   # Allow package.json to reference files inside the uncompiled source folder
-  $ ${pkg.name} verify --allow-source-target
+  $ ${pkg.binname} verify --allow-source-target
 `
 
 const flags = {

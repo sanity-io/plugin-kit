@@ -1,12 +1,9 @@
 {
-  "name": "sanity-plugin-invalid-dist-config",
+  "name": "sanity-plugin-plain",
   "version": "1.0.0",
   "private": true,
   "description": "Just a fixture",
-  "main": "./lib/one.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "main": "./src/schemaType.js",
   "keywords": [
     "sanity",
     "sanity-plugin"

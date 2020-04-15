@@ -10,7 +10,7 @@ tap.test('shows help if no command is given', async (t) => {
   t.equal(exitCode, 2)
   t.equal(stderr, '')
   t.includes(stdout, pkg.description)
-  t.includes(stdout, pkg.name)
+  t.includes(stdout, pkg.binname)
 })
 
 tap.test('shows error + help on unknown commands', async (t) => {
@@ -18,5 +18,13 @@ tap.test('shows error + help on unknown commands', async (t) => {
   t.equal(exitCode, 2)
   t.equal(stderr, 'Unknown command "lolwat"')
   t.includes(stdout, pkg.description)
-  t.includes(stdout, pkg.name)
+  t.includes(stdout, pkg.binname)
+})
+
+tap.test('shows error + help on unknown commands', async (t) => {
+  const {stdout, stderr, exitCode} = await execa(sanipack, ['lolwat'], {reject: false})
+  t.equal(exitCode, 2)
+  t.equal(stderr, 'Unknown command "lolwat"')
+  t.includes(stdout, pkg.description)
+  t.includes(stdout, pkg.binname)
 })

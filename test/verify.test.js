@@ -60,10 +60,34 @@ tap.test('throws on referenced files being ignored by npm (sanity.json)', async 
   t.equal(exitCode, 1)
 })
 
+tap.test('throws on invalid dist config', async (t) => {
+  const fixtureDir = path.join(baseFixturesDir, 'invalid-dist-config')
+  const {stdout, stderr, exitCode} = await execa(sanipack, ['verify', fixtureDir], {reject: false})
+  t.includes(stderr, 'must be an object, got:\n[]')
+  t.equal(stdout, '')
+  t.equal(exitCode, 1)
+})
+
+tap.test('throws on invalid dist config (syntax)', async (t) => {
+  const fixtureDir = path.join(baseFixturesDir, 'invalid-dist-config-syntax')
+  const {stdout, stderr, exitCode} = await execa(sanipack, ['verify', fixtureDir], {reject: false})
+  t.includes(stderr, 'Unexpected end of JSON input')
+  t.equal(stdout, '')
+  t.equal(exitCode, 1)
+})
+
 tap.test('warns on "useless" files', async (t) => {
   const fixtureDir = path.join(baseFixturesDir, 'useless-files')
   const {stdout, stderr, exitCode} = await execa(sanipack, ['verify', fixtureDir], {reject: false})
   t.includes(stderr, '".eslintignore", ".prettierrc"')
+  t.equal(stdout, '')
+  t.equal(exitCode, 0)
+})
+
+tap.test('verifies plugin with no compilation', async (t) => {
+  const fixtureDir = path.join(baseFixturesDir, 'plain')
+  const {stdout, stderr, exitCode} = await execa(sanipack, ['verify', fixtureDir], {reject: false})
+  t.equal(stderr, '')
   t.equal(stdout, '')
   t.equal(exitCode, 0)
 })

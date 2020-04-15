@@ -2,6 +2,7 @@ const fs = require('fs')
 const path = require('path')
 const util = require('util')
 const validateNpmPackageName = require('validate-npm-package-name')
+const pkg = require('../../package.json')
 const {getPaths} = require('../sanity/manifest')
 const {hasSourceEquivalent} = require('../util/files')
 
@@ -23,7 +24,7 @@ async function getPackage(options) {
   } catch (err) {
     if (err.code === 'ENOENT') {
       throw new Error(
-        'No package.json found. package.json is required to publish to npm. Use `sanipack init` for a new plugin, or `npm init` for an existing one'
+        `No package.json found. package.json is required to publish to npm. Use \`${pkg.binname} init\` for a new plugin, or \`npm init\` for an existing one`
       )
     }
 
