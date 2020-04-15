@@ -49,9 +49,5 @@ package-lock.json
 # Cache
 .cache
 
-# build ouput
-dist
-lib
-
 # Fixtures
 test/fixtures/*/lib
