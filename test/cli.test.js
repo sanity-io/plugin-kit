@@ -21,10 +21,24 @@ tap.test('shows error + help on unknown commands', async (t) => {
   t.includes(stdout, pkg.binname)
 })
 
-tap.test('shows error + help on unknown commands', async (t) => {
-  const {stdout, stderr, exitCode} = await execa(sanipack, ['lolwat'], {reject: false})
-  t.equal(exitCode, 2)
-  t.equal(stderr, 'Unknown command "lolwat"')
-  t.includes(stdout, pkg.description)
-  t.includes(stdout, pkg.binname)
+tap.test('shows no stack trace without --debug', async (t) => {
+  const {stdout, stderr, exitCode} = await execa(sanipack, ['version', '--major', '--minor'], {
+    reject: false,
+  })
+  t.equal(exitCode, 1)
+  t.equal(stdout, '')
+  t.includes(stderr, 'only one can be used at a time')
+  t.doesNotHave(stderr, '/cmds/version.js:')
+})
+
+tap.test('shows stack trace with --debug', async (t) => {
+  const {stdout, stderr, exitCode} = await execa(
+    sanipack,
+    ['version', '--debug', '--major', '--minor'],
+    {reject: false}
+  )
+  t.equal(exitCode, 1)
+  t.equal(stdout, '')
+  t.includes(stderr, 'only one can be used at a time')
+  t.includes(stderr, '/cmds/version.js:')
 })
