@@ -12,9 +12,6 @@ $ npm install -g sanipack
 
 - [ ] Detect non-plugin env
 - [ ] What happens if referencing .ts, .tsx with no compilation target?
-- [ ] Verify command
-  - [ ] Check dependencies (react as peer, prop-types as dep, no direct @sanity/studio)
-  - [ ] Introspect JS, find all imports/requires to undeclared dependencies
 - [ ] init command
   - [ ] eslint
   - [ ] prettier
@@ -27,6 +24,7 @@ $ npm install -g sanipack
 - [ ] splat command
   - [ ] Splat into scripts (build, prepublish)
 - [ ] symlink command?
+- [ ] watch command?
 
 ## License
 
