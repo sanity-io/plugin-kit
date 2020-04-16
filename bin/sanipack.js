@@ -56,7 +56,7 @@ async function sanipack() {
   try {
     await cmd({argv: process.argv.slice(3)})
   } catch (err) {
-    log.error(cli.flags.debug ? err.stack : err.message)
+    log.error(err instanceof TypeError || cli.flags.debug ? err.stack : err.message)
 
     // eslint-disable-next-line no-process-exit
     process.exit(1)
