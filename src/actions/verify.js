@@ -253,18 +253,27 @@ function getUndeclaredDependencies(modules, pkg) {
 
 function getUndeclaredDependenciesError(undeclared) {
   const baseError = `Invalid plugin`
-  const declaredWhere = `should either be declared in "dependencies" or "peerDependencies" (package.json).`
+  const moduleNames = undeclared.map((mod) => mod.dependency)
+
+  let declaredWhere = `should be declared in package.json under "dependencies" or "peerDependencies".`
+  if (moduleNames.length === 1 && moduleNames[0] === 'react') {
+    declaredWhere = `should be declared in package.json under "peerDependencies"`
+  } else if (moduleNames.includes('react')) {
+    declaredWhere = `should either be declared in package.json under "dependencies" or "peerDependencies" (react should be in "peerDependencies").`
+  }
 
   const devDeps = undeclared.filter((dep) => dep.isDevDep).map((dep) => `  - ${dep.dependency}\n`)
   if (devDeps.length > 0) {
     const modules = devDeps.length > 1 ? 'modules' : 'module'
     const depList = devDeps.join('')
     const target = devDeps.length > 1 ? 'They' : 'It'
-    return `${baseError}: Source uses ${modules} that are declared in "devDependencies":\n\n${depList}\n${target} ${declaredWhere}`
+    const are = devDeps.length > 1 ? 'are' : 'is'
+    return `${baseError}: Source uses ${modules} that ${are} declared in "devDependencies":\n\n${depList}\n${target} ${declaredWhere}`
   }
 
   const modules = undeclared.length > 1 ? 'modules' : 'module'
   const depList = undeclared.map((dep) => `  - ${dep.dependency}\n`).join('')
-  const target = modules.length > 1 ? 'They' : 'It'
-  return `${baseError}: Source uses ${modules} that are not declared as dependencies:\n\n${depList}\n${target} ${declaredWhere}`
+  const target = undeclared.length > 1 ? 'They' : 'It'
+  const are = undeclared.length > 1 ? 'are' : 'is'
+  return `${baseError}: Source uses ${modules} that ${are} not declared as dependencies:\n\n${depList}\n${target} ${declaredWhere}`
 }
