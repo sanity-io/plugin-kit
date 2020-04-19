@@ -31,21 +31,26 @@ module.exports = async function verify({basePath, flags}) {
 }
 
 async function verifyPublishableFiles({pkg, manifest, basePath, publishableFiles}) {
-  const explicitlyRequired = ['README.md', 'LICENSE']
-
   // Validate that these files exists, not just that they are publishable
-  ;(
-    await Promise.all(explicitlyRequired.map((file) => fileExists(path.resolve(basePath, file))))
-  ).forEach((exists, i) => {
-    if (!exists) {
-      throw new Error(
-        `This plugin does not contain the file "${explicitlyRequired[i]}", which is a required file for Sanity plugins.`
-      )
-    }
-  })
+  if (!(await fileExists(path.resolve(basePath, 'README.md')))) {
+    throw new Error(
+      `This plugin does not contain a README.md, which is required for Sanity plugins.`
+    )
+  }
+
+  const [hasLicense, hasLicenseMd] = await Promise.all([
+    fileExists(path.resolve(basePath, 'LICENSE')),
+    fileExists(path.resolve(basePath, 'README.md')),
+  ])
+
+  if (!hasLicense && !hasLicenseMd) {
+    throw new Error(
+      `This plugin does not contain a LICENSE-file, which is required for Sanity plugins.`
+    )
+  }
 
   // Always, uhm... "kindly suggest", to include these files
-  const files = explicitlyRequired
+  const files = ['README.md']
     // Get files from parts as well as the ones references in package.json
     .concat(getReferencesPartPaths(manifest, basePath), getReferencedPaths(pkg, basePath))
     // Make all paths relative to base path
@@ -59,9 +64,7 @@ async function verifyPublishableFiles({pkg, manifest, basePath, publishableFiles
   const unpublishable = files.filter((file) => !publishableFiles.includes(file))
 
   // Warn with "default error" for unknowns
-  const unknowns = unpublishable
-    .filter((item) => !explicitlyRequired.includes(item))
-    .map((file) => `"${file}"`)
+  const unknowns = unpublishable.filter((item) => item !== 'README.md').map((file) => `"${file}"`)
 
   if (unknowns.length > 0) {
     const paths = unknowns.join(', ')
