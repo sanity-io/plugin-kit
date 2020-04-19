@@ -125,8 +125,8 @@ async function writeFileWithOverwritePrompt(filePath, content, options) {
   const withinCwd = filePath.startsWith(process.cwd())
   const printablePath = withinCwd ? path.relative(process.cwd(), filePath) : filePath
 
-  if (fileEqualsData(filePath, content)) {
-    return true
+  if (await fileEqualsData(filePath, content)) {
+    return false
   }
 
   if (
