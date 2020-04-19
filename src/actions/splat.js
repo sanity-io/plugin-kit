@@ -89,7 +89,7 @@ async function writeLicense(license, options) {
   const {basePath, flags} = options
 
   if (flags.license === false || !license) {
-    return
+    return false
   }
 
   // Prefer whatever path the user is currenly using (LICENSE.md or LICENSE)
@@ -99,6 +99,8 @@ async function writeLicense(license, options) {
   await writeFileWithOverwritePrompt(licensePath, license.text, {
     encoding: 'utf8',
   })
+
+  return true
 }
 
 async function getLicense(flags, {user, pluginName, pkg} = {}) {
