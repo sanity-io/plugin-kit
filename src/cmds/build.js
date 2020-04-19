@@ -13,7 +13,7 @@ Usage
 
 Options
   --source-maps, -s [${allowedSourceMaps.join('|')}]
-  --silent       Do not print info and warning messages
+  --silent      Do not print info and warning messages
   --verbose     Log everything. This option conflicts with --silent
   --version     Output the version number
   --help        Output usage information
