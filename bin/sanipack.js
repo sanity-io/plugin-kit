@@ -18,6 +18,13 @@ const cli = meow(
     verify   Verify a Sanity plugin prior to publishing
     version  Show the version of ${pkg.name} currently installed
 
+  Options
+    --silent      Do not print info and warning messages
+    --verbose     Log everything. This option conflicts with --silent
+    --debug       Print stack trace on errors
+    --version     Output the version number
+    --help        Output usage information
+
   Examples
     # Build a Sanity plugin for publishing
     $ ${pkg.binname} build
@@ -32,6 +39,14 @@ const cli = meow(
       debug: {
         default: false,
         type: 'boolean',
+      },
+      silent: {
+        type: 'boolean',
+        default: false,
+      },
+      verbose: {
+        type: 'boolean',
+        default: false,
       },
     },
   }
@@ -48,12 +63,18 @@ if (!(commandName in commands)) {
   cli.showHelp() // Exits
 }
 
+if (cli.flags.silent && cli.flags.verbose) {
+  log.error(`--silent and --verbose are mutually exclusive`)
+  cli.showHelp() // Exits
+}
+
 // Lazy-load command
 const cmd = require(commands[commandName])
 
 // And run it
 async function sanipack() {
   try {
+    log.setVerbosity(cli.flags)
     await cmd({argv: process.argv.slice(3)})
   } catch (err) {
     log.error(err instanceof TypeError || cli.flags.debug ? err.stack : err.message)

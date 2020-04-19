@@ -14,21 +14,16 @@ module.exports = async function build({basePath, flags}) {
   const pkg = await getPackage({basePath, flags})
   const paths = await getPaths({basePath, pluginName: pkg.name, flags, verifySourceParts: true})
   if (!paths) {
-    if (!flags.silent) {
-      log.warn(`No "paths" property declared in sanity.json, will not compile with babel`)
-    }
-
+    log.warn(`No "paths" property declared in sanity.json, will not compile with babel`)
     return
   }
 
   const babelConfig = await findBabelConfig(basePath)
   const configPath = babelConfig.file || defaultBabelConfigPath
 
-  if (!flags.silent) {
-    log.info('Compiling plugin:')
-    log.info('Input : %s', paths.source)
-    log.info('Output: %s', paths.compiled)
-  }
+  log.info('Compiling plugin:')
+  log.info('Input : %s', paths.source)
+  log.info('Output: %s', paths.compiled)
 
   await spawn(
     'babel',
