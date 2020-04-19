@@ -2,20 +2,29 @@ const fs = require('fs')
 const path = require('path')
 const util = require('util')
 const pAny = require('p-any')
+const crypto = require('crypto')
 const {buildExtensions} = require('../configs/buildExtensions')
 const {uselessFiles} = require('../configs/uselessFiles')
+const {prompt} = require('./prompt')
 
+const copyFile = util.promisify(fs.copyFile)
 const readFile = util.promisify(fs.readFile)
+const writeFile = util.promisify(fs.writeFile)
 const stat = util.promisify(fs.stat)
 
 module.exports = {
+  copyFile,
   hasSourceEquivalent,
   hasSourceFile,
   hasCompiledFile,
   fileExists,
   readFile,
   readJsonFile,
+  writeFile,
+  writeJsonFile,
   uselessFiles,
+  copyFileWithOverwritePrompt,
+  writeFileWithOverwritePrompt,
 }
 
 function hasSourceEquivalent(compiledFile, paths) {
@@ -105,4 +114,81 @@ function fileExists(filePath) {
 async function readJsonFile(filePath) {
   const content = await readFile(filePath, 'utf8')
   return JSON.parse(content)
+}
+
+function writeJsonFile(filePath, content) {
+  const data = JSON.stringify(content, null, 2)
+  return writeFile(filePath, data, {encoding: 'utf8'})
+}
+
+async function writeFileWithOverwritePrompt(filePath, content, options) {
+  const withinCwd = filePath.startsWith(process.cwd())
+  const printablePath = withinCwd ? path.relative(process.cwd(), filePath) : filePath
+
+  if (fileEqualsData(filePath, content)) {
+    return true
+  }
+
+  if (
+    (await fileExists(filePath)) &&
+    !(await prompt(`File "${printablePath}" already exists. Overwrite?`, {
+      type: 'confirm',
+      default: false,
+    }))
+  ) {
+    return false
+  }
+
+  await writeFile(filePath, content, options)
+  return true
+}
+
+async function copyFileWithOverwritePrompt(from, to) {
+  const withinCwd = to.startsWith(process.cwd())
+  const printablePath = withinCwd ? path.relative(process.cwd(), to) : to
+
+  if (await filesAreEqual(from, to)) {
+    return false
+  }
+
+  if (
+    (await fileExists(to)) &&
+    !(await prompt(`File "${printablePath}" already exists. Overwrite?`, {
+      type: 'confirm',
+      default: false,
+    }))
+  ) {
+    return false
+  }
+
+  await copyFile(from, to)
+  return true
+}
+
+async function fileEqualsData(filePath, content) {
+  const contentHash = crypto.createHash('sha1').update(content).digest('hex')
+  const remoteHash = await getFileHash(filePath)
+  return contentHash === remoteHash
+}
+
+async function filesAreEqual(file1, file2) {
+  const [hash1, hash2] = await Promise.all([getFileHash(file1, false), getFileHash(file2)])
+  return hash1 === hash2
+}
+
+function getFileHash(filePath, allowMissing = true) {
+  return new Promise((resolve, reject) => {
+    const hash = crypto.createHash('sha1')
+    const stream = fs.createReadStream(filePath)
+    stream.on('error', (err) => {
+      if (err.code === 'ENOENT' && allowMissing) {
+        resolve(null)
+      } else {
+        reject(err)
+      }
+    })
+
+    stream.on('end', () => resolve(hash.digest('hex')))
+    stream.on('data', (chunk) => hash.update(chunk))
+  })
 }

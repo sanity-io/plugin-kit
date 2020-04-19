@@ -2,7 +2,7 @@
   "name": "sanipack",
   "version": "1.0.0",
   "description": "Enhanced Sanity.io plugin development",
-  "main": "src/sanipack.js",
+  "main": "src/index.js",
   "scripts": {
     "test": "tap",
     "coverage": "tap test/*.test.js --coverage-report=html --no-browser"
@@ -41,15 +41,24 @@
     "@babel/preset-react": "^7.9.4",
     "@babel/preset-typescript": "^7.9.0",
     "@babel/traverse": "^7.9.5",
+    "@rexxars/choosealicense-list": "^1.1.1",
     "chalk": "^4.0.0",
     "find-babel-config": "^1.2.0",
+    "get-it": "^5.0.2",
+    "get-latest-version": "^2.0.0",
+    "git-remote-origin-url": "^3.1.0",
+    "git-user-info": "^1.0.1",
+    "github-url-to-object": "^4.0.4",
+    "inquirer": "^7.1.0",
     "meow": "^6.1.0",
     "npm-packlist": "^2.1.1",
     "npm-run-path": "^4.0.1",
+    "outdent": "^0.7.1",
     "p-any": "^3.0.0",
-    "pkgfiles": "^2.3.2",
+    "p-props": "^3.1.0",
     "spdx-license-ids": "^3.0.5",
-    "validate-npm-package-name": "^3.0.0"
+    "validate-npm-package-name": "^3.0.0",
+    "xdg-basedir": "^4.0.0"
   },
   "devDependencies": {
     "eslint": "^6.8.0",

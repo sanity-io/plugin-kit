@@ -1,18 +1,31 @@
 const fs = require('fs')
 const path = require('path')
 const util = require('util')
+const githubUrl = require('github-url-to-object')
 const validateNpmPackageName = require('validate-npm-package-name')
 const pkg = require('../../package.json')
 const {getPaths} = require('../sanity/manifest')
-const {hasSourceEquivalent} = require('../util/files')
+const {resolveLatestVersions} = require('./resolveLatestVersions')
+const {hasSourceEquivalent, writeJsonFile} = require('../util/files')
+const prettierConfig = require('../assets/splat/prettier.config')
+const eslintConfig = require('../assets/splat/eslint.config')
+const log = require('../util/log')
 
 const readFile = util.promisify(fs.readFile)
 
 const pathKeys = ['main', 'module', 'browser', 'types', 'typings']
 
-module.exports = {getPackage, validatePackage, getReferencedPaths}
+module.exports = {
+  getPackage,
+  validatePackage,
+  getReferencedPaths,
+  writePackageJson,
+  addBuildScripts,
+}
 
-async function getPackage(options) {
+async function getPackage(opts) {
+  const options = {flags: {}, ...opts}
+
   validateOptions(options)
 
   const {basePath} = options
@@ -174,4 +187,139 @@ function getReferencedPaths(packageJson, basePath) {
         ? packageJson[key]
         : path.resolve(basePath, packageJson[key])
     )
+}
+
+async function writePackageJson(data, options) {
+  const {user, pluginName, license, description, pkg: prev, gitOrigin} = data
+  const {basePath, flags} = options
+
+  const usePrettier = flags.prettier !== false
+  const useEslint = flags.eslint !== false
+
+  const configs = {}
+  const newDevDependencies = [pkg.name]
+
+  if (usePrettier) {
+    newDevDependencies.push('prettier')
+    configs.prettier = prev.prettier || prettierConfig
+  }
+
+  if (useEslint) {
+    const addDeps =
+      !prev.eslintConfig ||
+      JSON.stringify(prev.eslintConfig.extends) === JSON.stringify(eslintConfig.extends)
+
+    if (addDeps) {
+      newDevDependencies.push(
+        'eslint',
+        'eslint-config-prettier',
+        'eslint-config-sanity',
+        'eslint-plugin-react'
+      )
+    }
+
+    configs.eslintConfig = prev.eslintConfig || eslintConfig
+  }
+
+  log.debug('Resolving latest versions for %s', newDevDependencies.join(', '))
+  const devDependencies = {
+    ...(prev.devDependencies || {}),
+    ...(await resolveLatestVersions(newDevDependencies)),
+  }
+
+  const manifest = {
+    name: pluginName,
+    description,
+    main: 'index.js',
+    scripts: {},
+
+    ...repoFromOrigin(gitOrigin),
+
+    keywords: [],
+    author: user.email ? `${user.name} <${user.email}>` : user.name,
+    license: license ? license.id : 'UNLICENSE',
+
+    dependencies: {},
+    devDependencies: {},
+    peerDependencies: {},
+
+    // Use already configured values by default
+    ...(prev || {}),
+
+    // We're de-declaring properties because of key order in package.json
+    /* eslint-disable no-dupe-keys */
+    keywords: withSanityKeywords(prev.keywords || []),
+    devDependencies,
+    /* eslint-enable no-dupe-keys */
+
+    ...urlsFromOrigin(gitOrigin),
+
+    // Config stuff
+    ...configs,
+  }
+
+  const differs = JSON.stringify(prev) !== JSON.stringify(manifest)
+  if (differs) {
+    await writeJsonFile(path.join(basePath, 'package.json'), manifest)
+  }
+
+  return differs ? manifest : prev
+}
+
+function urlsFromOrigin(gitOrigin) {
+  const details = githubUrl(gitOrigin)
+  if (!details) {
+    return {}
+  }
+
+  return {
+    bugs: {
+      url: `https://github.com/${details.user}/${details.repo}/issues`,
+    },
+    homepage: `https://github.com/${details.user}/${details.repo}#readme`,
+  }
+}
+
+function repoFromOrigin(gitOrigin) {
+  if (!gitOrigin) {
+    return {}
+  }
+
+  return {
+    repository: {
+      type: 'git',
+      url: gitOrigin,
+    },
+  }
+}
+
+function withSanityKeywords(keywords = []) {
+  const newKeywords = new Set(keywords)
+  newKeywords.add('sanity')
+  newKeywords.add('sanity-plugin')
+  return Array.from(newKeywords)
+}
+
+function addScript(cmd, existing) {
+  if (existing && existing.includes(cmd)) {
+    return existing
+  }
+
+  return existing ? `${existing} && ${cmd}` : cmd
+}
+
+async function addBuildScripts(manifest, options) {
+  const originalScripts = manifest.scripts || {}
+  const scripts = {...originalScripts}
+  scripts.build = addScript(`${pkg.binname} build`, scripts.build)
+  scripts.prepublishOnly = addScript(`${pkg.binname} build`, scripts.prepublishOnly)
+  scripts.prepublishOnly = addScript(`${pkg.binname} verify`, scripts.prepublishOnly)
+
+  const differs = Object.keys(scripts).some((key) => scripts[key] !== originalScripts[key])
+
+  if (differs) {
+    await writeJsonFile(path.join(options.basePath, 'package.json'), {...manifest, scripts})
+  }
+
+  return differs
 }
