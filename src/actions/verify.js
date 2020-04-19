@@ -40,7 +40,7 @@ async function verifyPublishableFiles({pkg, manifest, basePath, publishableFiles
 
   const [hasLicense, hasLicenseMd] = await Promise.all([
     fileExists(path.resolve(basePath, 'LICENSE')),
-    fileExists(path.resolve(basePath, 'README.md')),
+    fileExists(path.resolve(basePath, 'LICENSE.md')),
   ])
 
   if (!hasLicense && !hasLicenseMd) {
