@@ -21,6 +21,16 @@ tap.test('shows error + help on unknown commands', async (t) => {
   t.includes(stdout, pkg.binname)
 })
 
+tap.test('shows error + help when using both --silent and --verbose', async (t) => {
+  const {stdout, stderr, exitCode} = await execa(sanipack, ['version', '--silent', '--verbose'], {
+    reject: false,
+  })
+  t.equal(exitCode, 2)
+  t.equal(stderr, '[error] --silent and --verbose are mutually exclusive')
+  t.includes(stdout, pkg.description)
+  t.includes(stdout, pkg.binname)
+})
+
 tap.test('shows no stack trace without --debug', async (t) => {
   const {stdout, stderr, exitCode} = await execa(sanipack, ['version', '--major', '--minor'], {
     reject: false,
