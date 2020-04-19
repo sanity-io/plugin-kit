@@ -10,6 +10,7 @@ $ npm install -g sanipack
 
 ## Todo
 
+- [ ] Add build folder to gitignore
 - [ ] init command
   - [ ] sanity.json
   - [ ] splat
