@@ -26,7 +26,7 @@ tap.test('shows error + help when using both --silent and --verbose', async (t) 
     reject: false,
   })
   t.equal(exitCode, 2)
-  t.equal(stderr, '[error] --silent and --verbose are mutually exclusive')
+  t.includes(stderr, '--silent and --verbose are mutually exclusive')
   t.includes(stdout, pkg.description)
   t.includes(stdout, pkg.binname)
 })

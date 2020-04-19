@@ -31,7 +31,7 @@ tap.test('throws on missing license key', async (t) => {
 tap.test('throws on missing license file', async (t) => {
   const fixtureDir = path.join(baseFixturesDir, 'missing-license')
   const {stdout, stderr, exitCode} = await execa(sanipack, ['verify', fixtureDir], {reject: false})
-  t.includes(stderr, 'does not contain the file "LICENSE"')
+  t.includes(stderr, 'does not contain a LICENSE-file')
   t.equal(stdout, '')
   t.equal(exitCode, 1)
 })
