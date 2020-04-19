@@ -3,7 +3,8 @@ const path = require('path')
 const util = require('util')
 const pkg = require('../../package.json')
 const {buildExtensions} = require('../configs/buildExtensions')
-const {hasSourceFile, hasCompiledFile} = require('../util/files')
+const {hasSourceFile, hasCompiledFile, readJsonFile} = require('../util/files')
+const {nullifyError} = require('../util/nullifyError')
 
 const stat = util.promisify(fs.stat)
 const readFile = util.promisify(fs.readFile)
@@ -11,7 +12,13 @@ const readFile = util.promisify(fs.readFile)
 const allowedPartProps = ['name', 'implements', 'path', 'description']
 const disallowedPluginProps = ['api', 'project', 'plugins', 'env']
 
-module.exports = {getPaths, readManifest, validateManifest, getReferencesPartPaths}
+module.exports = {
+  getPaths,
+  readManifest,
+  validateManifest,
+  getReferencesPartPaths,
+  hasSanityJson,
+}
 
 async function getPaths(options = {}) {
   validateOptions(options)
@@ -307,4 +314,9 @@ function getReferencesPartPaths(manifest, basePath) {
         ? partPath // Not sure if this ever happens, but :shrugs:
         : path.resolve(compiledPath, partPath)
     )
+}
+
+async function hasSanityJson(basePath) {
+  const file = await readJsonFile(path.join(basePath, 'sanity.json')).catch(nullifyError)
+  return {exists: Boolean(file), isRoot: Boolean(file.root)}
 }

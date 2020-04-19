@@ -2,6 +2,7 @@ const path = require('path')
 const meow = require('meow')
 const pkg = require('../../package.json')
 const splat = require('../actions/splat')
+const {hasSanityJson} = require('../sanity/manifest')
 
 const description = `"Splat" configuration into a Sanity plugin`
 
@@ -55,9 +56,23 @@ const flags = {
   },
 }
 
-function run({argv}) {
+async function run({argv}) {
   const cli = meow(help, {flags, argv, description})
   const basePath = path.resolve(cli.input[0] || process.cwd())
+
+  const {exists, isRoot} = await hasSanityJson(basePath)
+  if (exists && isRoot) {
+    throw new Error(
+      `sanity.json has a "root" property set to true - are you trying to splat into a studio instead of a plugin?`
+    )
+  }
+
+  if (!exists) {
+    throw new Error(
+      `sanity.json does not exist in this directory, maybe you want "${pkg.binname} init" instead?`
+    )
+  }
+
   return splat({basePath, flags: cli.flags})
 }
 
