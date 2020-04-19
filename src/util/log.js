@@ -9,7 +9,7 @@ let beVerbose = false
 function setVerbosity({verbose, silent}) {
   if (silent) {
     beVerbose = false
-    beQuiet = false
+    beQuiet = true
   } else if (verbose) {
     beVerbose = true
     beQuiet = false
