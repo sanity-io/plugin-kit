@@ -7,6 +7,7 @@ const {buildExtensions} = require('../configs/buildExtensions')
 const {uselessFiles} = require('../configs/uselessFiles')
 const {prompt} = require('./prompt')
 
+const mkdir = util.promisify(fs.mkdir)
 const copyFile = util.promisify(fs.copyFile)
 const readFile = util.promisify(fs.readFile)
 const writeFile = util.promisify(fs.writeFile)
@@ -14,6 +15,7 @@ const stat = util.promisify(fs.stat)
 
 module.exports = {
   copyFile,
+  ensureDir,
   hasSourceEquivalent,
   hasSourceFile,
   hasCompiledFile,
@@ -122,6 +124,7 @@ function writeJsonFile(filePath, content) {
 }
 
 async function writeFileWithOverwritePrompt(filePath, content, options) {
+  const {default: defaultVal, ...writeOptions} = options
   const withinCwd = filePath.startsWith(process.cwd())
   const printablePath = withinCwd ? path.relative(process.cwd(), filePath) : filePath
 
@@ -133,13 +136,13 @@ async function writeFileWithOverwritePrompt(filePath, content, options) {
     (await fileExists(filePath)) &&
     !(await prompt(`File "${printablePath}" already exists. Overwrite?`, {
       type: 'confirm',
-      default: false,
+      default: defaultVal,
     }))
   ) {
     return false
   }
 
-  await writeFile(filePath, content, options)
+  await writeFile(filePath, content, writeOptions)
   return true
 }
 
@@ -191,4 +194,14 @@ function getFileHash(filePath, allowMissing = true) {
     stream.on('end', () => resolve(hash.digest('hex')))
     stream.on('data', (chunk) => hash.update(chunk))
   })
+}
+
+async function ensureDir(dirPath) {
+  try {
+    await mkdir(dirPath)
+  } catch (err) {
+    if (err.code !== 'EEXIST') {
+      throw err
+    }
+  }
 }

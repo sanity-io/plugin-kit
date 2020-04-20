@@ -4,13 +4,17 @@ const gitRemoteOriginUrl = require('git-remote-origin-url')
 const log = require('../util/log')
 const {getUserInfo} = require('../util/user')
 const {nullifyError} = require('../util/nullifyError')
-const {generateReadme, isDefaultGitHubReadme} = require('../util/readme')
+const {readManifest} = require('../sanity/manifest')
 const {getPackage, writePackageJson, addBuildScripts} = require('../npm/package')
-const {prompt, promptForPackageName} = require('../util/prompt')
+const {prompt, promptForPackageName, promptForRepoOrigin} = require('../util/prompt')
+const {generateReadme, isDefaultGitHubReadme, replaceInReadme} = require('../util/readme')
+
 const {
   readFile,
   readJsonFile,
   fileExists,
+  writeFile,
+  writeJsonFile,
   copyFileWithOverwritePrompt,
   writeFileWithOverwritePrompt,
 } = require('../util/files')
@@ -26,66 +30,100 @@ const otherLicenses = Object.keys(licenses.list).filter((id) => {
 })
 
 module.exports = async function splat(options) {
-  const {basePath, flags} = options
+  const {basePath, flags, requireUserConfirmation} = options
   const info = (write, ...args) => write && log.info(...args)
 
   // Gather data
-  let pkg = await getPackage({basePath, flags}).catch(nullifyError)
+  const pkg = await getPackage(options).catch(nullifyError)
   log.debug('Plugin has package.json: %s', pkg ? 'yes' : 'no')
 
-  const user = await getUserInfo()
+  const user = await getUserInfo(options, pkg)
   log.debug('User information: %o', user)
 
-  const pluginName = (pkg && pkg.name) || (await promptForPackageName({basePath}))
+  const pkgName = pkg && pkg.name
+  const pluginName =
+    requireUserConfirmation || !pkgName ? await promptForPackageName(options, pkgName) : pkgName
+
   log.debug('Plugin name: %s', pluginName)
 
-  const license = await getLicense(flags, {user, pluginName, pkg})
+  const license = await getLicense(flags, {user, pluginName, pkg, requireUserConfirmation})
+  const licenseChanged = (pkg && pkg.license) !== (license && license.id)
   log.debug('License: %s', license ? license.id : '<none>')
 
-  const description = await getProjectDescription(basePath, pkg)
+  const description = await getProjectDescription(basePath, pkg, requireUserConfirmation)
   log.debug('Description: %s', description || '<none>')
 
-  const gitOrigin =
+  const repoUrl =
     (await gitRemoteOriginUrl(basePath).catch(nullifyError)) ||
-    (pkg.repository && pkg.repository.url)
+    (pkg && pkg.repository && pkg.repository.url)
+
+  const gitOrigin = requireUserConfirmation ? await promptForRepoOrigin(options, repoUrl) : repoUrl
 
   log.debug('Remote origin: %s', gitOrigin || '<none>')
 
-  const distConfig = await readJsonFile(path.join(basePath, 'config.dist.json')).catch(nullifyError)
+  const distConfigPath = path.join(basePath, 'config.dist.json')
+  let distConfig = await readJsonFile(distConfigPath).catch(nullifyError)
+  if (!distConfig && requireUserConfirmation) {
+    const shouldHaveConfig = await prompt('Create plugin config file?', {type: 'confirm'})
+    if (shouldHaveConfig) {
+      distConfig = {'add-config': 'here'}
+      await writeJsonFile(distConfigPath, distConfig)
+      info(true, 'Wrote dist config (config.dist.json)')
+    }
+  }
   log.debug('Plugin has config: %s', distConfig ? 'yes' : 'no')
 
   // Output
   const data = {user, pluginName, license, description, pkg, gitOrigin, distConfig}
   let didWrite
-  pkg = await writePackageJson(data, options)
-  info(pkg !== data.pkg, 'Updated package.json')
 
-  didWrite = await writeLicense(license, options)
+  // Write package.json, if returns the original (data.pkg) if it was unchanged,
+  // otherwise it returns the new object
+  const newPkg = await writePackageJson(data, options)
+  info(newPkg !== pkg, 'Wrote package.json')
+  data.pkg = newPkg
+
+  didWrite = await writeLicense(data, options, licenseChanged)
   info(didWrite, 'Wrote license file (LICENSE)')
 
-  didWrite = await writeReadme(data, options)
+  didWrite = await writeReadme(data, options, {previousPkg: pkg})
   info(didWrite, 'Wrote readme file (README.md)')
 
   didWrite = await writeStaticAssets(options)
   info(didWrite.length > 0, 'Wrote static asset files: %s', didWrite.join(', '))
 
-  didWrite = await addBuildScripts(pkg, options)
+  didWrite = await addBuildScripts(newPkg, options)
   info(didWrite, 'Added build scripts to package.json')
+
+  didWrite = await addCompileDirToGitIgnore(data, options)
+  info(didWrite, 'Added compilation output directory to .gitignore')
 }
 
-async function writeReadme(data, options) {
+async function writeReadme(data, options, {previousPkg}) {
   const {basePath} = options
 
   const readmePath = path.join(basePath, 'README.md')
   const readme = await readFile(readmePath, 'utf8').catch(nullifyError)
+  if (
+    await replaceInReadme(readme, {
+      path: readmePath,
+      previousPkg,
+      nextPkg: data.pkg,
+      nextUser: data.user,
+    })
+  ) {
+    return true
+  }
+
   if (readme && !isDefaultGitHubReadme(readme)) {
-    return
+    return false
   }
 
   await writeFileWithOverwritePrompt(readmePath, generateReadme(data), {encoding: 'utf8'})
+  return true
 }
 
-async function writeLicense(license, options) {
+async function writeLicense({license}, options, licenseChanged) {
   const {basePath, flags} = options
 
   if (flags.license === false || !license) {
@@ -98,13 +136,14 @@ async function writeLicense(license, options) {
 
   await writeFileWithOverwritePrompt(licensePath, license.text, {
     encoding: 'utf8',
+    default: licenseChanged,
   })
 
   return true
 }
 
-async function getLicense(flags, {user, pluginName, pkg} = {}) {
-  const license = await getLicenseIdentifier(flags, pkg)
+async function getLicense(flags, {user, pluginName, pkg, requireUserConfirmation} = {}) {
+  const license = await getLicenseIdentifier(flags, pkg, requireUserConfirmation)
   if (!license) {
     return null
   }
@@ -117,7 +156,7 @@ async function getLicense(flags, {user, pluginName, pkg} = {}) {
   return {id: license.id, text}
 }
 
-async function getLicenseIdentifier(flags, pkg) {
+async function getLicenseIdentifier(flags, pkg, requireUserConfirmation = false) {
   // --no-license
   if (flags.license === false) {
     return null
@@ -133,7 +172,7 @@ async function getLicenseIdentifier(flags, pkg) {
   }
 
   // no --license flag provided, do we have one in package already?
-  if (pkg.license) {
+  if (pkg && pkg.license && !requireUserConfirmation) {
     const license = licenses.find(`${pkg.license}`)
     if (license) {
       return license
@@ -144,6 +183,7 @@ async function getLicenseIdentifier(flags, pkg) {
   }
 
   const licenseId = await prompt('Which license do you want to use?', {
+    default: pkg && pkg.license && licenses.find(pkg.license) ? pkg.license : preferredLicenses[0],
     choices: [
       prompt.separator(),
       ...preferredLicenses.map((value) => ({value, name: licenses.list[value].title})),
@@ -155,7 +195,15 @@ async function getLicenseIdentifier(flags, pkg) {
   return licenses.find(licenseId)
 }
 
-async function getProjectDescription(basePath, pkg) {
+async function getProjectDescription(basePath, pkg, requireUserConfirmation = false) {
+  let description = await resolveProjectDescription(basePath, pkg)
+  if (!description || requireUserConfirmation) {
+    description = await prompt('Plugin description', {default: description || ''})
+  }
+  return description
+}
+
+async function resolveProjectDescription(basePath, pkg) {
   // Try to grab from package.json
   if (pkg && typeof pkg.description === 'string' && pkg.description.length > 5) {
     return pkg.description
@@ -193,4 +241,28 @@ async function writeStaticAssets({basePath}) {
   )
 
   return fileNames.filter((_, i) => writes[i])
+}
+
+async function addCompileDirToGitIgnore(data, options) {
+  const manifest = await readManifest({...options, validate: false})
+  if (!manifest || !manifest.paths || !manifest.paths.compiled) {
+    return false
+  }
+
+  const gitIgnorePath = path.join(options.basePath, '.gitignore')
+  const gitignore = await readFile(gitIgnorePath, 'utf8').catch(nullifyError)
+  if (!gitignore) {
+    return false
+  }
+
+  const ignore = `/${manifest.paths.compiled.replace(/^[./]+/, '')}`
+  const lines = gitignore.split('\n')
+  if (lines.includes(ignore)) {
+    return false
+  }
+
+  lines.push('# Compiled plugin', ignore, '\n')
+
+  await writeFile(gitIgnorePath, lines.join('\n'), {encoding: 'utf8'})
+  return true
 }

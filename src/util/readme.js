@@ -1,51 +1,97 @@
 const outdent = require('outdent')
 const licenses = require('@rexxars/choosealicense-list')
+const {writeFile} = require('./files')
+const {getPackageUserInfo} = require('./user')
 
-module.exports = {generateReadme, isDefaultGitHubReadme}
+module.exports = {generateReadme, isDefaultGitHubReadme, replaceInReadme}
 
 function generateReadme(data) {
   const {user, pluginName, license, description, distConfig} = data
-  const shortName = pluginName.replace(/^sanity-plugin-/, '')
+  const shortName = getShortName(pluginName)
 
   let configurationText = ''
   if (distConfig) {
     configurationText = outdent`
       ## Configuration
 
-      The plugin can be configured through \`<your-studio-folder>/config/${shortName}.json\`:
+      The plugin can be configured through \`${getStubConfigPath(pluginName)}\`:
 
       \`\`\`json
       ${JSON.stringify(distConfig, null, 2)}
       \`\`\`
+
     `
   }
 
-  let licenseText
-  if (license) {
-    const licenseName = license && licenses.find(license.id).title
-    licenseText = '## License\n'
-    if (licenseName && user.name) {
-      licenseText = `${licenseText}\n${licenseName} © ${user.name}, see LICENSE`
-    } else if (licenseName) {
-      licenseText = `${licenseText}\n${licenseName}, see LICENSE`
-    } else {
-      licenseText = `${licenseText}\nSee LICENSE`
-    }
-  }
+  const descriptionText = description ? `\n${description}\n` : ''
 
   return outdent`
     # ${pluginName}
-
-    ${description}
-
+    ${descriptionText}
     ## Installation
+
     \`\`\`
     sanity install ${shortName}
     \`\`\`
 
     ${configurationText}
-    ${licenseText}
+    ${getLicenseText(license && license.id, user)}
   `
+}
+
+function getLicenseText(licenseId, user) {
+  if (!licenseId) {
+    return ''
+  }
+
+  let licenseName = licenses.find(licenseId).title
+  licenseName = licenseName && licenseName.replace(/\s+license$/i, '')
+
+  let licenseText = '## License\n'
+  if (licenseName && user.name) {
+    licenseText = `${licenseText}\n${licenseName} © ${user.name}\nSee LICENSE`
+  } else if (licenseName) {
+    licenseText = `${licenseText}\n${licenseName}\nSee LICENSE`
+  } else {
+    licenseText = `${licenseText}\nSee LICENSE`
+  }
+
+  return licenseText
+}
+
+function getShortName(pluginName) {
+  return pluginName.replace(/^sanity-plugin-/, '')
+}
+
+function getStubConfigPath(pluginName) {
+  return `<your-studio-folder>/config/${getShortName(pluginName)}.json`
+}
+
+async function replaceInReadme(prevReadme, {path, previousPkg, nextPkg, nextUser}) {
+  if (!prevReadme) {
+    return false
+  }
+
+  const previousUser = getPackageUserInfo(previousPkg)
+
+  let newReadme = prevReadme
+    .replace(previousPkg.name, nextPkg.name)
+    .replace(getStubConfigPath(previousPkg.name), getStubConfigPath(nextPkg.name))
+    .replace(
+      `sanity install ${getShortName(previousPkg.name)}`,
+      `sanity install ${getShortName(nextPkg.name)}`
+    )
+    .replace(
+      getLicenseText(previousPkg.license, previousUser),
+      getLicenseText(nextPkg.license, nextUser)
+    )
+
+  if (previousPkg.description) {
+    newReadme = newReadme.replace(previousPkg.description, nextPkg.description)
+  }
+
+  await writeFile(path, newReadme, 'utf8')
+  return true
 }
 
 function isDefaultGitHubReadme(readme) {

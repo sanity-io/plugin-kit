@@ -43,6 +43,7 @@
     "@babel/traverse": "^7.9.5",
     "@rexxars/choosealicense-list": "^1.1.1",
     "chalk": "^4.0.0",
+    "email-validator": "^2.0.4",
     "find-babel-config": "^1.2.0",
     "get-it": "^5.0.2",
     "get-latest-version": "^2.0.0",

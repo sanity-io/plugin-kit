@@ -1,19 +1,49 @@
 const path = require('path')
 const xdgBasedir = require('xdg-basedir')
 const gitUserInfo = require('git-user-info')
+const {validate: isValidEmail} = require('email-validator')
 const {readJsonFile} = require('./files')
 const {request} = require('./request')
 const {prompt} = require('./prompt')
 
-module.exports = {getUserInfo}
+module.exports = {getUserInfo, getPackageUserInfo}
 
-async function getUserInfo() {
-  return (await getSanityUserInfo()) || (await getGitUserInfo()) || promptForName()
+async function getUserInfo({requireUserConfirmation} = {}, pkg) {
+  const userInfo =
+    getPackageUserInfo(pkg) || (await getSanityUserInfo()) || (await getGitUserInfo())
+  return requireUserConfirmation || !userInfo ? promptForInfo(userInfo) : userInfo
 }
 
-async function promptForName() {
-  const name = await prompt('Your name')
-  return {name}
+function getPackageUserInfo(pkg) {
+  if (!pkg || !pkg.author) {
+    return false
+  }
+
+  if (!pkg.author.includes('@')) {
+    return {name: pkg.author}
+  }
+
+  const [pre, ...post] = pkg.author.replace(/[<>[\]]/g, '').split(/@/)
+  const nameParts = pre.split(/\s+/)
+  const email = [nameParts[nameParts.length - 1], ...post].join('@')
+  const name = nameParts.slice(0, -1).join(' ')
+  return {name, email}
+}
+
+async function promptForInfo(defValue) {
+  const name = await prompt('Author name', {
+    filter: filterString,
+    default: defValue && defValue.name,
+    validate: requiredString,
+  })
+
+  const email = await prompt('Author email', {
+    filter: filterString,
+    default: defValue && defValue.email,
+    validate: validOrEmptyEmail,
+  })
+
+  return {name, email}
 }
 
 async function getSanityUserInfo() {
@@ -44,4 +74,20 @@ async function getSanityUserInfo() {
 function getGitUserInfo() {
   const user = gitUserInfo()
   return user ? {name: user.name, email: user.email} : null
+}
+
+function filterString(val) {
+  return (val || '').trim()
+}
+
+function requiredString(value) {
+  return value.length > 1 ? true : 'Required'
+}
+
+function validOrEmptyEmail(value) {
+  if (!value) {
+    return true
+  }
+
+  return isValidEmail(value) ? true : 'Must either be a valid email or empty'
 }

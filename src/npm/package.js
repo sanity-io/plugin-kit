@@ -28,7 +28,7 @@ async function getPackage(opts) {
 
   validateOptions(options)
 
-  const {basePath} = options
+  const {basePath, validate = true} = options
   const manifestPath = path.normalize(path.join(basePath, 'package.json'))
 
   let content
@@ -51,7 +51,14 @@ async function getPackage(opts) {
     throw new Error(`Error parsing "${manifestPath}": ${err.message}`)
   }
 
-  await validatePackage(parsed, options)
+  if (!isObject(parsed)) {
+    throw new Error(`Invalid package.json: Root must be an object`)
+  }
+
+  if (validate) {
+    await validatePackage(parsed, options)
+  }
+
   return parsed
 }
 
@@ -59,9 +66,6 @@ async function validatePackage(manifest, opts = {}) {
   validateOptions(opts)
 
   const options = {isPlugin: true, ...opts}
-  if (!isObject(manifest)) {
-    throw new Error(`Invalid package.json: Root must be an object`)
-  }
 
   if (options.isPlugin) {
     await validatePluginPackage(manifest, options)
@@ -190,26 +194,30 @@ function getReferencedPaths(packageJson, basePath) {
 }
 
 async function writePackageJson(data, options) {
-  const {user, pluginName, license, description, pkg: prev, gitOrigin} = data
+  const {user, pluginName, license, description, pkg: prevPkg, gitOrigin} = data
+  const {peerDependencies: addPeers, dependencies: addDeps, devDependencies: addDevDeps} = options
   const {basePath, flags} = options
+  const prev = prevPkg || {}
 
   const usePrettier = flags.prettier !== false
   const useEslint = flags.eslint !== false
 
   const configs = {}
-  const newDevDependencies = [pkg.name]
+  const newDevDependencies = []
 
   if (usePrettier) {
+    log.debug('Using prettier. Adding to dev dependencies.')
     newDevDependencies.push('prettier')
     configs.prettier = prev.prettier || prettierConfig
   }
 
   if (useEslint) {
-    const addDeps =
+    log.debug('Using eslint. Adding to dev dependencies.')
+    const addEslint =
       !prev.eslintConfig ||
       JSON.stringify(prev.eslintConfig.extends) === JSON.stringify(eslintConfig.extends)
 
-    if (addDeps) {
+    if (addEslint) {
       newDevDependencies.push(
         'eslint',
         'eslint-config-prettier',
@@ -223,21 +231,20 @@ async function writePackageJson(data, options) {
 
   log.debug('Resolving latest versions for %s', newDevDependencies.join(', '))
   const devDependencies = {
+    ...(addDevDeps || {}),
     ...(prev.devDependencies || {}),
     ...(await resolveLatestVersions(newDevDependencies)),
   }
 
   const manifest = {
-    name: pluginName,
-    description,
+    name: '',
+    description: '',
     main: 'index.js',
     scripts: {},
-
-    ...repoFromOrigin(gitOrigin),
-
+    repository: {},
     keywords: [],
-    author: user.email ? `${user.name} <${user.email}>` : user.name,
-    license: license ? license.id : 'UNLICENSE',
+    author: '',
+    license: '',
 
     dependencies: {},
     devDependencies: {},
@@ -248,10 +255,17 @@ async function writePackageJson(data, options) {
 
     // We're de-declaring properties because of key order in package.json
     /* eslint-disable no-dupe-keys */
+    name: pluginName,
+    description: description || '',
+    author: user.email ? `${user.name} <${user.email}>` : user.name,
+    license: license ? license.id : 'UNLICENSE',
     keywords: withSanityKeywords(prev.keywords || []),
     devDependencies,
+    dependencies: {...(prev.dependencies || {}), ...(addDeps || {})},
+    peerDependencies: {...(prev.peerDependencies || {}), ...(addPeers || {})},
     /* eslint-enable no-dupe-keys */
 
+    ...repoFromOrigin(gitOrigin),
     ...urlsFromOrigin(gitOrigin),
 
     // Config stuff
@@ -259,6 +273,7 @@ async function writePackageJson(data, options) {
   }
 
   const differs = JSON.stringify(prev) !== JSON.stringify(manifest)
+  log.debug('Does manifest differ? %s', differs ? 'yes' : 'no')
   if (differs) {
     await writeJsonFile(path.join(basePath, 'package.json'), manifest)
   }
@@ -308,7 +323,7 @@ function addScript(cmd, existing) {
   return existing ? `${existing} && ${cmd}` : cmd
 }
 
-async function addBuildScripts(manifest, options) {
+async function addBuildScripts(manifest, {basePath}) {
   const originalScripts = manifest.scripts || {}
   const scripts = {...originalScripts}
   scripts.build = addScript(`${pkg.binname} build`, scripts.build)
@@ -318,7 +333,7 @@ async function addBuildScripts(manifest, options) {
   const differs = Object.keys(scripts).some((key) => scripts[key] !== originalScripts[key])
 
   if (differs) {
-    await writeJsonFile(path.join(options.basePath, 'package.json'), {...manifest, scripts})
+    await writeJsonFile(path.join(basePath, 'package.json'), {...manifest, scripts})
   }
 
   return differs

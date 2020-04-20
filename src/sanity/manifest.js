@@ -21,8 +21,6 @@ module.exports = {
 }
 
 async function getPaths(options = {}) {
-  validateOptions(options)
-
   const {basePath} = options
   const manifest = await readManifest(options)
   if (!manifest.paths) {
@@ -44,9 +42,7 @@ function absolutifyPaths(paths, basePath) {
 }
 
 async function readManifest(options) {
-  validateOptions(options)
-
-  const {basePath} = options
+  const {basePath, validate = true} = options
   const manifestPath = path.normalize(path.join(basePath, 'sanity.json'))
 
   let content
@@ -69,13 +65,15 @@ async function readManifest(options) {
     throw new Error(`Error parsing "${manifestPath}": ${err.message}`)
   }
 
-  await validateManifest(parsed, options)
+  if (validate) {
+    await validateManifest(parsed, options)
+  }
+
   return parsed
 }
 
 async function validateManifest(manifest, opts = {}) {
   const options = {isPlugin: true, ...opts}
-  validateOptions(options)
 
   if (!isObject(manifest)) {
     throw new Error(`Invalid sanity.json: Root must be an object`)
@@ -95,29 +93,6 @@ async function validateManifest(manifest, opts = {}) {
     ...options,
     paths: absolutifyPaths(manifest.paths, options.basePath),
   })
-}
-
-function validateOptions(opts) {
-  const options = opts || {}
-  if (!isObject(options)) {
-    throw new Error(`Options must be an object`)
-  }
-
-  if (typeof options.basePath !== 'string') {
-    throw new Error(`"options.basePath" must be a string (path to plugin base path)`)
-  }
-
-  if (typeof options.pluginName !== 'string') {
-    throw new Error(`"options.pluginName" must be a string (npm module name)`)
-  }
-
-  if ('verifySourceParts' in options && typeof options.verifySourceParts !== 'boolean') {
-    throw new Error(`"options.verifySourceParts" must be a boolean if present`)
-  }
-
-  if ('verifyCompiledParts' in options && typeof options.verifyCompiledParts !== 'boolean') {
-    throw new Error(`"options.verifyCompiledParts" must be a boolean if present`)
-  }
 }
 
 function validateProjectManifest(manifest, options) {
@@ -318,5 +293,5 @@ function getReferencesPartPaths(manifest, basePath) {
 
 async function hasSanityJson(basePath) {
   const file = await readJsonFile(path.join(basePath, 'sanity.json')).catch(nullifyError)
-  return {exists: Boolean(file), isRoot: Boolean(file.root)}
+  return {exists: Boolean(file), isRoot: Boolean(file && file.root)}
 }

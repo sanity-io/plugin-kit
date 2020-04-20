@@ -2,14 +2,14 @@ const path = require('path')
 const meow = require('meow')
 const pkg = require('../../package.json')
 const log = require('../util/log')
-const splat = require('../actions/splat')
+const init = require('../actions/init')
 const {hasSanityJson} = require('../sanity/manifest')
 
-const description = `"Splat" configuration into a Sanity plugin`
+const description = `Initialize a new Sanity plugin`
 
 const help = `
 Usage
-  $ ${pkg.binname} splat [<dir>]
+  $ ${pkg.binname} init [<dir>]
 
 Options
   --no-eslint        Disables ESLint config and dependencies from being added
@@ -21,14 +21,14 @@ Options
   --license [spdx]   Use the license with the given SPDX identifier
 
 Examples
-  # Splat configuration into the plugin in the current directory
-  $ ${pkg.binname} splat
+  # Initialize a new plugin in the current directory
+  $ ${pkg.binname} init
 
-  # Splat configuration into the plugin in ~/my-plugin
-  $ ${pkg.binname} splat ~/my-plugin
+  # Initialize a plugin in the directory ~/my-plugin
+  $ ${pkg.binname} init ~/my-plugin
 
   # Don't add eslint or prettier
-  $ ${pkg.binname} splat --no-eslint --no-prettier
+  $ ${pkg.binname} init --no-eslint --no-prettier
 `
 
 const flags = {
@@ -64,17 +64,11 @@ async function run({argv}) {
   const {exists, isRoot} = await hasSanityJson(basePath)
   if (exists && isRoot) {
     throw new Error(
-      `sanity.json has a "root" property set to true - are you trying to splat into a studio instead of a plugin?`
+      `sanity.json has a "root" property set to true - are you trying to init into a studio instead of a plugin?`
     )
   }
 
-  if (!exists) {
-    throw new Error(
-      `sanity.json does not exist in this directory, maybe you want "${pkg.binname} init" instead?`
-    )
-  }
-
-  await splat({basePath, flags: cli.flags})
+  await init({basePath, flags: cli.flags})
 
   log.info('Done!')
 }
