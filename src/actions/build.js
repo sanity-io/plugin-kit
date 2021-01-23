@@ -7,7 +7,6 @@ const {getPaths} = require('../sanity/manifest')
 const {getPackage} = require('../npm/package')
 const {buildExtensions} = require('../configs/buildExtensions')
 
-const babelPath = path.join(__dirname, '..', '..', 'node_modules', '.bin', 'babel')
 const defaultBabelConfigPath = path.join(__dirname, '..', 'configs', 'babelrc.js')
 const noUndefined = (arr) => arr.filter((item) => typeof item !== 'undefined')
 
@@ -27,7 +26,7 @@ module.exports = async function build({basePath, flags}) {
   log.info('Output: %s', paths.compiled)
 
   await spawn(
-    babelPath,
+    'babel',
     noUndefined([
       // Booleans
       '--copy-files',
