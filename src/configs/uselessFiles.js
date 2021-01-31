@@ -1,4 +1,6 @@
-// IN THE CONTEXT OF A PUBLISHED PACKAGE, OK!!?!?!
+// USELESS IN THE CONTEXT OF A _PUBLISHED_ PACKAGE, OK!!?!?!
+// THEY'RE NOT USELESS. PLEASE DONT TAKE OFFENSE,
+// I LOVE ALL YOUR ESLINT CONFIGS, CODE COVERAGE AND WHATNOT <3
 exports.uselessFiles = [
   '.babel.config.js',
   '.babelrc',
@@ -9,6 +11,7 @@ exports.uselessFiles = [
   '.eslintrc-ts',
   '.eslintrc',
   '.gitignore',
+  '.github',
   '.nyc_output',
   '.prettierrc',
   '.stylelintignore',
@@ -22,6 +25,8 @@ exports.uselessFiles = [
   'lcov-report',
   'lerna.json',
   'now.json',
+  'vercel.json',
+  'netlify.toml',
   'postcss.config.js',
   'tsconfig.json',
 ]
