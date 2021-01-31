@@ -15,8 +15,9 @@ const onlyPaths = (files) => files.map((file) => file.path)
 const contents = (dir) => readdirp.promise(dir).then(onlyPaths)
 
 const expectedFiles = ['one.js', 'one.js.map', 'two.js', 'two.js.map', 'styles/one.css']
+const options = {timeout: 15000}
 
-tap.test('can build valid plugin (in cwd)', async (t) => {
+tap.test('can build valid plugin (in cwd)', options, async (t) => {
   const fixtureDir = path.join(baseFixturesDir, 'valid')
   const outputDir = path.join(fixtureDir, 'lib')
 
@@ -32,7 +33,7 @@ tap.test('can build valid plugin (in cwd)', async (t) => {
   await rimraf(outputDir)
 })
 
-tap.test('can build valid plugin (specified path)', async (t) => {
+tap.test('can build valid plugin (specified path)', options, async (t) => {
   const fixtureDir = path.join(baseFixturesDir, 'valid')
   const outputDir = path.join(fixtureDir, 'lib')
 
@@ -50,7 +51,7 @@ tap.test('can build valid plugin (specified path)', async (t) => {
   await rimraf(outputDir)
 })
 
-tap.test('can build valid plugin (silently)', async (t) => {
+tap.test('can build valid plugin (silently)', options, async (t) => {
   const fixtureDir = path.join(baseFixturesDir, 'valid')
   const outputDir = path.join(fixtureDir, 'lib')
 
@@ -66,7 +67,7 @@ tap.test('can build valid plugin (silently)', async (t) => {
   await rimraf(outputDir)
 })
 
-tap.test('can build typescript plugin', async (t) => {
+tap.test('can build typescript plugin', options, async (t) => {
   const fixtureDir = path.join(baseFixturesDir, 'ts')
   const outputDir = path.join(fixtureDir, 'lib')
 
@@ -84,7 +85,7 @@ tap.test('can build typescript plugin', async (t) => {
   await rimraf(outputDir)
 })
 
-tap.test('can "build" (skip) plugin without compilation', async (t) => {
+tap.test('can "build" (skip) plugin without compilation', options, async (t) => {
   const fixtureDir = path.join(baseFixturesDir, 'plain')
   const {stdout, stderr} = await execa(sanipack, ['build'], {cwd: fixtureDir})
   const before = await contents(fixtureDir)
@@ -93,7 +94,7 @@ tap.test('can "build" (skip) plugin without compilation', async (t) => {
   t.strictSame(await contents(fixtureDir), before)
 })
 
-tap.test('can "build" (skip) plugin without compilation (silent)', async (t) => {
+tap.test('can "build" (skip) plugin without compilation (silent)', options, async (t) => {
   const fixtureDir = path.join(baseFixturesDir, 'plain')
   const {stdout, stderr} = await execa(sanipack, ['build', '--silent'], {cwd: fixtureDir})
   const before = await contents(fixtureDir)
@@ -102,7 +103,7 @@ tap.test('can "build" (skip) plugin without compilation (silent)', async (t) => 
   t.strictSame(await contents(fixtureDir), before)
 })
 
-tap.test('throws on invalid source map flag', async (t) => {
+tap.test('throws on invalid source map flag', options, async (t) => {
   const fixtureDir = path.join(baseFixturesDir, 'valid')
   const {stdout, stderr, exitCode} = await execa(sanipack, ['build', '--source-maps', 'foo'], {
     cwd: fixtureDir,
