@@ -49,5 +49,6 @@ package-lock.json
 # Cache
 .cache
 
-# Fixtures
-test/fixtures/*/lib
+# Fixtures for tests, but only for the `build` command -
+# we expect `verify` to have precompiled results to verify
+test/fixtures/build/lib

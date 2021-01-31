@@ -3,7 +3,7 @@ const execa = require('execa')
 const tap = require('tap')
 const pkg = require('../package.json')
 
-const baseFixturesDir = path.join(__dirname, 'fixtures')
+const baseFixturesDir = path.join(__dirname, 'fixtures', 'build-npm')
 const sanipack = path.resolve(__dirname, '..', pkg.bin.sanipack)
 const options = {timeout: 15000}
 

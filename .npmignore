@@ -1,2 +1,9 @@
+.github
 .nyc_output
+.editorconfig
+.eslintrc
+.gitignore
+.prettierrc
+.taprc
 coverage
+test

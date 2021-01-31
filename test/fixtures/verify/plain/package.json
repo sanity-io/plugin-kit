@@ -1,0 +1,13 @@
+{
+  "name": "sanity-plugin-plain",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Just a fixture",
+  "main": "./src/schemaType.js",
+  "keywords": [
+    "sanity",
+    "sanity-plugin"
+  ],
+  "author": "Some person",
+  "license": "MIT"
+}

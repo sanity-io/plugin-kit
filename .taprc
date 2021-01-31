@@ -1,5 +1,7 @@
 jobs: 2
+esm: false
 browser: false
 timeout: 120
+reporter: spec
 coverage-report:
   - html
