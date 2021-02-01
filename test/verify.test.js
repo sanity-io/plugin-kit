@@ -93,7 +93,6 @@ tap.test('verifies plugin with no compilation', options, async (t) => {
   t.equal(exitCode, 0)
 })
 
-/*
 tap.test('verifies plugin with CSS-part referenced', options, async (t) => {
   const fixtureDir = path.join(baseFixturesDir, 'css-part')
   const {stdout, stderr, exitCode} = await execa(sanipack, ['verify', fixtureDir], {reject: false})
@@ -101,4 +100,11 @@ tap.test('verifies plugin with CSS-part referenced', options, async (t) => {
   t.equal(stdout, '', 'should have empty stdout')
   t.equal(exitCode, 0)
 })
-*/
+
+tap.test('verifies plugin with CSS-part referenced (missing)', options, async (t) => {
+  const fixtureDir = path.join(baseFixturesDir, 'css-part-missing')
+  const {stdout, stderr, exitCode} = await execa(sanipack, ['verify', fixtureDir], {reject: false})
+  t.includes(stderr, `references file ("styles/one.css") that does not exist in compiled`)
+  t.equal(stdout, '', 'should have empty stdout')
+  t.equal(exitCode, 1)
+})
