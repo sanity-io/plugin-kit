@@ -43,8 +43,8 @@ jspm_packages
 .vscode
 
 # Lockfiles
-yarn.lock
-package-lock.json
+/yarn.lock
+/package-lock.json
 
 # Cache
 .cache
