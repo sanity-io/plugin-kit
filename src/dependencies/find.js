@@ -1,5 +1,6 @@
 const fs = require('fs')
 const path = require('path')
+const {discoverPathSync} = require('discover-path')
 const {default: traverse} = require('@babel/traverse')
 const {parseSync} = require('@babel/core')
 
@@ -50,8 +51,9 @@ function findDependencies(entryPath, seen = new Set()) {
     }
 
     const isRelative = requirePath.startsWith('.')
-    const depPath = isRelative && require.resolve(path.resolve(dir, requirePath))
-    if (isRelative && path.extname(depPath) === '.js' && !seen.has(depPath)) {
+    const depPath = isRelative && resolveDependency(dir, requirePath, entryPath)
+
+    if (depPath && path.extname(depPath) === '.js' && !seen.has(depPath)) {
       // For relative javascript requires, recurse to find all depdendencies
       findDependencies(depPath, seen).forEach((dep) => dependencies.add(dep))
       return
@@ -91,4 +93,35 @@ function findDependencies(entryPath, seen = new Set()) {
   })
 
   return Array.from(dependencies)
+}
+
+function resolveDependency(fromDir, toPath, entryPath) {
+  let depPath
+  try {
+    depPath = require.resolve(path.resolve(fromDir, toPath))
+  } catch (err) {
+    throw new Error(`Unable to resolve "${toPath}" from ${entryPath}`)
+  }
+
+  let actualPath
+  try {
+    actualPath = discoverPathSync(depPath)
+  } catch (err) {
+    const paths = (err.suggestions || []).map((suggested) => getDidYouMeanPath(toPath, suggested))
+    const didYouMean = paths ? `Did you mean:\n${paths.join('\n- ')}` : ''
+    throw new Error(`Unable to resolve "${toPath}" from ${entryPath}. ${didYouMean}`)
+  }
+
+  if (actualPath !== depPath) {
+    const didYouMean = getDidYouMeanPath(toPath, actualPath)
+    throw new Error(`Unable to resolve "${toPath} from ${entryPath}. Did you mean "${didYouMean}"?`)
+  }
+
+  return actualPath
+}
+
+function getDidYouMeanPath(wanted, suggested) {
+  const end = wanted.replace(/[./]+/, '')
+  const start = wanted.slice(0, 0 - end.length)
+  return `${start}${suggested.slice(0 - end.length)}`
 }

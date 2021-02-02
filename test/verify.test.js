@@ -108,3 +108,11 @@ tap.test('verifies plugin with CSS-part referenced (missing)', options, async (t
   t.equal(stdout, '', 'should have empty stdout')
   t.equal(exitCode, 1)
 })
+
+tap.test('verifies plugin with import referencing missing CSS file', options, async (t) => {
+  const fixtureDir = path.join(baseFixturesDir, 'css-import')
+  const {stdout, stderr, exitCode} = await execa(sanipack, ['verify', fixtureDir], {reject: false})
+  t.includes(stderr, /unable to resolve.*?one\.css.*?did you mean.*?One.css/i)
+  t.equal(stdout, '', 'should have empty stdout')
+  t.equal(exitCode, 1)
+})
