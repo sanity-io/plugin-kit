@@ -1,0 +1,11 @@
+@import '../customLeaf.css';
+
+:global .leaflet {
+  width: 100%;
+}
+
+.localLeaf {
+  composes: marker from './markers/marker.css';
+
+  font-size: 2em;
+}

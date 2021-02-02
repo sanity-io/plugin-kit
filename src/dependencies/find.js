@@ -1,17 +1,76 @@
 const fs = require('fs')
 const path = require('path')
+const postcss = require('postcss')
 const {discoverPathSync} = require('discover-path')
 const {default: traverse} = require('@babel/traverse')
 const {parseSync} = require('@babel/core')
 
 module.exports = {findDependencies}
 
-const partReg = /^(all:part|part|config):/
+const partReg = /^(all:part|part|config|sanity):/
+const importReg = /^(?:"([^"]+)"|'([^']+)')$/
+const composesReg = /^(.+?)\s+from\s+(?:"([^"]+)"|'([^']+)'|(global))$/
 
 function findDependenciesFromFiles(files, seen = new Set()) {
   const dependencies = new Set()
   files.forEach((file) => findDependencies(file, seen).forEach((dep) => dependencies.add(dep)))
   return Array.from(dependencies)
+}
+
+function findDependenciesInCss(css, entryPath, processDependency) {
+  let ast
+  try {
+    ast = postcss.parse(css)
+  } catch (err) {
+    throw new Error(`Error parsing file (${entryPath}): ${err.message}`)
+  }
+
+  ast.walkDecls(/^composes/, (decl) => {
+    const matches = decl.value.match(composesReg)
+    if (!matches) {
+      return
+    }
+
+    const [, , doubleQuotePath, singleQuotePath] = matches
+    const importPath = doubleQuotePath || singleQuotePath
+    if (importPath) {
+      processDependency(importPath)
+    }
+  })
+
+  ast.walkAtRules('import', (rule) => {
+    const matches = rule.params.match(importReg)
+    if (!matches) {
+      return
+    }
+
+    const [, doubleQuotePath, singleQuotePath] = matches
+    const importPath = doubleQuotePath || singleQuotePath
+    if (importPath) {
+      processDependency(importPath)
+    }
+  })
+}
+
+function findDependenciesInJs(js, entryPath, processDependency) {
+  let ast
+  try {
+    ast = parseSync(js, {babelrc: false})
+  } catch (err) {
+    throw new Error(`Error parsing file (${entryPath}): ${err.message}`)
+  }
+
+  traverse(ast, {
+    ImportDeclaration({node}) {
+      processDependency(node.source.value)
+    },
+
+    CallExpression({node}) {
+      if (node.callee.name === 'require') {
+        processDependency(node.arguments[0].value)
+      }
+    },
+  })
 }
 
 function findDependencies(entryPath, seen = new Set()) {
@@ -28,15 +87,14 @@ function findDependencies(entryPath, seen = new Set()) {
     throw new Error(`Error reading file (${entryPath}): ${err.message}`)
   }
 
-  let ast
-  try {
-    ast = parseSync(content, {babelrc: false})
-  } catch (err) {
-    throw new Error(`Error parsing file (${entryPath}): ${err.message}`)
-  }
-
   const dir = path.dirname(entryPath)
   const dependencies = new Set()
+
+  if (entryPath.endsWith('.css')) {
+    findDependenciesInCss(content, entryPath, processDependency)
+  } else {
+    findDependenciesInJs(content, entryPath, processDependency)
+  }
 
   function processDependency(requirePath) {
     if (typeof requirePath !== 'string') {
@@ -53,8 +111,12 @@ function findDependencies(entryPath, seen = new Set()) {
     const isRelative = requirePath.startsWith('.')
     const depPath = isRelative && resolveDependency(dir, requirePath, entryPath)
 
-    if (depPath && path.extname(depPath) === '.js' && !seen.has(depPath)) {
-      // For relative javascript requires, recurse to find all depdendencies
+    if (
+      depPath &&
+      ['.js', '.css', '.esm', '.mjs', '.jsx'].includes(path.extname(depPath)) &&
+      !seen.has(depPath)
+    ) {
+      // For relative javascript/css requires, recurse to find all depdendencies
       findDependencies(depPath, seen).forEach((dep) => dependencies.add(dep))
       return
     }
@@ -79,18 +141,6 @@ function findDependencies(entryPath, seen = new Set()) {
 
     dependencies.add(dep)
   }
-
-  traverse(ast, {
-    ImportDeclaration({node}) {
-      processDependency(node.source.value)
-    },
-
-    CallExpression({node}) {
-      if (node.callee.name === 'require') {
-        processDependency(node.arguments[0].value)
-      }
-    },
-  })
 
   return Array.from(dependencies)
 }

@@ -116,3 +116,29 @@ tap.test('verifies plugin with import referencing missing CSS file', options, as
   t.equal(stdout, '', 'should have empty stdout')
   t.equal(exitCode, 1)
 })
+
+tap.test('verifies plugin with css modules referencing missing CSS file', options, async (t) => {
+  const fixtureDir = path.join(baseFixturesDir, 'css-bad-composes')
+  const {stdout, stderr, exitCode} = await execa(sanipack, ['verify', fixtureDir], {reject: false})
+  t.includes(stderr, /unable to resolve.*?baseButton\.css/i)
+  t.equal(stdout, '', 'should have empty stdout')
+  t.equal(exitCode, 1)
+})
+
+tap.test('verifies plugin with css importing incorrectly cased CSS file', options, async (t) => {
+  const fixtureDir = path.join(baseFixturesDir, 'css-bad-import')
+  const {stdout, stderr, exitCode} = await execa(sanipack, ['verify', fixtureDir], {
+    reject: false,
+  })
+  t.includes(stderr, /unable to resolve.*?Button\.css.*?did you mean.*?button.css/i)
+  t.equal(stdout, '', 'should have empty stdout')
+  t.equal(exitCode, 1)
+})
+
+tap.test('verifies valid plugin with mixed css imports', options, async (t) => {
+  const fixtureDir = path.join(baseFixturesDir, 'valid-kitchen-sink')
+  const {stdout, stderr, exitCode} = await execa(sanipack, ['verify', fixtureDir], {reject: false})
+  t.equal(stderr, '', 'should have empty stderr')
+  t.equal(stdout, '', 'should have empty stdout')
+  t.equal(exitCode, 0)
+})

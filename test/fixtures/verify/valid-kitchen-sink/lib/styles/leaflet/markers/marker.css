@@ -1,0 +1,4 @@
+.marker {
+  composes: baseButton from '../../button.css';
+  background: #bf1942;
+}
