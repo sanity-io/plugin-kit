@@ -203,7 +203,7 @@ async function writePackageJson(data, options) {
   const useEslint = flags.eslint !== false
 
   const configs = {}
-  const newDevDependencies = []
+  const newDevDependencies = [pkg.name]
 
   if (usePrettier) {
     log.debug('Using prettier. Adding to dev dependencies.')
