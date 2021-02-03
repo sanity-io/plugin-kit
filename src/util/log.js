@@ -26,6 +26,10 @@ module.exports = {
   debug: (msg, ...args) =>
     !beQuiet && beVerbose && console.debug(`${chalk.bgBlack.white('[debug]')} ${msg}`, ...args),
 
+  // Success messages only printed if not --silent
+  success: (msg, ...args) =>
+    !beQuiet && console.info(`${chalk.bgBlack.greenBright('[success]')} ${msg}`, ...args),
+
   // Info only printed if not --silent ("standard" level)
   info: (msg, ...args) =>
     !beQuiet && console.info(`${chalk.bgBlack.cyanBright('[info]')} ${msg}`, ...args),

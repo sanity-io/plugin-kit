@@ -27,7 +27,14 @@ module.exports = async function verify({basePath, flags}) {
   await verifyImports({pkg, manifest, basePath})
 
   // Warnings
-  await warnOnUselessFiles(publishableFiles)
+  const hasWarnings = await warnOnUselessFiles(publishableFiles)
+
+  // Huzzah
+  log.success(
+    hasWarnings
+      ? 'Plugin has warnings, but looks good to publish!'
+      : 'Plugin looks good to publish!'
+  )
 }
 
 async function verifyPublishableFiles({pkg, manifest, basePath, publishableFiles}) {
@@ -123,7 +130,7 @@ function warnOnUselessFiles(files) {
     .join(', ')
 
   if (warnFor.length === 0) {
-    return
+    return false
   }
 
   log.warn(
@@ -132,6 +139,8 @@ function warnOnUselessFiles(files) {
   log.warn(
     `Consider adding these files to an .npmignore or the package.json "files" property. See https://docs.npmjs.com/using-npm/developers.html#keeping-files-out-of-your-package for more information.`
   )
+
+  return true
 }
 
 async function verifyImports({pkg, manifest, basePath}) {
