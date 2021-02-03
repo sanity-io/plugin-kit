@@ -20,7 +20,7 @@ An opinionated, enhanced [Sanity.io](https://www.sanity.io/) plugin development 
   - Has a valid plugin config, if present
   - `react`/`react-dom` declared as peer dependencies, if used
   - ... and more ...
-- Compiles plugin source using Babel
+- Compiles plugin source code using Babel
 
 ## Quick start (bootstrap new plugin)
 
