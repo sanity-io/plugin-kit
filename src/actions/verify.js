@@ -152,11 +152,11 @@ async function verifyImports({pkg, manifest, basePath}) {
     )
     // Remove duplicates
     .filter((file, index, arr) => arr.indexOf(file, index + 1) === -1)
-    // Remove non-javascript entries
-    .filter((file) => path.extname(file) === '.js')
+    // Remove non-javascript/non-css entries
+    .filter((file) => ['.js', '.css'].includes(path.extname(file)))
 
   const dependencies = findDependencies(entries)
-  const modules = dependencies.filter((dep) => !/^(all|part|config):/.test(dep))
+  const modules = dependencies.filter((dep) => !/^(all|part|config|sanity):/.test(dep))
 
   await verifyNoUndeclaredDependencies(modules, pkg)
   await verifyReactDependencies(modules, pkg)
