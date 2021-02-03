@@ -206,6 +206,12 @@ function verifyReactDependencies(modules, pkg) {
     )
   }
 
+  if (modules.includes('react-dom') && 'react-dom' in (pkg.dependencies || {})) {
+    throw new Error(
+      `Invalid plugin: "react-dom" declared as a dependency - it should be declared as a peerDependency (package.json)`
+    )
+  }
+
   if (modules.includes('prop-types') && 'prop-types' in (pkg.peerDependencies || {})) {
     throw new Error(
       `Invalid plugin: "prop-types" declares as peerDependency - it should be declared as a dependency (package.json)`
