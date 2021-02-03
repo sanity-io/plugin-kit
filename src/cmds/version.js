@@ -1,6 +1,7 @@
 const meow = require('meow')
 const pkg = require('../../package.json')
 const log = require('../util/log')
+const sharedFlags = require('../sharedFlags')
 
 const description = `Show the installed version of ${pkg.name}`
 
@@ -22,6 +23,8 @@ Examples
 `
 
 const flags = {
+  ...sharedFlags,
+
   major: {
     type: 'boolean',
     default: false,

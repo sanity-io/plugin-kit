@@ -4,6 +4,7 @@ const pkg = require('../../package.json')
 const log = require('../util/log')
 const init = require('../actions/init')
 const {hasSanityJson} = require('../sanity/manifest')
+const sharedFlags = require('../sharedFlags')
 
 const description = `Initialize a new Sanity plugin`
 
@@ -32,6 +33,7 @@ Examples
 `
 
 const flags = {
+  ...sharedFlags,
   eslint: {
     type: 'boolean',
     default: true,

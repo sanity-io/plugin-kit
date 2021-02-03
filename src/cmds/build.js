@@ -3,6 +3,7 @@ const meow = require('meow')
 const pkg = require('../../package.json')
 const build = require('../actions/build')
 const log = require('../util/log')
+const sharedFlags = require('../sharedFlags')
 
 const allowedSourceMaps = ['true', 'false', 'inline', 'both']
 const description = `Verify, build and compile a Sanity plugin`
@@ -33,15 +34,8 @@ Examples
 `
 
 const flags = {
+  ...sharedFlags,
   allowSourceTarget: {
-    type: 'boolean',
-    default: false,
-  },
-  silent: {
-    type: 'boolean',
-    default: false,
-  },
-  verbose: {
     type: 'boolean',
     default: false,
   },

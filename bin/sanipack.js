@@ -3,6 +3,7 @@
 const meow = require('meow')
 const log = require('../src/util/log')
 const commands = require('../src/cmds')
+const sharedFlags = require('../src/sharedFlags')
 const pkg = require('../package.json')
 
 const cli = meow(
@@ -35,20 +36,7 @@ const cli = meow(
 `,
   {
     autoHelp: false,
-    flags: {
-      debug: {
-        default: false,
-        type: 'boolean',
-      },
-      silent: {
-        type: 'boolean',
-        default: false,
-      },
-      verbose: {
-        type: 'boolean',
-        default: false,
-      },
-    },
+    flags: sharedFlags,
   }
 )
 

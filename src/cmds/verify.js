@@ -2,6 +2,7 @@ const path = require('path')
 const meow = require('meow')
 const pkg = require('../../package.json')
 const verify = require('../actions/verify')
+const sharedFlags = require('../sharedFlags')
 
 const description = `Verify that a Sanity plugin is ready for publishing`
 
@@ -21,6 +22,7 @@ Examples
 `
 
 const flags = {
+  ...sharedFlags,
   allowSourceTarget: {
     type: 'boolean',
     default: false,
