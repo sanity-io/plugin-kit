@@ -3,7 +3,10 @@ const meow = require('meow')
 const pkg = require('../../package.json')
 const log = require('../util/log')
 const init = require('../actions/init')
+const {isEmptyish, ensureDir} = require('../util/files')
+const {installDependencies, promptForPackageManager} = require('../npm/manager')
 const {hasSanityJson} = require('../sanity/manifest')
+const {prompt} = require('../util/prompt')
 const sharedFlags = require('../sharedFlags')
 
 const description = `Initialize a new Sanity plugin`
@@ -70,9 +73,22 @@ async function run({argv}) {
     )
   }
 
-  await init({basePath, flags: cli.flags})
+  log.info('Initializing new plugin in "%s"', basePath)
+  if (
+    !(await isEmptyish(basePath)) &&
+    !(await prompt('Directory is not empty, proceed?', {type: 'confirm', default: false}))
+  ) {
+    log.error('Directory is not empty. Cancelled.')
+    return
+  }
 
-  log.info('Done!')
+  await ensureDir(basePath)
+  await init({basePath, flags: cli.flags})
+  if (await installDependencies(await promptForPackageManager(), {cwd: basePath})) {
+    log.info('Done!')
+  } else {
+    log.error('Failed to install dependencies, try manually running `npm install`')
+  }
 }
 
 module.exports = run

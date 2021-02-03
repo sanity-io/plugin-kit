@@ -7,11 +7,12 @@ const {buildExtensions} = require('../configs/buildExtensions')
 const {uselessFiles} = require('../configs/uselessFiles')
 const {prompt} = require('./prompt')
 
+const stat = util.promisify(fs.stat)
 const mkdir = util.promisify(fs.mkdir)
+const readdir = util.promisify(fs.readdir)
 const copyFile = util.promisify(fs.copyFile)
 const readFile = util.promisify(fs.readFile)
 const writeFile = util.promisify(fs.writeFile)
-const stat = util.promisify(fs.stat)
 
 module.exports = {
   copyFile,
@@ -27,6 +28,7 @@ module.exports = {
   uselessFiles,
   copyFileWithOverwritePrompt,
   writeFileWithOverwritePrompt,
+  isEmptyish,
 }
 
 function hasSourceEquivalent(compiledFile, paths) {
@@ -204,4 +206,11 @@ async function ensureDir(dirPath) {
       throw err
     }
   }
+}
+
+async function isEmptyish(dirPath) {
+  const ignoredFiles = ['.git', '.gitignore', 'license', 'readme.md']
+  const allFiles = await readdir(dirPath).catch(() => [])
+  const files = allFiles.filter((file) => !ignoredFiles.includes(file.toLowerCase()))
+  return files.length === 0
 }
