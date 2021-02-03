@@ -7,7 +7,7 @@ const {resolveLatestVersions} = require('../npm/resolveLatestVersions')
 
 const defaultDependencies = ['prop-types']
 const defaultDevDependencies = {}
-const defaultPeerDependencies = {react: '^16.2.0'}
+const defaultPeerDependencies = {react: '^17.0.0'}
 
 const defaultSanityManifest = {
   paths: {
