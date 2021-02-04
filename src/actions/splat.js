@@ -237,12 +237,14 @@ async function writeStaticAssets({basePath}) {
 
   const fileNames = ['.editorconfig', '.gitignore', '.npmignore', '.babelrc']
 
-  // @todo loop manually
-  const writes = await Promise.all(
-    fileNames.map((fileName) => copyFileWithOverwritePrompt(from(fileName), to(fileName)))
-  )
+  const writes = []
+  for (const fileName of fileNames) {
+    if (await copyFileWithOverwritePrompt(from(fileName), to(fileName))) {
+      writes.push(fileName)
+    }
+  }
 
-  return fileNames.filter((_, i) => writes[i])
+  return writes
 }
 
 async function addCompileDirToGitIgnore(data, options) {
