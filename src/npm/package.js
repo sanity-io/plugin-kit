@@ -238,6 +238,7 @@ async function writePackageJson(data, options) {
 
   const manifest = {
     name: '',
+    version: '1.0.0',
     description: '',
     main: 'lib/YourPlugin.js',
     scripts: {},
