@@ -235,7 +235,9 @@ async function writeStaticAssets({basePath}) {
   const from = (...segments) => path.join(assetsDir, ...segments)
   const to = (...segments) => path.join(basePath, ...segments)
 
-  const fileNames = ['.editorconfig', '.gitignore', '.npmignore']
+  const fileNames = ['.editorconfig', '.gitignore', '.npmignore', '.babelrc']
+
+  // @todo loop manually
   const writes = await Promise.all(
     fileNames.map((fileName) => copyFileWithOverwritePrompt(from(fileName), to(fileName)))
   )
