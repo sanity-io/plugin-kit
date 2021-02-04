@@ -24,6 +24,7 @@ module.exports = async function build({basePath, flags}) {
   log.info('Compiling plugin:')
   log.info('Input : %s', paths.source)
   log.info('Output: %s', paths.compiled)
+  log.info('👀 Watching for changes')
 
   await spawn(
     'babel',
@@ -31,6 +32,7 @@ module.exports = async function build({basePath, flags}) {
       // Booleans
       '--copy-files',
       '--delete-dir-on-start',
+      flags.watch ? '--watch' : undefined,
       flags.silent ? '--quiet' : undefined,
       flags.verbose ? '--verbose' : undefined,
 

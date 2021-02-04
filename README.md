@@ -60,10 +60,11 @@ Usage
     $ sanipack verify
 ```
 
+Use the `--help` flag on each command for more information on their usage, eg `sanipack build --help`.
+
 ## Todo
 
 - [ ] symlink command?
-- [ ] watch command?
 
 ## License
 

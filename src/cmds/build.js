@@ -14,6 +14,7 @@ Usage
 
 Options
   --source-maps, -s [${allowedSourceMaps.join('|')}]
+  --watch       Watch for changes and recompile
   --silent      Do not print info and warning messages
   --verbose     Log everything. This option conflicts with --silent
   --version     Output the version number
@@ -26,8 +27,11 @@ Examples
   # Build the plugin in ~/my-plugin, don't print info/warning messages
   $ ${pkg.binname} build ~/my-plugin --silent
 
+  # Build the plugin and recompile automatically on changes
+  $ ${pkg.binname} build --watch
+
   # Build the plugin in the current directory, generate inline sourcemaps
-  $ ${pkg.binname} build ~/my-plugin --source-maps inline
+  $ ${pkg.binname} build --source-maps inline
 
   # Allow package.json to reference files inside the uncompiled source folder
   $ ${pkg.binname} build --allow-source-target
@@ -35,6 +39,10 @@ Examples
 
 const flags = {
   ...sharedFlags,
+  watch: {
+    type: 'boolean',
+    default: false,
+  },
   allowSourceTarget: {
     type: 'boolean',
     default: false,
