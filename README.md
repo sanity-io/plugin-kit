@@ -22,10 +22,25 @@ An opinionated, enhanced [Sanity.io](https://www.sanity.io/) plugin development 
   - ... and more ...
 - Compiles plugin source code using Babel
 
-## Quick start (bootstrap new plugin)
+## Quick start
 
 ```bash
-npx sanipack init
+# Initialize a new plugin (outside of your Sanity studio folder)
+npx sanipack init sanity-plugin-spotify
+
+# Make your plugin linkable, and compile an initial version
+cd sanity-plugin-spotify
+npm link
+npm run build
+
+# Link the plugin to your Sanity studio and start it
+cd /path/to/my-studio
+npm link sanity-plugin-spotify
+sanity start
+
+# In another terminal, start a watch task for your plugin
+cd /path/to/sanity-plugin-spotify
+npm run watch
 ```
 
 ## Usage
@@ -62,9 +77,21 @@ Usage
 
 Use the `--help` flag on each command for more information on their usage, eg `sanipack build --help`.
 
-## Todo
+## Publishing a plugin
 
-- [ ] symlink command?
+**Note:** If you're writing a plugin that is only useful for yourself or your company, you might want to either put the plugin inside of the `plugins` folder of your Sanity studio (saves you from having to publish at all), or if shared across multiple "private" studios: register an organization on npm and make sure your module is [prefixed with the organization scope](https://docs.npmjs.com/creating-and-publishing-private-packages), eg `@your-company/plugin-name`.
+
+Also; you cannot easily remove modules/versions from npm once published. Take a good look at your `package.json` to see that the fields in there makes sense to you, and make sure there are no "secrets" (authorization tokens, API keys or similar) in the plugin directory - anything not listed in `.npmignore` will be part of the published module.
+
+When you're ready to publish, run `npm publish` (or `yarn publish` if you prefer). The `prepublishOnly` task should kick in and compile the source files, then verify the built output to ensure it looks good.
+
+If you have not published any modules to npm before, you will be asked to create a user first.
+
+## FAQ
+
+**Q:** Do I _have_ to use this for developing Sanity plugins?
+
+**A:** Absolutely not! Make sure your Sanity plugin is ES5-compatible and that your `sanity.json` file and any references parts refer to the right directories, and you're good to go. This package was created to make it easier to set up the build toolchain and prevent common mistakes. If you know what you're doing and don't like any magic, roll your own thing! :)
 
 ## License
 
