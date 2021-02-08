@@ -235,11 +235,11 @@ async function writeStaticAssets({basePath}) {
   const from = (...segments) => path.join(assetsDir, ...segments)
   const to = (...segments) => path.join(basePath, ...segments)
 
-  const fileNames = ['.editorconfig', '.gitignore', '.npmignore', '.babelrc']
+  const fileNames = ['editorconfig', 'gitignore', 'npmignore', 'babelrc']
 
   const writes = []
   for (const fileName of fileNames) {
-    if (await copyFileWithOverwritePrompt(from(fileName), to(fileName))) {
+    if (await copyFileWithOverwritePrompt(from(fileName), to(`.${fileName}`))) {
       writes.push(fileName)
     }
   }
