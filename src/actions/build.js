@@ -24,7 +24,10 @@ module.exports = async function build({basePath, flags}) {
   log.info('Compiling plugin:')
   log.info('Input : %s', paths.source)
   log.info('Output: %s', paths.compiled)
-  log.info('👀 Watching for changes')
+
+  if (flags.watch) {
+    log.info('👀 Watching for changes')
+  }
 
   await spawn(
     'babel',
