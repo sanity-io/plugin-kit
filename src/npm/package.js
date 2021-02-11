@@ -328,6 +328,7 @@ async function addBuildScripts(manifest, {basePath}) {
   const originalScripts = manifest.scripts || {}
   const scripts = {...originalScripts}
   scripts.build = addScript(`${pkg.binname} build`, scripts.build)
+  scripts.watch = addScript(`${pkg.binname} build --watch`, scripts.watch)
   scripts.prepublishOnly = addScript(`${pkg.binname} build`, scripts.prepublishOnly)
   scripts.prepublishOnly = addScript(`${pkg.binname} verify`, scripts.prepublishOnly)
 
