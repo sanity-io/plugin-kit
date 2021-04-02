@@ -158,3 +158,36 @@ tap.test('verifies valid plugin with mixed css imports', options, async (t) => {
   t.includes(stdout, 'good to publish', 'should have success in stdout')
   t.equal(exitCode, 0)
 })
+
+tap.test('throws on using @sanity/ui as peer dependency', options, async (t) => {
+  const fixtureDir = path.join(baseFixturesDir, 'ui-peer-dep')
+  const {exitCode, stdout, stderr} = await execa(sanipack, ['verify'], {
+    cwd: fixtureDir,
+    reject: false,
+  })
+  t.includes(stderr, '"@sanity/ui" declared as a peer dependency')
+  t.equal(stdout, '', 'should have empty stdout')
+  t.equal(exitCode, 1, 'should have exit code 1')
+})
+
+tap.test('throws on using @sanity/icons as peer dependency', options, async (t) => {
+  const fixtureDir = path.join(baseFixturesDir, 'icons-peer-dep')
+  const {exitCode, stdout, stderr} = await execa(sanipack, ['verify'], {
+    cwd: fixtureDir,
+    reject: false,
+  })
+  t.includes(stderr, '"@sanity/icons" declared as a peer dependency')
+  t.equal(stdout, '', 'should have empty stdout')
+  t.equal(exitCode, 1, 'should have exit code 1')
+})
+
+tap.test('throws on using @sanity/ui < 0.33.1', options, async (t) => {
+  const fixtureDir = path.join(baseFixturesDir, 'ui-low-version')
+  const {exitCode, stdout, stderr} = await execa(sanipack, ['verify'], {
+    cwd: fixtureDir,
+    reject: false,
+  })
+  t.includes(stderr, '"@sanity/ui" dependency must use version higher than or equal to 0.33.1')
+  t.equal(stdout, '', 'should have empty stdout')
+  t.equal(exitCode, 1, 'should have exit code 1')
+})

@@ -1,5 +1,7 @@
 const path = require('path')
 const spdxLicenseIds = require('spdx-license-ids')
+const semver = require('semver')
+
 const log = require('../util/log')
 const {fileExists, uselessFiles, readJsonFile} = require('../util/files')
 const {readManifest, getReferencesPartPaths} = require('../sanity/manifest')
@@ -160,6 +162,7 @@ async function verifyImports({pkg, manifest, basePath}) {
 
   await verifyNoUndeclaredDependencies(modules, pkg)
   await verifyReactDependencies(modules, pkg)
+  await verifyUiDependencies(modules, pkg)
   await verifyConfigParts(dependencies, pkg, basePath)
   await verifyNoUnusedDependencies(modules, pkg)
   await verifyNoUndeclaredParts(dependencies, pkg, manifest)
@@ -215,6 +218,33 @@ function verifyReactDependencies(modules, pkg) {
   if (modules.includes('prop-types') && 'prop-types' in (pkg.peerDependencies || {})) {
     throw new Error(
       `Invalid plugin: "prop-types" declares as peerDependency - it should be declared as a dependency (package.json)`
+    )
+  }
+}
+
+function verifyUiDependencies(modules, pkg) {
+  const peerDependencies = pkg.peerDependencies || {}
+  const dependencies = pkg.dependencies || {}
+
+  if (modules.includes('@sanity/ui') && '@sanity/ui' in peerDependencies) {
+    throw new Error(
+      `Invalid plugin: "@sanity/ui" declared as a peer dependency - it should be declared as a dependency (package.json)`
+    )
+  }
+
+  if (
+    modules.includes('@sanity/ui') &&
+    dependencies['@sanity/ui'] &&
+    semver.lt(semver.minVersion(dependencies['@sanity/ui']), '0.33.1')
+  ) {
+    throw new Error(
+      `Invalid plugin: "@sanity/ui" dependency must use version higher than or equal to 0.33.1 (package.json)`
+    )
+  }
+
+  if (modules.includes('@sanity/icons') && '@sanity/icons' in peerDependencies) {
+    throw new Error(
+      `Invalid plugin: "@sanity/icons" declared as a peer dependency - it should be declared as a dependency (package.json)`
     )
   }
 }
