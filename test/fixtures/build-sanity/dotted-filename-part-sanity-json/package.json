@@ -1,0 +1,15 @@
+{
+  "name": "sanity-plugin-unprefixed-part-sanity-json",
+  "version": "1.0.0",
+  "private": true,
+  "main": "./lib/my.schema.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "sanity",
+    "sanity-plugin"
+  ],
+  "author": "Some person",
+  "license": "MIT"
+}

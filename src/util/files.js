@@ -65,15 +65,6 @@ function hasSourceFile(filePath, paths) {
 
   // filePath: components/SomeInput
   // paths: {source: '/plugin/src'}
-
-  // components/SomeInput.tsx => .tsx
-  const ext = path.extname(filePath)
-  if (ext) {
-    // If we already have an extension, we don't need to mess around with trying alternatives
-    const absPath = path.isAbsolute(filePath) ? filePath : path.resolve(paths.source, filePath)
-    return fileExists(absPath)
-  }
-
   // MyComponent => /plugin/src/MyComponent
   const pathStub = path.isAbsolute(filePath) ? filePath : path.resolve(paths.source, filePath)
 

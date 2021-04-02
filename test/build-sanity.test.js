@@ -137,3 +137,10 @@ tap.test('throws on sanity.json being invalid (unprefixed implementation)', opti
   t.equal(exitCode, 1, 'should have exit code 1')
   t.includes(stderr, '"implements" must be prefixed with "part:" - got "some-part-name" (parts[0])')
 })
+
+tap.test('handles filenames with multiple dots', options, async (t) => {
+  const fixtureDir = path.join(baseFixturesDir, 'dotted-filename-part-sanity-json')
+  const {stdout, exitCode} = await execa(sanipack, ['build', fixtureDir], {reject: false})
+  t.equal(exitCode, 0, 'should have exit code 1')
+  t.includes(stdout, 'Successfully compiled 1 file with Babel')
+})
