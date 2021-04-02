@@ -58,7 +58,7 @@ function hasSourceEquivalent(compiledFile, paths) {
 }
 
 // Generally used for parts resolving
-function hasSourceFile(filePath, paths) {
+async function hasSourceFile(filePath, paths) {
   if (!paths.source) {
     return fileExists(path.isAbsolute(filePath) ? filePath : path.resolve(paths.basePath, filePath))
   }
@@ -67,6 +67,10 @@ function hasSourceFile(filePath, paths) {
   // paths: {source: '/plugin/src'}
   // MyComponent => /plugin/src/MyComponent
   const pathStub = path.isAbsolute(filePath) ? filePath : path.resolve(paths.source, filePath)
+
+  if (await fileExists(pathStub)) {
+    return true
+  }
 
   return buildCandidateExists(pathStub)
 }
