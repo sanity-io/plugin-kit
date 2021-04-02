@@ -146,25 +146,31 @@ function findDependencies(entryPath, seen = new Set()) {
 }
 
 function resolveDependency(fromDir, toPath, entryPath) {
+  const [querylessPath] = toPath.split('?', 1)
+
   let depPath
   try {
-    depPath = require.resolve(path.resolve(fromDir, toPath))
+    depPath = require.resolve(path.resolve(fromDir, querylessPath))
   } catch (err) {
-    throw new Error(`Unable to resolve "${toPath}" from ${entryPath}`)
+    throw new Error(`Unable to resolve "${querylessPath}" from ${entryPath}`)
   }
 
   let actualPath
   try {
     actualPath = discoverPathSync(depPath)
   } catch (err) {
-    const paths = (err.suggestions || []).map((suggested) => getDidYouMeanPath(toPath, suggested))
+    const paths = (err.suggestions || []).map((suggested) =>
+      getDidYouMeanPath(querylessPath, suggested)
+    )
     const didYouMean = paths ? `Did you mean:\n${paths.join('\n- ')}` : ''
-    throw new Error(`Unable to resolve "${toPath}" from ${entryPath}. ${didYouMean}`)
+    throw new Error(`Unable to resolve "${querylessPath}" from ${entryPath}. ${didYouMean}`)
   }
 
   if (actualPath !== depPath) {
-    const didYouMean = getDidYouMeanPath(toPath, actualPath)
-    throw new Error(`Unable to resolve "${toPath} from ${entryPath}. Did you mean "${didYouMean}"?`)
+    const didYouMean = getDidYouMeanPath(querylessPath, actualPath)
+    throw new Error(
+      `Unable to resolve "${querylessPath} from ${entryPath}. Did you mean "${didYouMean}"?`
+    )
   }
 
   return actualPath
