@@ -4,11 +4,12 @@ on:
   - pull_request
 jobs:
   test:
-    name: Node.js ${{ matrix.node-version }}
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.platform }}
+    name: Node.js ${{ matrix.node-version }} / ${{ matrix.platform }}
     strategy:
       fail-fast: false
       matrix:
+        platform: [ubuntu-latest, macos-latest, windows-latest]
         node-version:
           - 14
           - 12
