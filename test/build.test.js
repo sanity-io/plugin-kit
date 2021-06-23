@@ -13,9 +13,12 @@ const baseFixturesDir = path.join(__dirname, 'fixtures', 'build')
 const sanipack = path.resolve(__dirname, '..', pkg.bin.sanipack)
 const onlyPaths = (files) => files.map((file) => file.path)
 const contents = (dir) => readdirp.promise(dir).then(onlyPaths)
+const normalize = (dirPath) => dirPath.replace(/\//g, path.sep)
 
-const expectedFiles = ['one.js', 'one.js.map', 'two.js', 'two.js.map', 'styles/one.css']
 const options = {timeout: 15000}
+const expectedFiles = ['one.js', 'one.js.map', 'two.js', 'two.js.map', 'styles/one.css'].map(
+  normalize
+)
 
 tap.test('can build valid plugin (in cwd)', options, async (t) => {
   const fixtureDir = path.join(baseFixturesDir, 'valid')
