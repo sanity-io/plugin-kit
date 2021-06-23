@@ -66,7 +66,10 @@ module.exports = async function build({basePath, flags}) {
 }
 
 function spawn(cmd, args, options) {
+  // ref: https://stackoverflow.com/questions/37459717/error-spawn-enoent-on-windows/37487465
+  const withShellOptions = process.platform === 'win32' ? {...options, shell: true} : options
+
   return new Promise((resolve, reject) => {
-    childProcess.spawn(cmd, args, options).on('error', reject).on('close', resolve)
+    childProcess.spawn(cmd, args, withShellOptions).on('error', reject).on('close', resolve)
   })
 }
