@@ -5,7 +5,7 @@ const pkg = require('../package.json')
 
 const baseFixturesDir = path.join(__dirname, 'fixtures', 'verify')
 const sanipack = path.resolve(__dirname, '..', pkg.bin.sanipack)
-const normalize = (dirPath) => dirPath.replace(/\//g, path.sep)
+const normalize = (dirPath) => path.normalize(dirPath)
 const options = {timeout: 15000}
 
 tap.test('can verify valid plugin (in cwd)', options, async (t) => {
