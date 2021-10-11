@@ -12,7 +12,7 @@ tap.test('throws on missing package.json', options, async (t) => {
   const {stdout, stderr, exitCode} = await execa(sanipack, ['build', fixtureDir], {reject: false})
   t.equal(stdout, '', 'should have empty stdout')
   t.equal(exitCode, 1, 'should have exit code 1')
-  t.includes(stderr, 'No package.json found')
+  t.match(stderr, 'No package.json found')
 })
 
 tap.test('throws on package.json being... not a file', options, async (t) => {
@@ -20,7 +20,7 @@ tap.test('throws on package.json being... not a file', options, async (t) => {
   const {stdout, stderr, exitCode} = await execa(sanipack, ['build', fixtureDir], {reject: false})
   t.equal(stdout, '', 'should have empty stdout')
   t.equal(exitCode, 1, 'should have exit code 1')
-  t.includes(stderr, 'EISDIR')
+  t.match(stderr, 'EISDIR')
 })
 
 tap.test('throws on package.json being invalid JSON', options, async (t) => {
@@ -28,7 +28,7 @@ tap.test('throws on package.json being invalid JSON', options, async (t) => {
   const {stdout, stderr, exitCode} = await execa(sanipack, ['build', fixtureDir], {reject: false})
   t.equal(stdout, '', 'should have empty stdout')
   t.equal(exitCode, 1, 'should have exit code 1')
-  t.includes(stderr, 'Unexpected token')
+  t.match(stderr, 'Unexpected token')
 })
 
 tap.test('throws on package.json being invalid JSON (not an object)', options, async (t) => {
@@ -36,7 +36,7 @@ tap.test('throws on package.json being invalid JSON (not an object)', options, a
   const {stdout, stderr, exitCode} = await execa(sanipack, ['build', fixtureDir], {reject: false})
   t.equal(stdout, '', 'should have empty stdout')
   t.equal(exitCode, 1, 'should have exit code 1')
-  t.includes(stderr, 'Root must be an object')
+  t.match(stderr, 'Root must be an object')
 })
 
 tap.test('throws on package.json being invalid (non-string name)', options, async (t) => {
@@ -44,7 +44,7 @@ tap.test('throws on package.json being invalid (non-string name)', options, asyn
   const {stdout, stderr, exitCode} = await execa(sanipack, ['build', fixtureDir], {reject: false})
   t.equal(stdout, '', 'should have empty stdout')
   t.equal(exitCode, 1, 'should have exit code 1')
-  t.includes(stderr, '"name" must be a string')
+  t.match(stderr, '"name" must be a string')
 })
 
 tap.test('throws on package.json being invalid (not allowed npm name)', options, async (t) => {
@@ -52,7 +52,7 @@ tap.test('throws on package.json being invalid (not allowed npm name)', options,
   const {stdout, stderr, exitCode} = await execa(sanipack, ['build', fixtureDir], {reject: false})
   t.equal(stdout, '', 'should have empty stdout')
   t.equal(exitCode, 1, 'should have exit code 1')
-  t.includes(stderr, 'name can only contain URL-friendly characters')
+  t.match(stderr, 'name can only contain URL-friendly characters')
 })
 
 tap.test('throws on package.json being invalid (unscoped without plugin prefix)', options, async (t) => {
@@ -60,7 +60,7 @@ tap.test('throws on package.json being invalid (unscoped without plugin prefix)'
   const {stdout, stderr, exitCode} = await execa(sanipack, ['build', fixtureDir], {reject: false})
   t.equal(stdout, '', 'should have empty stdout')
   t.equal(exitCode, 1, 'should have exit code 1')
-  t.includes(stderr, 'prefixed with "sanity-plugin-"')
+  t.match(stderr, 'prefixed with "sanity-plugin-"')
 })
 
 tap.test('throws on package.json being invalid (non-string "main")', options, async (t) => {
@@ -68,7 +68,7 @@ tap.test('throws on package.json being invalid (non-string "main")', options, as
   const {stdout, stderr, exitCode} = await execa(sanipack, ['build', fixtureDir], {reject: false})
   t.equal(stdout, '', 'should have empty stdout')
   t.equal(exitCode, 1, 'should have exit code 1')
-  t.includes(stderr, '"main" must be a string if defined')
+  t.match(stderr, '"main" must be a string if defined')
 })
 
 tap.test('throws on package.json being invalid (references source dir)', options, async (t) => {
@@ -76,7 +76,7 @@ tap.test('throws on package.json being invalid (references source dir)', options
   const {stdout, stderr, exitCode} = await execa(sanipack, ['build', fixtureDir], {reject: false})
   t.equal(stdout, '', 'should have empty stdout')
   t.equal(exitCode, 1, 'should have exit code 1')
-  t.includes(stderr, '"main" points to file within source')
+  t.match(stderr, '"main" points to file within source')
 })
 
 tap.test('throws on package.json being invalid (references orphaned file)', options, async (t) => {
@@ -84,7 +84,7 @@ tap.test('throws on package.json being invalid (references orphaned file)', opti
   const {stdout, stderr, exitCode} = await execa(sanipack, ['build', fixtureDir], {reject: false})
   t.equal(stdout, '', 'should have empty stdout')
   t.equal(exitCode, 1, 'should have exit code 1')
-  t.includes(stderr, '"main" points to file that will not exist after compiling')
+  t.match(stderr, '"main" points to file that will not exist after compiling')
 })
 
 tap.test('throws on package.json being invalid (references missing file)', options, async (t) => {
@@ -92,7 +92,7 @@ tap.test('throws on package.json being invalid (references missing file)', optio
   const {stdout, stderr, exitCode} = await execa(sanipack, ['build', fixtureDir], {reject: false})
   t.equal(stdout, '', 'should have empty stdout')
   t.equal(exitCode, 1, 'should have exit code 1')
-  t.includes(
+  t.match(
     stderr,
     '"main" points to file that does not exist, and no equivalent is found in source directory'
   )
@@ -105,7 +105,7 @@ tap.test(
     const {stdout, stderr, exitCode} = await execa(sanipack, ['build', fixtureDir], {reject: false})
     t.equal(stdout, '', 'should have empty stdout')
     t.equal(exitCode, 1, 'should have exit code 1')
-    t.includes(
+    t.match(
       stderr,
       '"main" points to file that does not exist, and "paths" is not configured to compile to this location'
     )
@@ -117,7 +117,7 @@ tap.test('throws on package.json being invalid (references file without `paths`)
   const {stdout, stderr, exitCode} = await execa(sanipack, ['build', fixtureDir], {reject: false})
   t.equal(stdout, '', 'should have empty stdout')
   t.equal(exitCode, 1, 'should have exit code 1')
-  t.includes(stderr, '"main" points to file that does not exist')
+  t.match(stderr, '"main" points to file that does not exist')
 })
 
 tap.test('throws on double lockfile', options, async (t) => {
@@ -125,5 +125,5 @@ tap.test('throws on double lockfile', options, async (t) => {
   const {stdout, stderr, exitCode} = await execa(sanipack, ['build', fixtureDir], {reject: false})
   t.equal(stdout, '', 'should have empty stdout')
   t.equal(exitCode, 1, 'should have exit code 1')
-  t.includes(stderr, 'contains both package-lock.json and yarn.lock')
+  t.match(stderr, 'contains both package-lock.json and yarn.lock')
 })

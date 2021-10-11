@@ -39,5 +39,5 @@ tap.test('throws if two version flags are given', async (t) => {
   })
   t.equal(exitCode, 1, 'exit code should be 1')
   t.equal(stdout, '', 'stdout should be empty')
-  t.includes(stderr, 'only one can be used at a time')
+  t.match(stderr, 'only one can be used at a time')
 })

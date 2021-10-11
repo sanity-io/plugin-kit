@@ -12,14 +12,14 @@ tap.test('can verify valid plugin (in cwd)', options, async (t) => {
   const fixtureDir = path.join(baseFixturesDir, 'valid-built')
   const {stdout, stderr} = await execa(sanipack, ['verify'], {cwd: fixtureDir})
   t.equal(stderr, '', 'should have empty stderr')
-  t.includes(stdout, 'good to publish', 'should have success in stdout')
+  t.match(stdout, 'good to publish', 'should have success in stdout')
 })
 
 tap.test('can verify valid plugin (specified path)', options, async (t) => {
   const fixtureDir = path.join(baseFixturesDir, 'valid-built')
   const {stdout, stderr} = await execa(sanipack, ['verify', normalize(fixtureDir)])
   t.equal(stderr, '', 'should have empty stderr')
-  t.includes(stdout, 'good to publish', 'should have success in stdout')
+  t.match(stdout, 'good to publish', 'should have success in stdout')
 })
 
 tap.test('throws on missing license key', options, async (t) => {
@@ -27,7 +27,7 @@ tap.test('throws on missing license key', options, async (t) => {
   const {stdout, stderr, exitCode} = await execa(sanipack, ['verify', normalize(fixtureDir)], {
     reject: false,
   })
-  t.includes(stderr, 'missing "license" key')
+  t.match(stderr, 'missing "license" key')
   t.equal(stdout, '', 'should have empty stdout')
   t.equal(exitCode, 1, 'should have exit code 1')
 })
@@ -37,7 +37,7 @@ tap.test('throws on missing license file', options, async (t) => {
   const {stdout, stderr, exitCode} = await execa(sanipack, ['verify', normalize(fixtureDir)], {
     reject: false,
   })
-  t.includes(stderr, 'does not contain a LICENSE-file')
+  t.match(stderr, 'does not contain a LICENSE-file')
   t.equal(stdout, '', 'should have empty stdout')
   t.equal(exitCode, 1, 'should have exit code 1')
 })
@@ -47,7 +47,7 @@ tap.test('throws on non-spdx license', options, async (t) => {
   const {stdout, stderr, exitCode} = await execa(sanipack, ['verify', normalize(fixtureDir)], {
     reject: false,
   })
-  t.includes(stderr, 'SPDX license ID')
+  t.match(stderr, 'SPDX license ID')
   t.equal(stdout, '', 'should have empty stdout')
   t.equal(exitCode, 1, 'should have exit code 1')
 })
@@ -57,7 +57,7 @@ tap.test('throws on referenced files being ignored by npm (package.json)', optio
   const {stdout, stderr, exitCode} = await execa(sanipack, ['verify', normalize(fixtureDir)], {
     reject: false,
   })
-  t.includes(stderr, 'ignored from being published: "types.d.ts"')
+  t.match(stderr, 'ignored from being published: "types.d.ts"')
   t.equal(stdout, '', 'should have empty stdout')
   t.equal(exitCode, 1, 'should have exit code 1')
 })
@@ -67,7 +67,7 @@ tap.test('throws on referenced files being ignored by npm (sanity.json)', option
   const {stdout, stderr, exitCode} = await execa(sanipack, ['verify', normalize(fixtureDir)], {
     reject: false,
   })
-  t.includes(stderr, 'ignored from being published: "lib/ignored.js"')
+  t.match(stderr, 'ignored from being published: "lib/ignored.js"')
   t.equal(stdout, '', 'should have empty stdout')
   t.equal(exitCode, 1, 'should have exit code 1')
 })
@@ -77,7 +77,7 @@ tap.test('throws on invalid dist config', options, async (t) => {
   const {stdout, stderr, exitCode} = await execa(sanipack, ['verify', normalize(fixtureDir)], {
     reject: false,
   })
-  t.includes(stderr, 'must be an object, got:\n[]')
+  t.match(stderr, 'must be an object, got:\n[]')
   t.equal(stdout, '', 'should have empty stdout')
   t.equal(exitCode, 1, 'should have exit code 1')
 })
@@ -87,7 +87,7 @@ tap.test('throws on invalid dist config (syntax)', options, async (t) => {
   const {stdout, stderr, exitCode} = await execa(sanipack, ['verify', normalize(fixtureDir)], {
     reject: false,
   })
-  t.includes(stderr, 'Unexpected end of JSON input')
+  t.match(stderr, 'Unexpected end of JSON input')
   t.equal(stdout, '', 'should have empty stdout')
   t.equal(exitCode, 1, 'should have exit code 1')
 })
@@ -97,7 +97,7 @@ tap.test('warns on "useless" files', options, async (t) => {
   const {stdout, stderr, exitCode} = await execa(sanipack, ['verify', normalize(fixtureDir)], {
     reject: false,
   })
-  t.includes(stderr, '".eslintignore", ".prettierrc"')
+  t.match(stderr, '".eslintignore", ".prettierrc"')
   t.equal(stdout, '', 'should have empty stdout')
   t.equal(exitCode, 0)
 })
@@ -108,7 +108,7 @@ tap.test('verifies plugin with no compilation', options, async (t) => {
     reject: false,
   })
   t.equal(stderr, '', 'should have empty stderr')
-  t.includes(stdout, 'good to publish', 'should have success in stdout')
+  t.match(stdout, 'good to publish', 'should have success in stdout')
   t.equal(exitCode, 0)
 })
 
@@ -118,7 +118,7 @@ tap.test('verifies plugin with CSS-part referenced', options, async (t) => {
     reject: false,
   })
   t.equal(stderr, '', 'should have empty stderr')
-  t.includes(stdout, 'good to publish', 'should have success in stdout')
+  t.match(stdout, 'good to publish', 'should have success in stdout')
   t.equal(exitCode, 0)
 })
 
@@ -127,7 +127,7 @@ tap.test('verifies plugin with CSS-part referenced (missing)', options, async (t
   const {stdout, stderr, exitCode} = await execa(sanipack, ['verify', normalize(fixtureDir)], {
     reject: false,
   })
-  t.includes(stderr, `references file ("styles/one.css") that does not exist in compiled`)
+  t.match(stderr, `references file ("styles/one.css") that does not exist in compiled`)
   t.equal(stdout, '', 'should have empty stdout')
   t.equal(exitCode, 1)
 })
@@ -137,7 +137,7 @@ tap.test('verifies plugin with import referencing missing CSS file', options, as
   const {stdout, stderr, exitCode} = await execa(sanipack, ['verify', normalize(fixtureDir)], {
     reject: false,
   })
-  t.includes(stderr, /unable to resolve.*?one\.css.*?did you mean.*?One.css/i)
+  t.match(stderr, /unable to resolve.*?one\.css.*?did you mean.*?One.css/i)
   t.equal(stdout, '', 'should have empty stdout')
   t.equal(exitCode, 1)
 })
@@ -147,7 +147,7 @@ tap.test('verifies plugin with import referencing missing ?raw CSS file', option
   const {stdout, stderr, exitCode} = await execa(sanipack, ['verify', normalize(fixtureDir)], {
     reject: false,
   })
-  t.includes(stderr, /unable to resolve.*?one\.css.*?did you mean.*?One.css/i)
+  t.match(stderr, /unable to resolve.*?one\.css.*?did you mean.*?One.css/i)
   t.equal(stdout, '', 'should have empty stdout')
   t.equal(exitCode, 1)
 })
@@ -158,7 +158,7 @@ tap.test('verifies plugin with import referencing valid ?raw CSS file', options,
     reject: false,
   })
   t.equal(stderr, '', 'should have empty stderr')
-  t.includes(stdout, 'good to publish', 'should have success in stdout')
+  t.match(stdout, 'good to publish', 'should have success in stdout')
   t.equal(exitCode, 1)
 })
 
@@ -167,7 +167,7 @@ tap.test('verifies plugin with css modules referencing missing CSS file', option
   const {stdout, stderr, exitCode} = await execa(sanipack, ['verify', normalize(fixtureDir)], {
     reject: false,
   })
-  t.includes(stderr, /unable to resolve.*?baseButton\.css/i)
+  t.match(stderr, /unable to resolve.*?baseButton\.css/i)
   t.equal(stdout, '', 'should have empty stdout')
   t.equal(exitCode, 1)
 })
@@ -177,7 +177,7 @@ tap.test('verifies plugin with css importing incorrectly cased CSS file', option
   const {stdout, stderr, exitCode} = await execa(sanipack, ['verify', normalize(fixtureDir)], {
     reject: false,
   })
-  t.includes(stderr, /unable to resolve.*?Button\.css.*?did you mean.*?button.css/i)
+  t.match(stderr, /unable to resolve.*?Button\.css.*?did you mean.*?button.css/i)
   t.equal(stdout, '', 'should have empty stdout')
   t.equal(exitCode, 1)
 })
@@ -188,7 +188,7 @@ tap.test('verifies valid plugin with mixed css imports', options, async (t) => {
     reject: false,
   })
   t.equal(stderr, '', 'should have empty stderr')
-  t.includes(stdout, 'good to publish', 'should have success in stdout')
+  t.match(stdout, 'good to publish', 'should have success in stdout')
   t.equal(exitCode, 0)
 })
 
@@ -198,7 +198,7 @@ tap.test('throws on using @sanity/ui as peer dependency', options, async (t) => 
     cwd: fixtureDir,
     reject: false,
   })
-  t.includes(stderr, '"@sanity/ui" declared as a peer dependency')
+  t.match(stderr, '"@sanity/ui" declared as a peer dependency')
   t.equal(stdout, '', 'should have empty stdout')
   t.equal(exitCode, 1, 'should have exit code 1')
 })
@@ -209,7 +209,7 @@ tap.test('throws on using @sanity/icons as peer dependency', options, async (t) 
     cwd: fixtureDir,
     reject: false,
   })
-  t.includes(stderr, '"@sanity/icons" declared as a peer dependency')
+  t.match(stderr, '"@sanity/icons" declared as a peer dependency')
   t.equal(stdout, '', 'should have empty stdout')
   t.equal(exitCode, 1, 'should have exit code 1')
 })
@@ -220,7 +220,7 @@ tap.test('throws on using @sanity/ui < 0.33.1', options, async (t) => {
     cwd: fixtureDir,
     reject: false,
   })
-  t.includes(stderr, '"@sanity/ui" dependency must use version higher than or equal to 0.33.1')
+  t.match(stderr, '"@sanity/ui" dependency must use version higher than or equal to 0.33.1')
   t.equal(stdout, '', 'should have empty stdout')
   t.equal(exitCode, 1, 'should have exit code 1')
 })
