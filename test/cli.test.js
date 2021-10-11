@@ -51,5 +51,5 @@ tap.test('shows stack trace with --debug', async (t) => {
   t.equal(exitCode, 1, 'should have exit code 1')
   t.equal(stdout, '', 'should have empty stdout')
   t.match(stderr, 'only one can be used at a time')
-  t.match(stderr, '/cmds/version.js:')
+  t.match(stderr, path.normalize('/cmds/version.js'))
 })
