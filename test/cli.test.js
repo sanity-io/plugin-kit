@@ -39,7 +39,7 @@ tap.test('shows no stack trace without --debug', async (t) => {
   t.equal(exitCode, 1, 'should have exit code 1')
   t.equal(stdout, '', 'should have empty stdout')
   t.match(stderr, 'only one can be used at a time')
-  t.doesNotHave(stderr, normalize('/cmds/version.js:'))
+  t.notMatch(stderr, normalize('/cmds/version.js:'))
 })
 
 tap.test('shows stack trace with --debug', async (t) => {
