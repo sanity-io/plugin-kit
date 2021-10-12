@@ -4,7 +4,8 @@
   "description": "Enhanced Sanity.io plugin development experience",
   "main": "src/index.js",
   "scripts": {
-    "test": "tap"
+    "test": "tap",
+    "posttest": "eslint ."
   },
   "binname": "sanipack",
   "bin": {
@@ -82,6 +83,37 @@
     "check-coverage": false,
     "coverage-report": [
       "html"
+    ]
+  },
+  "prettier": {
+    "semi": false,
+    "printWidth": 100,
+    "bracketSpacing": false,
+    "singleQuote": true
+  },
+  "eslintConfig": {
+    "extends": [
+      "sanity",
+      "prettier"
+    ],
+    "env": {
+      "node": true,
+      "browser": true
+    },
+    "parserOptions": {
+      "ecmaVersion": 2018
+    },
+    "rules": {
+      "no-await-in-loop": "off",
+      "no-console": "off",
+      "complexity": "off",
+      "id-length": "off",
+      "max-depth": "off",
+      "no-sync": "off",
+      "strict": "off"
+    },
+    "ignorePatterns": [
+      "test/fixtures/**"
     ]
   }
 }
