@@ -73,5 +73,15 @@
     "readdirp": "^3.6.0",
     "rimraf": "^3.0.2",
     "tap": "^15.0.10"
+  },
+  "tap": {
+    "jobs": 2,
+    "browser": false,
+    "timeout": 120,
+    "reporter": "spec",
+    "check-coverage": false,
+    "coverage-report": [
+      "html"
+    ]
   }
 }

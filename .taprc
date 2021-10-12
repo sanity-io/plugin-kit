@@ -1,6 +1,0 @@
-jobs: 2
-browser: false
-timeout: 120
-reporter: spec
-coverage-report:
-  - html
