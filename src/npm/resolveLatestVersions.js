@@ -9,7 +9,16 @@ function resolveLatestVersions(packages) {
     versions[pkgName] = 'latest'
   }
 
-  return pProps(versions, (range, pkgName) => getLatestVersion(pkgName, {range}), {
-    concurrency: 8,
-  })
+  return pProps(
+    versions,
+    async (range, pkgName) => {
+      const version = await getLatestVersion(pkgName, {range})
+      return rangeify(version)
+    },
+    {concurrency: 8}
+  )
+}
+
+function rangeify(version) {
+  return `^${version}`
 }
