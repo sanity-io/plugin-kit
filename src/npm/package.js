@@ -327,6 +327,7 @@ function addScript(cmd, existing) {
 async function addBuildScripts(manifest, {basePath}) {
   const originalScripts = manifest.scripts || {}
   const scripts = {...originalScripts}
+  scripts.lint = addScript(`eslint .`, scripts.lint)
   scripts.build = addScript(`${pkg.binname} build`, scripts.build)
   scripts.watch = addScript(`${pkg.binname} build --watch`, scripts.watch)
   scripts.prepublishOnly = addScript(`${pkg.binname} build`, scripts.prepublishOnly)
