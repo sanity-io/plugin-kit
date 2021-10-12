@@ -50,7 +50,7 @@
     "find-babel-config": "^1.2.0",
     "get-it": "^5.0.5",
     "get-latest-version": "^2.0.0",
-    "git-remote-origin-url": "^4.0.0",
+    "git-remote-origin-url": "^3.1.0",
     "git-user-info": "^1.0.1",
     "github-url-to-object": "^4.0.6",
     "inquirer": "^8.2.0",
@@ -64,7 +64,7 @@
     "semver": "^7.3.5",
     "spdx-license-ids": "^3.0.10",
     "validate-npm-package-name": "^3.0.0",
-    "xdg-basedir": "^5.1.0"
+    "xdg-basedir": "^4.0.0"
   },
   "devDependencies": {
     "eslint": "^8.0.0",
