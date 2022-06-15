@@ -1,22 +1,39 @@
 {
-  "name": "sanipack",
-  "version": "2.1.0",
+  "name": "@sanity/plugin-kit",
+  "version": "0.1.0-v3-studio.0",
   "description": "Enhanced Sanity.io plugin development experience",
-  "main": "src/index.js",
   "scripts": {
+    "clean": "rimraf lib",
+    "prebuild": "npm run clean",
+    "build": "tsc",
+    "postbuild": "node executable-index.js",
+    "watch": "tsc --watch",
     "test": "tap",
-    "posttest": "eslint ."
+    "prepare": "husky install",
+    "commit": "git-cz",
+    "lint": "eslint .",
+    "compile": "tsc --noEmit",
+    "format": "prettier src -w",
+    "semantic-release": "semantic-release",
+    "prepublishOnly": "npm run test && npm run build"
   },
-  "binname": "sanipack",
-  "bin": {
-    "sanipack": "./bin/sanipack.js"
-  },
+  "binname": "sanity-plugin",
+  "source": "./src/index.ts",
+  "types": "./lib/src/index.d.ts",
+  "bin": "lib/src/index.js",
+  "main": "./lib/src/index.js",
+  "files": [
+    "v2-incompatible.js",
+    "src",
+    "lib",
+    "assets"
+  ],
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com/rexxars/sanipack.git"
   },
   "engines": {
-    "node": ">=12.0.0"
+    "node": ">=14.0.0"
   },
   "keywords": [
     "sanity-io",
@@ -27,23 +44,16 @@
     "typescript",
     "bootstrap"
   ],
-  "author": "Espen Hovlandsdal",
+  "author": "Sanity.io <hello@sanity.io>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/rexxars/sanipack/issues"
   },
   "homepage": "https://github.com/rexxars/sanipack#readme",
   "dependencies": {
-    "@babel/cli": "^7.15.7",
-    "@babel/core": "^7.15.8",
-    "@babel/eslint-parser": "^7.15.8",
-    "@babel/plugin-proposal-class-properties": "^7.14.5",
-    "@babel/preset-env": "^7.15.8",
-    "@babel/preset-react": "^7.14.5",
-    "@babel/preset-typescript": "^7.15.0",
-    "@babel/traverse": "^7.15.4",
     "@rexxars/choosealicense-list": "^1.1.2",
     "chalk": "^4.1.2",
+    "concurrently": "^7.1.0",
     "discover-path": "^1.0.0",
     "email-validator": "^2.0.4",
     "execa": "^5.1.1",
@@ -55,25 +65,52 @@
     "github-url-to-object": "^4.0.6",
     "inquirer": "^8.2.0",
     "meow": "^9.0.0",
+    "nodemon": "^2.0.15",
     "npm-packlist": "^3.0.0",
     "npm-run-path": "^4.0.1",
     "outdent": "^0.8.0",
     "p-any": "^3.0.0",
     "p-props": "^4.0.0",
     "postcss": "^8.3.9",
+    "rimraf": "^3.0.2",
     "semver": "^7.3.5",
     "spdx-license-ids": "^3.0.10",
     "validate-npm-package-name": "^3.0.0",
-    "xdg-basedir": "^4.0.0"
+    "xdg-basedir": "^4.0.0",
+    "yalc": "^1.0.0-pre.53"
+  },
+  "peerDependencies": {
+    "eslint": ">=8.0.0"
   },
   "devDependencies": {
-    "eslint": "^8.0.0",
-    "eslint-config-prettier": "^8.3.0",
+    "@commitlint/cli": "^16.2.3",
+    "@commitlint/config-conventional": "^16.2.1",
+    "@parcel/packager-ts": "^2.6.0",
+    "@parcel/transformer-typescript-types": "^2.6.0",
+    "@types/eslint": "^8.4.3",
+    "@types/inquirer": "^8.2.1",
+    "@types/node": "^17.0.40",
+    "@types/nodemon": "^1.19.1",
+    "@types/tap": "^15.0.7",
+    "@typescript-eslint/eslint-plugin": "^5.20.0",
+    "@typescript-eslint/parser": "^5.20.0",
+    "eslint": "^8.15.0",
+    "eslint-config-prettier": "^8.5.0",
     "eslint-config-sanity": "^5.1.0",
-    "prettier": "^2.4.1",
+    "eslint-plugin-prettier": "^4.0.0",
+    "husky": "^7.0.4",
+    "json5": "^2.2.1",
+    "lint-staged": "^12.4.0",
+    "parcel": "^2.6.0",
+    "prettier": "^2.6.2",
     "readdirp": "^3.6.0",
     "rimraf": "^3.0.2",
-    "tap": "^15.0.10"
+    "semantic-release": "^19.0.2",
+    "sanity": "^3.0.0-dev-preview.7",
+    "sinon": "^14.0.0",
+    "tap": "^16.2.0",
+    "ts-node": "^10.8.0",
+    "typescript": "^4.7.2"
   },
   "tap": {
     "jobs": 2,
@@ -83,37 +120,8 @@
     "check-coverage": false,
     "coverage-report": [
       "html"
-    ]
-  },
-  "prettier": {
-    "semi": false,
-    "printWidth": 100,
-    "bracketSpacing": false,
-    "singleQuote": true
-  },
-  "eslintConfig": {
-    "extends": [
-      "sanity",
-      "prettier"
     ],
-    "env": {
-      "node": true,
-      "browser": true
-    },
-    "parserOptions": {
-      "ecmaVersion": 2018
-    },
-    "rules": {
-      "no-await-in-loop": "off",
-      "no-console": "off",
-      "complexity": "off",
-      "id-length": "off",
-      "max-depth": "off",
-      "no-sync": "off",
-      "strict": "off"
-    },
-    "ignorePatterns": [
-      "test/fixtures/**"
-    ]
+    "test-ignore": "^lib/.*|.*ignore.*|.*run-test-command.*|.*fixture.utils.*",
+    "ts": true
   }
 }

@@ -1,4 +1,0 @@
-.button {
-  composes: baseButton from './baseButton.css';
-  background: #bf1942;
-}

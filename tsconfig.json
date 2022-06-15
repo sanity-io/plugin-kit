@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "jsx": "react",
+    "moduleResolution": "node",
+    "target": "ES6",
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "lib": ["es2015", "es2016", "es2017"],
+    "strict": true,
+    "sourceMap": true,
+    "declaration": true,
+    "allowSyntheticDefaultImports": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "outDir": "lib",
+    "baseUrl": ".",
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "allowJs": true,
+    "checkJs": true,
+    "types": ["node"]
+  },
+  "include": ["src/**/*", "test/**/*", "package.json"],
+  "exclude": ["test/fixtures/**/*", "test/ignore/**/*"]
+}

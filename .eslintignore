@@ -1,0 +1,10 @@
+.eslintrc.js
+commitlint.config.js
+lib
+lint-staged.config.js
+node_modules
+test/fixtures
+coverage
+babel
+*.js
+v2-incompatible.js.template

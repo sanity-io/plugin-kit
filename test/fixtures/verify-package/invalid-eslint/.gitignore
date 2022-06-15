@@ -42,26 +42,18 @@ jspm_packages
 # VS Code settings
 .vscode
 
-# Lockfiles
-/yarn.lock
+# IntelliJ
+.idea
+*.iml
 
 # Cache
 .cache
 
-## TypeScript out
-lib/
-
-# IntelliJ
-.idea/
-*.iml
-
-## Parcel
+# Parcel
 .parcel-cache
 
-# Fixtures for tests that output files that will be verified
-test/fixtures/build/lib
-/test/fixtures/init/empty/*
-!test/fixtures/init/empty/.gitkeep
+test/fixtures/init/empty
 
-
+# Compiled plugin
+lib
 

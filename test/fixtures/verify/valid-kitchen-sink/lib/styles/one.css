@@ -1,6 +1,0 @@
-@import './leaflet/leaflet.css';
-
-.button {
-  composes: baseButton from './button.css';
-  background: #bf1942;
-}

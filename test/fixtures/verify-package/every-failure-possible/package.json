@@ -1,0 +1,27 @@
+{
+  "name": "not-prefixed-with-sanity-plugin",
+  "version": "1.0.0",
+  "description": "",
+  "license": "MIT",
+  "files": [
+    "src",
+    "lib",
+    "sanity.json"
+  ],
+  "dependencies": {},
+  "devDependencies": {
+    "eslint": "^8.17.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-config-sanity": "^6.0.0",
+    "eslint-plugin-react": "^7.30.0",
+    "eslint-plugin-react-hooks": "^4.5.0",
+    "react": "^17.0.0 || ^18.0.0",
+    "rimraf": "^3.0.2",
+    "@sanity/base": "^2.30.1",
+    "typescript": "^4.7.3"
+  },
+  "peerDependencies": {
+    "react": "^17.0.0 || ^18.0.0",
+    "@sanity/base": "^2.30.1"
+  }
+}
