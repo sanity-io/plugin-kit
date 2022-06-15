@@ -2,7 +2,7 @@
 
 > **NOTE**
 >
-> This is a developer preview package is meant for **Sanity Studio v3** plugin development.
+> This is a developer preview package meant for **Sanity Studio v3** plugin development.
 > 
 > For a v2 alternative, consider using [Sanipack](https://github.com/rexxars/sanipack).
 
