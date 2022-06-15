@@ -24,6 +24,7 @@ import fs from 'fs'
 import path from 'path'
 import log from '../util/log'
 import {getPackage} from '../npm/package'
+import outdent from 'outdent'
 
 interface YalcWatchConfig {
   folder?: string
@@ -58,9 +59,14 @@ export async function linkWatch({basePath}: {basePath: string}) {
 
   nodemon
     .on('start', function () {
-      log.info(`Watching ${watch.folder} for changes to files with extensions: ${watch.extensions}`)
-      log.info(`\nTo test this package in another repository directory run:`)
-      log.success(`yalc add --link \n${pkg.name} && yarn install`)
+      log.info(
+        outdent`
+        Watching ${watch.folder} for changes to files with extensions: ${watch.extensions}
+
+        To test this package in another repository directory run:
+        ${chalk.greenBright(`npx yalc add ${pkg.name} && npx yalc link ${pkg.name} && npm install`)}
+      `.trimStart()
+      )
     })
     .on('quit', function () {
       process.exit()
