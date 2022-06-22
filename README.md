@@ -298,7 +298,7 @@ Usage
 
     init            Create a new Sanity plugin
     verify-package  Verify that a Sanity plugin follows plugin-kit conventions
-    splat           Inject plugin-kit complatible package config into an existing plugin directory
+    splat           Inject plugin-kit compatible package config into an existing plugin directory
     link-watch      Recompile plugin automatically on changes and push to yalc
     version         Show the version of ${cliName} currently installed
 
