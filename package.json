@@ -1,6 +1,6 @@
 {
   "name": "@sanity/plugin-kit",
-  "version": "0.1.0-v3-studio.1",
+  "version": "1.0.0",
   "description": "Enhanced Sanity.io plugin development experience",
   "scripts": {
     "clean": "rimraf lib",
