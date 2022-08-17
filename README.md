@@ -49,7 +49,7 @@ Parcel uses a build cache, you probably want to put `.parcel-cache` into `.gitig
 First, run the init command:
 ```bash
 # Initialize a new plugin (outside of your Sanity studio folder)
-npx @sanity/plugin-kit@latest init sanity-plugin-testing-it-out
+npx @sanity/plugin-kit init sanity-plugin-testing-it-out
 
 # Make your plugin linkable, and compile an initial version
 cd sanity-plugin-testing-it-out
@@ -86,7 +86,7 @@ Since the plugin is running in watch mode, any changes you make to the plugin co
 
 Verify that the plugin package is configured correctly by running:
 
-> npx @sanity/plugin-kit@latest verify-package
+> npx @sanity/plugin-kit verify-package
 
 ### What does it do?
 
@@ -116,7 +116,7 @@ Simply use the `verify-package` command in a v2 plugin package, and it will noti
 plugin to v3.
 
 ```sh
-npx @sanity/plugin-kit@latest verify-package
+npx @sanity/plugin-kit verify-package
 ```
 
 ## Upgrade help in V2 Studio
@@ -125,7 +125,7 @@ You can use the `verify-studio` command in a v2 Sanity Studio to get some of the
 to v3.
 
 ```sh
-npx @sanity/plugin-kit@latest verify-studio
+npx @sanity/plugin-kit verify-studio
 ```
 
 This will:
@@ -138,10 +138,10 @@ This will:
 
 ```sh
 ## for plugins
-npx @sanity/plugin-kit@latest verify-package --single
+npx @sanity/plugin-kit verify-package --single
 
 ## for studio
-npx @sanity/plugin-kit@latest verify-package --studio --single
+npx @sanity/plugin-kit verify-package --studio --single
 ```
 
 This will only output the first validation that fails. Useful when working through the list of issues by fixing and rerunning the command.
