@@ -1,7 +1,13 @@
-name: CI
+name: CI & Release
 on:
-  - push
-  - pull_request
+  push:
+  workflow_dispatch:
+    inputs:
+      release:
+        description: 'Release new version'
+        required: true
+        default: false
+        type: boolean
 jobs:
   test:
     runs-on: ${{ matrix.platform }}
@@ -10,8 +16,7 @@ jobs:
       fail-fast: false
       matrix:
         platform: [ubuntu-latest, macos-latest]
-        node-version:
-          - 16
+        node-version: [lts/*, current]
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
@@ -21,3 +26,25 @@ jobs:
       - run: npm run lint
       - run: npm run build
       - run: npm test
+
+  release:
+    name: 'Semantic release'
+    needs: test
+    runs-on: ubuntu-latest
+    if: inputs.release == true
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          # Need to fetch entire commit history to
+          # analyze every commit since last release
+          fetch-depth: 0
+      - uses: actions/setup-node@v3
+        with:
+          node-version: lts/*
+          cache: 'npm'
+      - run: npm install
+      # Branches that will release new versions are defined in .releaserc.json
+      - run: npx semantic-release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
