@@ -24,7 +24,7 @@
     "sanity-plugin"
   ],
   "peerDependencies": {
-    "react": "^16.2.0"
+    "react": "^16.2.0 || ^18.0.0"
   },
   "author": "Some person",
   "license": "MIT"
