@@ -57,7 +57,7 @@
     "email-validator": "^2.0.4",
     "execa": "^5.1.1",
     "find-babel-config": "^1.2.0",
-    "get-it": "^5.0.5",
+    "get-it": "^6.1.1",
     "get-latest-version": "^2.0.0",
     "git-remote-origin-url": "^3.1.0",
     "git-user-info": "^1.0.1",
