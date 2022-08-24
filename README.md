@@ -29,6 +29,7 @@ Check the [FAQ](#faq) fro more on these.
 * [Testing a plugin in Sanity Studio](#testing-a-plugin-in-sanity-studio)
 * [FAQ](#faq) aka "Do I _have_ to use this plugin-kit?" aka No
 * [Configuration reference](#configuration-reference)
+* [Developing plugin-kit](#developing-plugin-kit)
 
 ## Installation
 
@@ -396,3 +397,14 @@ npm run test -- test/verify-package.test.ts
 ```sh
 npm run test -- test/verify-package.test.ts --snapshot
 ```
+
+
+## Developing plugin kit
+
+## Release new version
+
+Run ["CI & Release" workflow](https://github.com/sanity-io/plugin-kitactions).
+Make sure to select the main branch and check "Release new version".
+
+Semantic release will only release on configured branches, so it is safe to run release on any branch.
+
