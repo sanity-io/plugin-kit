@@ -401,7 +401,7 @@ npm run test -- test/verify-package.test.ts --snapshot
 
 ## Developing plugin kit
 
-## Release new version
+### Release new version
 
 Run ["CI & Release" workflow](https://github.com/sanity-io/plugin-kitactions).
 Make sure to select the main branch and check "Release new version".
