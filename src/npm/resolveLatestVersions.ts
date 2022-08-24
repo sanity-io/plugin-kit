@@ -1,5 +1,4 @@
 import pProps from 'p-props'
-// @ts-expect-error missing types
 import getLatestVersion from 'get-latest-version'
 
 // We may want to lock certain dependencies to specific versions
@@ -14,7 +13,10 @@ export function resolveLatestVersions(packages: string[]) {
   return pProps(
     versions,
     async (range, pkgName) => {
-      const version: string = await getLatestVersion(pkgName, {range})
+      const version = await getLatestVersion(pkgName, {range})
+      if (!version) {
+        throw new Error(`Found no version for ${pkgName}`)
+      }
       return rangeify(version)
     },
     {concurrency: 8}
