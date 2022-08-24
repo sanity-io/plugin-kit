@@ -59,10 +59,9 @@ export const initFlags = {
 export type InitFlags = TypedFlags<typeof initFlags>
 
 const defaultDependencies = [incompatiblePluginPackage]
-// purple-unicorn as version in devDependencies will install 2.29.5, so must be explicit
-// using ^2.29.5-purple-unicorn.856 is not safe either
-const defaultDevDependencies = {react: '^17.0.0 || ^18.0.0', sanity: '2.29.5-purple-unicorn.856'}
-const defaultPeerDependencies = {react: '^17.0.0 || ^18.0.0', sanity: 'purple-unicorn'}
+
+const defaultDevDependencies = {react: '^17.0.0 || ^18.0.0', sanity: '^3.0.0-dev-preview.15'}
+const defaultPeerDependencies = {react: '^17.0.0 || ^18.0.0', sanity: 'dev-preview'}
 
 export interface InitOptions {
   basePath: string

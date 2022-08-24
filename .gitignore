@@ -58,6 +58,10 @@ lib/
 ## Parcel
 .parcel-cache
 
+# yalc
+yalc.lock
+.yalc
+
 # Fixtures for tests that output files that will be verified
 test/fixtures/build/lib
 /test/fixtures/init/empty/*
