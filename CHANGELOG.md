@@ -5,6 +5,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.1](https://github.com/sanity-io/plugin-kit/compare/v1.0.0...v1.0.1) (2022-08-24)
+
+### Bug Fixes
+
+- setup semantic-release ([e091626](https://github.com/sanity-io/plugin-kit/commit/e091626c859f950a91bdb8f17af282f47215ef35))
+- use dev-preview tag as sanity peer dependency ([2b3e312](https://github.com/sanity-io/plugin-kit/commit/2b3e31204552cfca5e9c1cd258e5dd94bfc04b54))
+
 # 1.0.0 (2022-08-17)
 
 ### Bug Fixes
