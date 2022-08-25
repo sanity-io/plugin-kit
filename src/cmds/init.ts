@@ -24,6 +24,8 @@ Options
   --no-scripts            Disables scripts from being added to package.json
   --no-install            Disables automatically running package manager install
 
+  --ecosystem-preset      [beta]: Adds opinionated files and dependencies for conventional-commits, githubworkflow, reonvatebot and semantic-release
+
   --name [package-name]   Use the provided package-name
   --author [name]         Use the provided author
   --repo [url]            Use the provided repo url

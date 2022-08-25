@@ -13,6 +13,24 @@ import {fileExists} from '../src/util/files'
 import {incompatiblePluginPackage} from '../src/constants'
 import {PackageJson} from '../src/actions/verify/types'
 
+const defaultDevDependencies = [
+  '@sanity/plugin-kit',
+  '@typescript-eslint/eslint-plugin',
+  '@typescript-eslint/parser',
+  'eslint',
+  'eslint-config-prettier',
+  'eslint-config-sanity',
+  'eslint-plugin-prettier',
+  'eslint-plugin-react',
+  'eslint-plugin-react-hooks',
+  'parcel',
+  'prettier',
+  'react',
+  'rimraf',
+  'sanity',
+  'typescript',
+]
+
 tap.test('plugin-kit init --force in empty directory', async (t) => {
   await testFixture({
     fixturePath: 'init/empty',
@@ -98,25 +116,10 @@ tap.test('plugin-kit init --force in empty directory', async (t) => {
         ['react', 'sanity'],
         'should have expected peerDependencies'
       )
+
       t.strictSame(
         Object.keys(pkg.devDependencies ?? {}),
-        [
-          '@sanity/plugin-kit',
-          '@typescript-eslint/eslint-plugin',
-          '@typescript-eslint/parser',
-          'eslint',
-          'eslint-config-prettier',
-          'eslint-config-sanity',
-          'eslint-plugin-prettier',
-          'eslint-plugin-react',
-          'eslint-plugin-react-hooks',
-          'parcel',
-          'prettier',
-          'react',
-          'rimraf',
-          'sanity',
-          'typescript',
-        ],
+        defaultDevDependencies,
         'should have expected devDependencies'
       )
     },
@@ -173,6 +176,45 @@ tap.test('plugin-kit init --force with all the opt-outs in empty directory', asy
       t.strictSame(
         Object.keys(pkg.devDependencies ?? {}),
         ['@sanity/plugin-kit', 'parcel', 'react', 'rimraf', 'sanity'],
+        'should have expected devDependencies'
+      )
+    },
+  })
+})
+
+tap.test('plugin-kit init --force --ecosystem-preset in empty directory', async (t) => {
+  await testFixture({
+    fixturePath: 'init/empty',
+    relativeOutPath: 'defaults-ecosystem',
+    command: ({outputDir}) =>
+      runCliCommand('init', [outputDir, ...initTestArgs, '--ecosystem-preset']),
+    assert: async ({result: {stdout, stderr}, outputDir}) => {
+      t.equal(stderr, '', 'should have empty stderr')
+
+      const fileContains = fileContainsValidator(t, outputDir)
+
+      await fileContains(path.join('.github', 'workflows', 'main.yml'), 'CI & Release')
+      await fileContains(path.join('.husky', 'commit-msg'), 'npx --no -- commitlint')
+      await fileContains(path.join('.husky', 'pre-commit'), 'npx lint-staged')
+      await fileContains(path.join('.releaserc.json'), '@sanity/semantic-release-preset')
+      await fileContains(path.join('commitlint.config.js'), '@commitlint/config-conventional')
+      await fileContains(
+        path.join('renovate.json'),
+        'github>sanity-io/renovate-presets//ecosystem/auto'
+      )
+
+      const pkg: PackageJson = JSON.parse(await readFile(path.join(outputDir, 'package.json')))
+
+      t.strictSame(
+        Object.keys(pkg.devDependencies ?? {}),
+        [
+          ...defaultDevDependencies,
+          '@commitlint/cli',
+          '@commitlint/config-conventional',
+          '@sanity/semantic-release-preset',
+          'husky',
+          'lint-staged',
+        ].sort(),
         'should have expected devDependencies'
       )
     },

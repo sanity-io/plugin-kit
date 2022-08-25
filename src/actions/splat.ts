@@ -18,6 +18,7 @@ import {
 } from '../util/files'
 import {InitFlags} from './init'
 import {PackageJson} from './verify/types'
+import {ecosystemPresetFiles} from '../ecosystem/ecosystem-preset'
 
 const bannedFields = ['login', 'description', 'projecturl', 'email']
 const preferredLicenses = ['MIT', 'ISC', 'BSD-3-Clause']
@@ -28,6 +29,8 @@ const otherLicenses = Object.keys(licenses.list).filter((id) => {
     !bannedFields.some((field) => license.body.includes(`[${field}]`))
   )
 })
+
+export type FromTo = {from: string | string[]; to: string | string[]}
 
 export interface SplatOptions {
   basePath: string
@@ -284,8 +287,6 @@ async function resolveProjectDescription(basePath: string, pkg: PackageJson | un
   }
 }
 
-type FromTo = {from: string; to: string}
-
 async function writeStaticAssets({basePath, flags}: SplatOptions) {
   const assetsDir = await findAssetsDir()
 
@@ -300,16 +301,24 @@ async function writeStaticAssets({basePath, flags}: SplatOptions) {
     flags.gitignore && {from: 'gitignore', to: '.gitignore'},
     flags.typescript && {from: 'template-tsconfig.json', to: 'tsconfig.json'},
     flags.prettier && {from: 'prettierrc.js', to: '.prettierrc.js'},
-  ].filter((f): f is FromTo => !!f)
+
+    ...(flags.ecosystemPreset ? ecosystemPresetFiles() : []),
+  ].filter((f: false | FromTo): f is FromTo => !!f)
 
   const writes: string[] = []
   for (const file of files) {
-    if (await copyFileWithOverwritePrompt(from(file.from), to(file.to), flags)) {
-      writes.push(file.to)
+    const fromPath = asArray(file.from)
+    const toPath = asArray(file.to)
+    if (await copyFileWithOverwritePrompt(from(...fromPath), to(...toPath), flags)) {
+      writes.push(path.join(...toPath))
     }
   }
 
   return writes
+}
+
+function asArray(input: string | string[]): string[] {
+  return typeof input === 'string' ? [input] : input
 }
 
 /**
