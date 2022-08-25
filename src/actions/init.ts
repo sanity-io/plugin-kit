@@ -7,6 +7,7 @@ import {TypedFlags} from 'meow'
 import {getPackage} from '../npm/package'
 import {defaultSourceJs, defaultSourceTs} from '../configs/default-source'
 import {incompatiblePluginPackage} from '../constants'
+import {ecosystemDevDependencies} from '../ecosystem/ecosystem-preset'
 
 export const initFlags = {
   ...sharedFlags,
@@ -32,6 +33,10 @@ export const initFlags = {
   editorconfig: {
     type: 'boolean',
     default: true,
+  },
+  ecosystemPreset: {
+    type: 'boolean',
+    default: false,
   },
   gitignore: {
     type: 'boolean',
@@ -77,6 +82,7 @@ export async function init(options: InitOptions) {
   devDependencies = {
     ...devDependencies,
     ...defaultDevDependencies,
+    ...(options.flags.ecosystemPreset ? await ecosystemDevDependencies() : []),
     ...(await resolveLatestVersions(['rimraf'])),
   }
   peerDependencies = {

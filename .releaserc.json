@@ -1,4 +1,7 @@
 {
   "extends": "@sanity/semantic-release-preset",
-  "branches": ["main"]
+  "branches": [
+    "main",
+    {"name": "ecosystem-preset", "channel": "ecosystem-preset", "prerelease": true}
+  ]
 }
