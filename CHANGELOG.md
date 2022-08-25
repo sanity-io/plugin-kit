@@ -5,6 +5,18 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.0-ecosystem-preset.1](https://github.com/sanity-io/plugin-kit/compare/v1.0.1...v1.1.0-ecosystem-preset.1) (2022-08-25)
+
+### Features
+
+- added --ecosystem-preset to init ([e513afe](https://github.com/sanity-io/plugin-kit/commit/e513afe4ea8caf62afb63285e73a5e987eafa8fe))
+
+### Bug Fixes
+
+- **deps:** update dependencies (non-major) ([#10](https://github.com/sanity-io/plugin-kit/issues/10)) ([25deacd](https://github.com/sanity-io/plugin-kit/commit/25deacdf8b2160222a1da31f88f10421b8d5fdd6))
+- **deps:** update dependency get-latest-version to v4 ([86cbf08](https://github.com/sanity-io/plugin-kit/commit/86cbf0878553d0d8e1210aae935f0594395ade7b))
+- **deps:** version bumps and updated dependent code ([d9cb8b0](https://github.com/sanity-io/plugin-kit/commit/d9cb8b0148d101ee1d2d33b9f9c590fbdba56a16))
+
 ## [1.0.1](https://github.com/sanity-io/plugin-kit/compare/v1.0.0...v1.0.1) (2022-08-24)
 
 ### Bug Fixes
