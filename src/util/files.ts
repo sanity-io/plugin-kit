@@ -146,6 +146,8 @@ export async function copyFileWithOverwritePrompt(from: string, to: string, flag
     return false
   }
 
+  await ensureDirectoryExists(to)
+
   if (
     !flags.force &&
     (await fileExists(to)) &&
@@ -159,6 +161,15 @@ export async function copyFileWithOverwritePrompt(from: string, to: string, flag
 
   await copyFile(from, to)
   return true
+}
+
+async function ensureDirectoryExists(filePath: string) {
+  const dirname = path.dirname(filePath)
+  if (await fileExists(dirname)) {
+    return true
+  }
+  await ensureDirectoryExists(dirname)
+  await mkdir(dirname)
 }
 
 export async function fileEqualsData(filePath: string, content: string) {
