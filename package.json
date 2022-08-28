@@ -88,7 +88,7 @@
     "@parcel/transformer-typescript-types": "^2.7.0",
     "@sanity/semantic-release-preset": "^2.0.0",
     "@types/eslint": "^8.4.6",
-    "@types/inquirer": "^8.2.3",
+    "@types/inquirer": "^9.0.1",
     "@types/node": "^17.0.40",
     "@types/nodemon": "^1.19.2",
     "@types/tap": "^15.0.7",
