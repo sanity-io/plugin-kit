@@ -1,7 +1,7 @@
 import outdent from 'outdent'
 // @ts-expect-error missing types
 import licenses from '@rexxars/choosealicense-list'
-import {PackageData} from '../actions/splat'
+import {PackageData} from '../actions/inject'
 import {User} from './user'
 
 export function generateReadme(data: PackageData) {

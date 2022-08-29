@@ -18,7 +18,8 @@ import {
 } from '../util/files'
 import {InitFlags} from './init'
 import {PackageJson} from './verify/types'
-import {ecosystemPresetFiles} from '../ecosystem/ecosystem-preset'
+import outdent from 'outdent'
+import {injectPresets} from '../presets/presets'
 
 const bannedFields = ['login', 'description', 'projecturl', 'email']
 const preferredLicenses = ['MIT', 'ISC', 'BSD-3-Clause']
@@ -32,7 +33,7 @@ const otherLicenses = Object.keys(licenses.list).filter((id) => {
 
 export type FromTo = {from: string | string[]; to: string | string[]}
 
-export interface SplatOptions {
+export interface InjectOptions {
   basePath: string
   requireUserConfirmation?: boolean
   flags: InitFlags
@@ -51,7 +52,16 @@ export interface PackageData {
   gitOrigin?: string
 }
 
-export async function splat(options: SplatOptions) {
+export async function inject(options: InjectOptions) {
+  if (options.flags.presetOnly) {
+    log.info('Only apply presets, skipping default inject.')
+  } else {
+    await injectBase(options)
+  }
+  await injectPresets(options)
+}
+
+async function injectBase(options: InjectOptions) {
   const {basePath, flags, requireUserConfirmation} = options
   const info = (write: boolean, msg: string, ...args: string[]) => write && log.info(msg, ...args)
   // Gather data
@@ -103,6 +113,8 @@ export async function splat(options: SplatOptions) {
 
   didWrite = await writeEslintrc(options)
   info(didWrite, 'Wrote .eslintrc.js')
+  didWrite = await writeEslintIgnore(options)
+  info(didWrite, 'Wrote .eslintignore')
 
   didWrite = await addBuildScripts(newPkg, options)
   info(didWrite, 'Added build scripts to package.json')
@@ -111,7 +123,7 @@ export async function splat(options: SplatOptions) {
   info(didWrite, 'Added compilation output directory to .gitignore')
 }
 
-async function writeReadme(data: PackageData, options: SplatOptions) {
+async function writeReadme(data: PackageData, options: InjectOptions) {
   const {basePath} = options
 
   const readmePath = path.join(basePath, 'README.md')
@@ -128,7 +140,7 @@ async function writeReadme(data: PackageData, options: SplatOptions) {
   return true
 }
 
-async function writeEslintrc(options: SplatOptions) {
+async function writeEslintrc(options: InjectOptions) {
   if (!options.flags.eslint) {
     return false
   }
@@ -159,9 +171,32 @@ async function writeEslintrc(options: SplatOptions) {
   return true
 }
 
+async function writeEslintIgnore(options: InjectOptions) {
+  if (!options.flags.eslint) {
+    return false
+  }
+  const {basePath} = options
+
+  const eslintrc = path.join(basePath, '.eslintignore')
+
+  const content = outdent`
+    .eslintrc.js
+    commitlint.config.js
+    lib
+    lint-staged.config.js
+    ${options.flags.typescript ? '*.js' : ''}
+  `.trim()
+
+  await writeFileWithOverwritePrompt(eslintrc, content, {
+    encoding: 'utf8',
+    force: options.flags.force,
+  })
+  return true
+}
+
 async function writeLicense(
   {license}: PackageData,
-  options: SplatOptions,
+  options: InjectOptions,
   licenseChanged: boolean
 ) {
   const {basePath, flags} = options
@@ -287,23 +322,11 @@ async function resolveProjectDescription(basePath: string, pkg: PackageJson | un
   }
 }
 
-async function writeStaticAssets({basePath, flags}: SplatOptions) {
+export async function writeAssets(files: FromTo[], {basePath, flags}: InjectOptions) {
   const assetsDir = await findAssetsDir()
 
-  const from = (...segments: string[]) => path.join(assetsDir, 'splat', ...segments)
+  const from = (...segments: string[]) => path.join(assetsDir, 'inject', ...segments)
   const to = (...segments: string[]) => path.join(basePath, ...segments)
-
-  const files: FromTo[] = [
-    {from: 'editorconfig', to: '.editorconfig'},
-    {from: 'npmignore', to: '.npmignore'},
-    {from: 'sanity.json', to: 'sanity.json'},
-    {from: 'v2-incompatible.js.template', to: 'v2-incompatible.js'},
-    flags.gitignore && {from: 'gitignore', to: '.gitignore'},
-    flags.typescript && {from: 'template-tsconfig.json', to: 'tsconfig.json'},
-    flags.prettier && {from: 'prettierrc.js', to: '.prettierrc.js'},
-
-    ...(flags.ecosystemPreset ? ecosystemPresetFiles() : []),
-  ].filter((f: false | FromTo): f is FromTo => !!f)
 
   const writes: string[] = []
   for (const file of files) {
@@ -315,6 +338,24 @@ async function writeStaticAssets({basePath, flags}: SplatOptions) {
   }
 
   return writes
+}
+
+async function writeStaticAssets(options: InjectOptions) {
+  const {flags} = options
+
+  const files: FromTo[] = [
+    {from: 'editorconfig', to: '.editorconfig'},
+    {from: 'npmignore', to: '.npmignore'},
+    {from: 'sanity.json', to: 'sanity.json'},
+    {from: 'v2-incompatible.js.template', to: 'v2-incompatible.js'},
+    flags.gitignore && {from: 'gitignore', to: '.gitignore'},
+    flags.typescript && {from: 'template-tsconfig.json', to: 'tsconfig.json'},
+    flags.prettier && {from: 'prettierrc.js', to: '.prettierrc.js'},
+  ]
+    .map((f) => (f ? (f as FromTo) : undefined))
+    .filter((f): f is FromTo => !!f)
+
+  return writeAssets(files, options)
 }
 
 function asArray(input: string | string[]): string[] {
@@ -345,7 +386,7 @@ async function findAssetsDir(): Promise<string> {
   return assetsDir
 }
 
-async function addCompileDirToGitIgnore(data: PackageData, options: SplatOptions) {
+async function addCompileDirToGitIgnore(data: PackageData, options: InjectOptions) {
   const gitIgnorePath = path.join(options.basePath, '.gitignore')
   const gitignore = await readFile(gitIgnorePath, 'utf8').catch(errorToUndefined)
   if (!gitignore) {
