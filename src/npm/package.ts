@@ -10,7 +10,7 @@ import {resolveLatestVersions} from './resolveLatestVersions'
 import {hasSourceEquivalent, writeJsonFile} from '../util/files'
 import log from '../util/log'
 import {cliName} from '../constants'
-import {PackageData, SplatOptions} from '../actions/splat'
+import {InjectOptions, PackageData} from '../actions/inject'
 import {expectedScripts} from '../actions/verify/validations'
 import {PackageJson} from '../actions/verify/types'
 
@@ -181,23 +181,10 @@ function validateLockFiles(options: {basePath: string}) {
   }
 }
 
-export function getReferencedPaths(
-  packageJson: Record<string, string>,
-  basePath: string
-): string[] {
-  return pathKeys
-    .filter((key) => key in packageJson)
-    .map((key) =>
-      path.isAbsolute(packageJson[key])
-        ? packageJson[key]
-        : path.resolve(basePath, packageJson[key])
-    )
-}
-
-export async function writePackageJson(data: PackageData, options: SplatOptions) {
+export async function writePackageJson(data: PackageData, options: InjectOptions) {
   const {user, pluginName, license, description, pkg: prevPkg, gitOrigin} = data
   const {peerDependencies: addPeers, dependencies: addDeps, devDependencies: addDevDeps} = options
-  const {basePath, flags} = options
+  const {flags} = options
   const prev = prevPkg || {}
 
   const usePrettier = flags.prettier !== false
@@ -288,7 +275,7 @@ export async function writePackageJson(data: PackageData, options: SplatOptions)
   const differs = JSON.stringify(prev) !== JSON.stringify(manifest)
   log.debug('Does manifest differ? %s', differs ? 'yes' : 'no')
   if (differs) {
-    await writeJsonFile(path.join(basePath, 'package.json'), manifest)
+    await writePackageJsonDirect(manifest, options)
   }
 
   return differs ? manifest : prev
@@ -321,14 +308,7 @@ function repoFromOrigin(gitOrigin?: string) {
   }
 }
 
-function withSanityKeywords(keywords: string[] = []) {
-  const newKeywords = new Set(keywords)
-  newKeywords.add('sanity')
-  newKeywords.add('sanity-plugin')
-  return Array.from(newKeywords)
-}
-
-function addScript(cmd: string, existing: string) {
+export function addScript(cmd: string, existing: string) {
   if (existing && existing.includes(cmd)) {
     return existing
   }
@@ -336,30 +316,44 @@ function addScript(cmd: string, existing: string) {
   return existing ? `${existing} && ${cmd}` : cmd
 }
 
-export async function addBuildScripts(manifest: PackageJson, {basePath, flags}: SplatOptions) {
-  if (!flags.scripts) {
-    return false
-  }
+export async function addPackageJsonScripts(
+  manifest: PackageJson,
+  options: InjectOptions,
+  updateScripts: (currentScripts: Record<string, string>) => Record<string, string>
+) {
   const originalScripts = manifest.scripts || {}
-  const scripts = {...originalScripts}
-  scripts.clean = addScript(`rimraf lib`, scripts.clean)
-  scripts.lint = addScript(`eslint .`, scripts.lint)
-  scripts.prebuild = addScript('npm run clean && ' + expectedScripts.prebuild, scripts.prebuild)
-  scripts.build = addScript(expectedScripts.build, scripts.build)
-  scripts.watch = addScript(expectedScripts.watch, scripts.watch)
-  scripts['link-watch'] = addScript(expectedScripts['link-watch'], scripts['link-watch'])
-  scripts.prepublishOnly = addScript(expectedScripts.prepublishOnly, scripts.prepublishOnly)
+  const scripts = updateScripts({...originalScripts})
 
   const differs = Object.keys(scripts).some((key) => scripts[key] !== originalScripts[key])
 
   if (differs) {
-    await writeJsonFile(path.join(basePath, 'package.json'), {...manifest, scripts})
+    await writePackageJsonDirect({...manifest, scripts}, options)
   }
 
   return differs
 }
 
-function sortKeys<T extends Record<string, unknown>>(unordered: T): T {
+export async function writePackageJsonDirect(manifest: PackageJson, {basePath}: InjectOptions) {
+  await writeJsonFile(path.join(basePath, 'package.json'), manifest)
+}
+
+export async function addBuildScripts(manifest: PackageJson, options: InjectOptions) {
+  if (!options.flags.scripts) {
+    return false
+  }
+  return addPackageJsonScripts(manifest, options, (scripts) => {
+    scripts.clean = addScript(`rimraf lib`, scripts.clean)
+    scripts.lint = addScript(`eslint .`, scripts.lint)
+    scripts.prebuild = addScript('npm run clean && ' + expectedScripts.prebuild, scripts.prebuild)
+    scripts.build = addScript(expectedScripts.build, scripts.build)
+    scripts.watch = addScript(expectedScripts.watch, scripts.watch)
+    scripts['link-watch'] = addScript(expectedScripts['link-watch'], scripts['link-watch'])
+    scripts.prepublishOnly = addScript(expectedScripts.prepublishOnly, scripts.prepublishOnly)
+    return scripts
+  })
+}
+
+export function sortKeys<T extends Record<string, unknown>>(unordered: T): T {
   return Object.keys(unordered)
     .sort()
     .reduce((obj, key) => {

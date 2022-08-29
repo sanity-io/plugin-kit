@@ -7,6 +7,7 @@ import {installDependencies, promptForPackageManager} from '../npm/manager'
 import {findStudioV3Config, hasSanityJson} from '../sanity/manifest'
 import {prompt} from '../util/prompt'
 import {cliName} from '../constants'
+import {presetHelpList} from '../presets/presets'
 
 const description = `Initialize a new Sanity plugin`
 
@@ -24,13 +25,15 @@ Options
   --no-scripts            Disables scripts from being added to package.json
   --no-install            Disables automatically running package manager install
 
-  --ecosystem-preset      [beta]: Adds opinionated files and dependencies for conventional-commits, githubworkflow, reonvatebot and semantic-release
-
   --name [package-name]   Use the provided package-name
   --author [name]         Use the provided author
   --repo [url]            Use the provided repo url
   --license [spdx]        Use the license with the given SPDX identifier
   --force                 No promt when overwriting files
+
+  --preset [preset-name]  [beta] - Adds config and files from a named preset. --preset can be supplied multiple times.
+                          The following presets are available:
+${presetHelpList(30)}
 
 Examples
   # Initialize a new plugin in the current directory

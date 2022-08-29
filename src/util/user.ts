@@ -6,7 +6,7 @@ import {validate as isValidEmail} from 'email-validator'
 import {readJsonFile} from './files'
 import {request} from './request'
 import {prompt} from './prompt'
-import {SplatOptions} from '../actions/splat'
+import {InjectOptions} from '../actions/inject'
 import {PackageJson} from '../actions/verify/types'
 
 export interface User {
@@ -15,7 +15,7 @@ export interface User {
 }
 
 export async function getUserInfo(
-  {requireUserConfirmation, flags}: SplatOptions,
+  {requireUserConfirmation, flags}: InjectOptions,
   pkg?: PackageJson
 ): Promise<User | undefined> {
   const userInfo =
