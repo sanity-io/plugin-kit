@@ -46,24 +46,6 @@ tap.test('plugin-kit inject --preset renovatebot into existing plugin directory'
   })
 })
 
-tap.test('plugin-kit inject --preset jest into existing plugin directory', async (t) => {
-  await testFixture({
-    fixturePath: 'inject/jest',
-    relativeOutPath: '../renovatebot',
-    command: async ({fixtureDir, outputDir}) => {
-      copySync(fixtureDir, outputDir)
-      return runCliCommand('inject', [outputDir, '--preset-only', '--preset', 'renovatebot'])
-    },
-    assert: async ({result: {stdout, stderr}, outputDir}) => {
-      t.equal(stderr, '', 'should have empty stderr')
-
-      const fileContains = fileContainsValidator(t, outputDir)
-
-      await fileContains('renovate.json', '"github>sanity-io/renovate-presets//ecosystem/auto"')
-    },
-  })
-})
-
 tap.test('plugin-kit inject --preset-only requires --preset', async (t) => {
   await testFixture({
     fixturePath: 'inject/valid',
