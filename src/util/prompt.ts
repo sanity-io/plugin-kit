@@ -5,7 +5,7 @@ import inquirer from 'inquirer'
 import validNpmName from 'validate-npm-package-name'
 // @ts-expect-error missing types
 import githubUrlToObject from 'github-url-to-object'
-import {SplatOptions} from '../actions/splat'
+import {InjectOptions} from '../actions/inject'
 
 export async function prompt(
   message: string,
@@ -24,7 +24,7 @@ export async function prompt(
 
 prompt.separator = () => new inquirer.Separator()
 
-export function promptForPackageName({basePath}: SplatOptions, defaultVal?: string) {
+export function promptForPackageName({basePath}: InjectOptions, defaultVal?: string) {
   return prompt('Plugin name (sanity-plugin-...)', {
     default: defaultVal || path.basename(basePath),
     filter: (name) => {
@@ -46,7 +46,7 @@ export function promptForPackageName({basePath}: SplatOptions, defaultVal?: stri
   })
 }
 
-export function promptForRepoOrigin(options: SplatOptions, defaultVal?: string) {
+export function promptForRepoOrigin(options: InjectOptions, defaultVal?: string) {
   return prompt('Git repository URL', {
     default: defaultVal,
     filter: (raw) => {

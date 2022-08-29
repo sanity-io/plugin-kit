@@ -53,6 +53,14 @@ tap.test('plugin-kit init --force in empty directory', async (t) => {
         'plugin:react-hooks/recommended',
         'plugin:prettier/recommended'
       )
+      await fileContains(
+        '.eslintignore',
+        '.eslintrc.js',
+        'commitlint.config.js',
+        'lib',
+        'lint-staged.config.js',
+        '*.js'
+      )
       await fileContains('.npmignore', '/test')
       await fileContains('.prettierrc.js', 'semi: false')
       await fileContains('sanity.json', '"path": "./v2-incompatible.js"')
@@ -182,12 +190,12 @@ tap.test('plugin-kit init --force with all the opt-outs in empty directory', asy
   })
 })
 
-tap.test('plugin-kit init --force --ecosystem-preset in empty directory', async (t) => {
+tap.test('plugin-kit init --force --preset semver-workflow in empty directory', async (t) => {
   await testFixture({
     fixturePath: 'init/empty',
-    relativeOutPath: 'defaults-ecosystem',
+    relativeOutPath: 'defaults-semver-workflow',
     command: ({outputDir}) =>
-      runCliCommand('init', [outputDir, ...initTestArgs, '--ecosystem-preset']),
+      runCliCommand('init', [outputDir, ...initTestArgs, '--preset', 'semver-workflow']),
     assert: async ({result: {stdout, stderr}, outputDir}) => {
       t.equal(stderr, '', 'should have empty stderr')
 
@@ -198,10 +206,6 @@ tap.test('plugin-kit init --force --ecosystem-preset in empty directory', async 
       await fileContains(path.join('.husky', 'pre-commit'), 'npx lint-staged')
       await fileContains(path.join('.releaserc.json'), '@sanity/semantic-release-preset')
       await fileContains(path.join('commitlint.config.js'), '@commitlint/config-conventional')
-      await fileContains(
-        path.join('renovate.json'),
-        'github>sanity-io/renovate-presets//ecosystem/auto'
-      )
 
       const pkg: PackageJson = JSON.parse(await readFile(path.join(outputDir, 'package.json')))
 
@@ -217,6 +221,8 @@ tap.test('plugin-kit init --force --ecosystem-preset in empty directory', async 
         ].sort(),
         'should have expected devDependencies'
       )
+
+      t.strictSame(pkg.scripts?.prepare, 'husky install')
     },
   })
 })

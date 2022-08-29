@@ -26,6 +26,7 @@ Check the [FAQ](#faq) fro more on these.
 * [Verify plugin package](#verify-plugin-package)
   * [Upgrading a v2 plugin](#upgrading-a-v2-plugin)
 * [Upgrade help in v2 Studio](#upgrade-help-in-v2-studio)
+* [Inject config into existing v3 plugin](#inject-config-into-existing-v3)
 * [Testing a plugin in Sanity Studio](#testing-a-plugin-in-sanity-studio)
 * [FAQ](#faq) aka "Do I _have_ to use this plugin-kit?" aka No
 * [Configuration reference](#configuration-reference)
@@ -82,6 +83,15 @@ sanity start
 
 Check browser console: the plugin should have logged `"hello from my-sanity-plugin"`.
 Since the plugin is running in watch mode, any changes you make to the plugin code will be reloaded in the studio.
+
+### Init options
+
+The init commands has several config flags, run
+```
+npx @sanity/plugin-kit init --help
+```
+
+for up-to-date specifics.
 
 ## Verify plugin package
 
@@ -146,6 +156,15 @@ npx @sanity/plugin-kit verify-package --studio --single
 ```
 
 This will only output the first validation that fails. Useful when working through the list of issues by fixing and rerunning the command.
+
+### Inject config into existing v3 
+
+Consult the inject command CLI help:
+```
+npx @sanity/plugin-kit inject --help
+```
+
+for up-to-date specifics.
 
 ## Testing a plugin in Sanity Studio  
 
@@ -299,7 +318,7 @@ Usage
 
     init            Create a new Sanity plugin
     verify-package  Verify that a Sanity plugin follows plugin-kit conventions
-    splat           Inject plugin-kit complatible package config into an existing plugin directory
+    inject          Inject plugin-kit complatible package config into an existing plugin directory
     link-watch      Recompile plugin automatically on changes and push to yalc
     version         Show the version of ${cliName} currently installed
 

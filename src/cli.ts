@@ -15,6 +15,7 @@ export async function cliEntry(argv = process.argv, autoExit = true) {
   These are common commands used in various situations:
 
     init            Create a new Sanity plugin
+    inject          Inject config into an existing Sanity v3 plugin
     verify-package  Check that a Sanity plugin package follows V3 conventions. Prints upgrade steps.
     verify-studio   Check that a Sanity Studio follows V3 conventions. Prints upgrade steps.
     link-watch      Recompiles plugin automatically on changes and runs yalc push --publish

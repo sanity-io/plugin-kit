@@ -1,5 +1,5 @@
 import path from 'path'
-import {splat} from './splat'
+import {inject} from './inject'
 import {ensureDir, writeFile} from '../util/files'
 import {resolveLatestVersions} from '../npm/resolveLatestVersions'
 import sharedFlags from '../sharedFlags'
@@ -7,7 +7,6 @@ import {TypedFlags} from 'meow'
 import {getPackage} from '../npm/package'
 import {defaultSourceJs, defaultSourceTs} from '../configs/default-source'
 import {incompatiblePluginPackage} from '../constants'
-import {ecosystemDevDependencies} from '../ecosystem/ecosystem-preset'
 
 export const initFlags = {
   ...sharedFlags,
@@ -34,10 +33,6 @@ export const initFlags = {
     type: 'boolean',
     default: true,
   },
-  ecosystemPreset: {
-    type: 'boolean',
-    default: false,
-  },
   gitignore: {
     type: 'boolean',
     default: true,
@@ -58,6 +53,14 @@ export const initFlags = {
   },
   repo: {
     type: 'string',
+  },
+  presetOnly: {
+    type: 'boolean',
+    default: false,
+  },
+  preset: {
+    type: 'string',
+    isMultiple: true,
   },
 } as const
 
@@ -82,7 +85,6 @@ export async function init(options: InitOptions) {
   devDependencies = {
     ...devDependencies,
     ...defaultDevDependencies,
-    ...(options.flags.ecosystemPreset ? await ecosystemDevDependencies() : []),
     ...(await resolveLatestVersions(['rimraf'])),
   }
   peerDependencies = {
@@ -90,7 +92,7 @@ export async function init(options: InitOptions) {
     ...defaultPeerDependencies,
   }
 
-  await splat({
+  await inject({
     ...options,
     requireUserConfirmation: !options.flags.force,
     dependencies,
