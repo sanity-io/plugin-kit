@@ -5,6 +5,12 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.0-ecosystem-preset.2](https://github.com/sanity-io/plugin-kit/compare/v1.1.0-ecosystem-preset.1...v1.1.0-ecosystem-preset.2) (2022-08-29)
+
+### Features
+
+- added inject command and support for --preset ([7d52ae1](https://github.com/sanity-io/plugin-kit/commit/7d52ae11ba14ff5c3cf56dca28a1c252e004c06f))
+
 ## [1.1.0-ecosystem-preset.1](https://github.com/sanity-io/plugin-kit/compare/v1.0.1...v1.1.0-ecosystem-preset.1) (2022-08-25)
 
 ### Features
