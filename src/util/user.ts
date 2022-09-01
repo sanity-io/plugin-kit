@@ -29,16 +29,26 @@ export async function getUserInfo(
   return userInfo
 }
 
-export function getPackageUserInfo(pkg?: {author?: string}): User | undefined {
-  if (!pkg || !pkg.author) {
+export function getPackageUserInfo(pkg?: {
+  author?:
+    | string
+    | {
+        name: string
+        email?: string
+      }
+}): User | undefined {
+  let author = pkg?.author
+  if (!author) {
     return undefined
   }
 
-  if (!pkg.author.includes('@')) {
-    return {name: pkg.author}
+  if (author && typeof author !== 'string') {
+    return author
+  } else if (!author.includes('@')) {
+    return {name: author}
   }
 
-  const [pre, ...post] = pkg.author.replace(/[<>[\]]/g, '').split(/@/)
+  const [pre, ...post] = author.replace(/[<>[\]]/g, '').split(/@/)
   const nameParts = pre.split(/\s+/)
   const email = [nameParts[nameParts.length - 1], ...post].join('@')
   const name = nameParts.slice(0, -1).join(' ')

@@ -14,7 +14,7 @@
     "lint": "eslint .",
     "compile": "tsc --noEmit",
     "format": "prettier src -w",
-    "prepublishOnly": "npm run test && npm run build"
+    "prepublishOnly": "npm run build"
   },
   "binname": "sanity-plugin",
   "source": "./src/index.ts",
