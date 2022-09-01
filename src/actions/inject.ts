@@ -177,7 +177,7 @@ async function writeEslintIgnore(options: InjectOptions) {
   }
   const {basePath} = options
 
-  const eslintrc = path.join(basePath, '.eslintignore')
+  const eslintignore = path.join(basePath, '.eslintignore')
 
   const content = outdent`
     .eslintrc.js
@@ -187,7 +187,7 @@ async function writeEslintIgnore(options: InjectOptions) {
     ${options.flags.typescript ? '*.js' : ''}
   `.trim()
 
-  await writeFileWithOverwritePrompt(eslintrc, content, {
+  await writeFileWithOverwritePrompt(eslintignore, content, {
     encoding: 'utf8',
     force: options.flags.force,
   })
