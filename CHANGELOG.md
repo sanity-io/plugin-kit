@@ -5,6 +5,12 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.0-ecosystem-preset.3](https://github.com/sanity-io/plugin-kit/compare/v1.1.0-ecosystem-preset.2...v1.1.0-ecosystem-preset.3) (2022-09-01)
+
+### Bug Fixes
+
+- add missing lint-staged config ([53c17f5](https://github.com/sanity-io/plugin-kit/commit/53c17f5e9a5810dcae29e0d34a912e555a94706a))
+
 ## [1.1.0-ecosystem-preset.2](https://github.com/sanity-io/plugin-kit/compare/v1.1.0-ecosystem-preset.1...v1.1.0-ecosystem-preset.2) (2022-08-29)
 
 ### Features
