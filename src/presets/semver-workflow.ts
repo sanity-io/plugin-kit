@@ -54,6 +54,9 @@ async function addDevDependencies(options: InjectOptions) {
         You must configure branch-config in the following files manually:
           - .release.json
           - .github/workflows/main.yml
+
+        You should remove the --dry-run from main.yml only after you have tested the workflow,
+        and the semantic-release job reports the version number you expect.
   `.trim()
     )
   )
