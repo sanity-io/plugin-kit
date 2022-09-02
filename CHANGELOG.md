@@ -5,6 +5,12 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.0-ecosystem-preset.4](https://github.com/sanity-io/plugin-kit/compare/v1.1.0-ecosystem-preset.3...v1.1.0-ecosystem-preset.4) (2022-09-02)
+
+### Bug Fixes
+
+- show note about manual config steps in semver-workflow ([40d5fba](https://github.com/sanity-io/plugin-kit/commit/40d5fba3178c14f548fb4aca848ad244465e46ae))
+
 ## [1.1.0-ecosystem-preset.3](https://github.com/sanity-io/plugin-kit/compare/v1.1.0-ecosystem-preset.2...v1.1.0-ecosystem-preset.3) (2022-09-01)
 
 ### Bug Fixes
