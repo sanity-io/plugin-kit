@@ -2,10 +2,10 @@ name: CI & Release
 on:
   # Build on pushes to release branches
   push:
-    branches: [main]
+    branches: []
   # Build on pull requests targeting release branches
   pull_request:
-    branches: [main]
+    branches: []
   workflow_dispatch:
     inputs:
       release:
