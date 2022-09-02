@@ -10,6 +10,8 @@ import {
   writePackageJsonDirect,
 } from '../npm/package'
 import log from '../util/log'
+import outdent from 'outdent'
+import chalk from 'chalk'
 
 export const semverWorkflowPreset: Preset = {
   name: 'semver-workflow',
@@ -45,6 +47,16 @@ async function addDevDependencies(options: InjectOptions) {
   newPkg.devDependencies = devDeps
   await writePackageJsonDirect(newPkg, options)
   log.info('Updated devDependencies.')
+
+  log.info(
+    chalk.green(
+      outdent`
+        You must configure branch-config in the following files manually:
+          - .release.json
+          - .github/workflows/main.yml
+  `.trim()
+    )
+  )
 }
 
 function semverWorkflowFiles(): FromTo[] {
