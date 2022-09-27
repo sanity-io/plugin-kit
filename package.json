@@ -105,7 +105,7 @@
     "prettier": "^2.7.1",
     "readdirp": "^3.6.0",
     "rimraf": "^3.0.2",
-    "sanity": "3.0.0-dev-preview.15",
+    "sanity": "3.0.0-dev-preview.20",
     "sinon": "^14.0.0",
     "tap": "^16.3.0",
     "ts-node": "^10.9.1",
