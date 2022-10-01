@@ -68,7 +68,7 @@
     "npm-packlist": "^3.0.0",
     "npm-run-path": "^4.0.1",
     "outdent": "^0.8.0",
-    "p-any": "^3.0.0",
+    "p-any": "^4.0.0",
     "p-props": "^4.0.0",
     "postcss": "^8.4.16",
     "rimraf": "^3.0.2",
