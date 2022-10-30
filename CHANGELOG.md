@@ -5,6 +5,21 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.0-ecosystem-preset.6](https://github.com/sanity-io/plugin-kit/compare/v1.1.0-ecosystem-preset.5...v1.1.0-ecosystem-preset.6) (2022-10-30)
+
+### Features
+
+- build related package.json entries are overridden instead of retained ([f2ccd15](https://github.com/sanity-io/plugin-kit/commit/f2ccd15b4361056186947be10bf42307406b1681))
+- force package versions and made stricter verifications ([735b0fc](https://github.com/sanity-io/plugin-kit/commit/735b0fc221ccafbe1ea94d790c55507e676319a7))
+- preset semantic-release now updates README.md when it exists (naively) ([6e09385](https://github.com/sanity-io/plugin-kit/commit/6e093855fb1c6c6c55016e83d53be887c9b26461))
+
+### Bug Fixes
+
+- forced dependencies now works correctly ([67d3cee](https://github.com/sanity-io/plugin-kit/commit/67d3ceed7702a180de708c02e7125712bb27ced5))
+- readme newlines ([88879fe](https://github.com/sanity-io/plugin-kit/commit/88879fe2ed10be0e87c5c1031be50341a4d94541))
+- url readme url ([6615d96](https://github.com/sanity-io/plugin-kit/commit/6615d96108dabe4aa2eb11efc619a39e31e91287))
+- verify-studio config file detection support for tsx and jsx ([73e27bc](https://github.com/sanity-io/plugin-kit/commit/73e27bc0dbc84153b2067d4c5a67f897d2e6b886))
+
 ## [1.1.0-ecosystem-preset.5](https://github.com/sanity-io/plugin-kit/compare/v1.1.0-ecosystem-preset.4...v1.1.0-ecosystem-preset.5) (2022-09-02)
 
 ### Bug Fixes
