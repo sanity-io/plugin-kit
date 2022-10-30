@@ -5,6 +5,12 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.0-ecosystem-preset.5](https://github.com/sanity-io/plugin-kit/compare/v1.1.0-ecosystem-preset.4...v1.1.0-ecosystem-preset.5) (2022-09-02)
+
+### Bug Fixes
+
+- added --dry-run flag to release job for safety ([4afb7c2](https://github.com/sanity-io/plugin-kit/commit/4afb7c2fd93a6ee6ecbc50ee70e134297c2bb543))
+
 ## [1.1.0-ecosystem-preset.4](https://github.com/sanity-io/plugin-kit/compare/v1.1.0-ecosystem-preset.3...v1.1.0-ecosystem-preset.4) (2022-09-02)
 
 ### Bug Fixes
