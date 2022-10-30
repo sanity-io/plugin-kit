@@ -18,9 +18,10 @@ import {
   validateParcelDependency,
   validatePluginSanityJson,
   validateRollupConfig,
-  validateSanityDependencies,
+  validateDeprecatedDependencies,
   validateScripts,
   validateTsConfig,
+  validateSanityDependencies,
 } from './verify/validations'
 import {PackageJson, TsConfig} from './verify/types'
 import chalk from 'chalk'
@@ -49,6 +50,7 @@ export async function verifyPackage({basePath, flags}: {basePath: string; flags:
   await validation('babelConfig', async () => validateBabelConfig({basePath}))
 
   await validation('dependencies', async () => validateSanityDependencies(packageJson))
+  await validation('dependencies', async () => validateDeprecatedDependencies(packageJson))
   await validation('eslintImports', async () => validateImports({basePath}))
 
   if (errors.length) {

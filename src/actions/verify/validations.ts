@@ -4,7 +4,7 @@ import validateNpmPackageName from 'validate-npm-package-name'
 // @ts-expect-error missing types
 import findBabelConfig from 'find-babel-config'
 import {incompatiblePluginPackage, urls} from '../../constants'
-import {mergedPackages} from '../../configs/merged-packages'
+import {deprecatedDevDeps, mergedPackages} from '../../configs/banned-packages'
 import path from 'path'
 import {fileExists, readFileContent, readJson5File} from '../../util/files'
 import chalk from 'chalk'
@@ -190,6 +190,25 @@ export function validateSanityDependencies(packageJson: PackageJson): string[] {
     `.trimStart(),
     ]
   }
+  return []
+}
+
+export function validateDeprecatedDependencies(packageJson: PackageJson): string[] {
+  const {dependencies, devDependencies, peerDependencies} = packageJson
+  const allDependencies = {...dependencies, ...devDependencies, ...peerDependencies}
+
+  const illegalDeps = Object.keys(allDependencies).filter((dep) => deprecatedDevDeps.includes(dep))
+  const deps = new Set<string>(illegalDeps)
+  const unique = [...deps.values()]
+  if (unique.length) {
+    return [
+      outdent`
+        package.json contains deprecated dependencies that should be removed:
+        - ${unique.join('\n- ')}
+    `.trimStart(),
+    ]
+  }
+
   return []
 }
 

@@ -17,3 +17,5 @@ export const mergedPackages = [
   '@sanity/structure',
   '@sanity/studio-hints',
 ].sort()
+
+export const deprecatedDevDeps = ['tsdx', 'sanipack']
