@@ -239,7 +239,6 @@ export async function writePackageJson(data: PackageData, options: InjectOptions
     ...(prev.devDependencies || {}),
     ...(await resolveLatestVersions([...newDevDependencies, ...defaultDevDependencies])),
   })
-  console.log(devDependencies)
   const peerDependencies = forceDependencyVersions({
     ...(prev.peerDependencies || {}),
     ...(addPeers || {}),
