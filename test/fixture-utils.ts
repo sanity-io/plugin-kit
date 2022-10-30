@@ -47,7 +47,7 @@ export async function testFixture({
   const result = await command({fixtureDir, outputDir})
   await assert({result, outputDir})
 
-  //await rimraf(outputDir)
+  await rimraf(outputDir)
 }
 
 export function fileContainsValidator(
