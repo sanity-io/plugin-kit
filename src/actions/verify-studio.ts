@@ -12,7 +12,7 @@ import {
   VerifyPackageConfig,
 } from './verify/verify-common'
 import {PackageJson, TsConfig} from './verify/types'
-import {validateSanityDependencies, validateStudioConfig} from './verify/validations'
+import {validateDeprecatedDependencies, validateStudioConfig} from './verify/validations'
 
 export async function verifyStudio({basePath, flags}: {basePath: string; flags: VerifyFlags}) {
   let errors: string[] = []
@@ -25,7 +25,7 @@ export async function verifyStudio({basePath, flags}: {basePath: string; flags: 
   const tsConfig = await readJson5File<TsConfig>({basePath, filename: 'tsconfig.json'})
 
   await validation('studioConfig', async () => validateStudioConfig({basePath}))
-  await validation('dependencies', async () => validateSanityDependencies(packageJson))
+  await validation('dependencies', async () => validateDeprecatedDependencies(packageJson))
   await validation('eslintImports', async () => validateImports({basePath}))
 
   if (errors.length) {

@@ -13,6 +13,7 @@ import {cliName} from '../constants'
 import {InjectOptions, PackageData} from '../actions/inject'
 import {expectedScripts} from '../actions/verify/validations'
 import {PackageJson} from '../actions/verify/types'
+import {forcedPackageVersions} from '../configs/forced-package-versions'
 
 const readFile = util.promisify(fs.readFile)
 
@@ -223,13 +224,16 @@ export async function writePackageJson(data: PackageData, options: InjectOptions
   }
 
   log.debug('Resolving latest versions for %s', newDevDependencies.join(', '))
-  const dependencies = {...(prev.dependencies || {}), ...(addDeps || {})}
-  const devDependencies = {
+  const dependencies = forceDependencyVersions({...(prev.dependencies || {}), ...(addDeps || {})})
+  const devDependencies = forceDependencyVersions({
     ...(addDevDeps || {}),
     ...(prev.devDependencies || {}),
     ...(await resolveLatestVersions(newDevDependencies)),
-  }
-  const peerDependencies = {...(prev.peerDependencies || {}), ...(addPeers || {})}
+  })
+  const peerDependencies = forceDependencyVersions({
+    ...(prev.peerDependencies || {}),
+    ...(addPeers || {}),
+  })
 
   const alwaysOnTop = {
     name: pluginName,
@@ -364,4 +368,16 @@ export function sortKeys<T extends Record<string, unknown>>(unordered: T): T {
       obj[key] = unordered[key]
       return obj
     }, {} as T)
+}
+
+function forceDependencyVersions(deps: Record<string, string>): Record<string, string> {
+  const entries = Object.entries(forcedPackageVersions).map((entry) => {
+    const [pkg] = entry
+    const forceVersion = forcedPackageVersions[pkg as keyof typeof forcedPackageVersions]
+    if (forceVersion) {
+      return [pkg, forceVersion]
+    }
+    return entry
+  })
+  return Object.fromEntries(entries)
 }

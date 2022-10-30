@@ -7,6 +7,7 @@ import {TypedFlags} from 'meow'
 import {getPackage} from '../npm/package'
 import {defaultSourceJs, defaultSourceTs} from '../configs/default-source'
 import {incompatiblePluginPackage} from '../constants'
+import {forcedPackageVersions} from '../configs/forced-package-versions'
 
 export const initFlags = {
   ...sharedFlags,
@@ -68,8 +69,14 @@ export type InitFlags = TypedFlags<typeof initFlags>
 
 const defaultDependencies = [incompatiblePluginPackage]
 
-const defaultDevDependencies = {react: '^17.0.0 || ^18.0.0', sanity: '^3.0.0-dev-preview.15'}
-const defaultPeerDependencies = {react: '^17.0.0 || ^18.0.0', sanity: 'dev-preview'}
+const defaultDevDependencies = {
+  react: forcedPackageVersions.react,
+  sanity: forcedPackageVersions.sanity,
+}
+const defaultPeerDependencies = {
+  react: forcedPackageVersions.react,
+  sanity: forcedPackageVersions.sanity,
+}
 
 export interface InitOptions {
   basePath: string

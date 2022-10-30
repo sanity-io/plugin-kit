@@ -1,5 +1,5 @@
 import log from '../util/log'
-import {mergedPackages} from '../configs/merged-packages'
+import {mergedPackages} from '../configs/banned-packages'
 import {urls} from '../constants'
 import {ESLint} from 'eslint'
 import path from 'path'
