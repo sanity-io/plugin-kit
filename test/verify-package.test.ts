@@ -62,7 +62,7 @@ tap.test('plugin-kit verify-studio in fresh v2 studio', async (t) => {
     command: ({fixtureDir}) => runCliCommand('verify-studio', [fixtureDir]),
     assert: async ({result: {stdout, stderr}}) => {
       // to regenerate the snapshot, in root dir run:
-      // tap test/verify-packag'e.test.ts --snapshot
+      // tap test/verify-package.test.ts --snapshot
       const redactFilePaths = cleanupOutput(stderr, /[\S]+verify-package\/fresh-v2-movie-studio\//g)
       t.matchSnapshot(redactFilePaths, 'stderr should match snapshot')
     },

@@ -306,7 +306,7 @@ https://www.sanity.io/exchange
 
 ---
 
-sanity.cli.ts (or .js) missing. Please create a file named sanity.cli.ts with the following content:
+sanity.cli.(ts | js | tsx | jsx) missing. Please create a file named sanity.cli.ts with the following content:
 
 import {createCliConfig} from 'sanity/cli'
 
@@ -323,7 +323,7 @@ For more, see https://beta.sanity.io/docs/platform/v2-to-v3
 
 ---
 
-sanity.config.ts (or .js) missing. At a minimum sanity.config.ts should contain:
+sanity.config.(ts | js | tsx | jsx) missing. At a minimum sanity.config.ts should contain:
 
 import { createConfig, createPlugin } from "sanity"
 import { deskTool } from "sanity/desk"

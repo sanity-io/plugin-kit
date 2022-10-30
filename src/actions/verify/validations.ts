@@ -9,6 +9,7 @@ import path from 'path'
 import {fileExists, readFileContent, readJson5File} from '../../util/files'
 import chalk from 'chalk'
 import {CompilerOptions, PackageJson, SanityStudioJson, SanityV2Json, TsConfig} from './types'
+import {Value} from 'p-any'
 
 export const expectedScripts = {
   prebuild: `plugin-kit verify-package --silent`,
@@ -220,18 +221,25 @@ export async function validateBabelConfig({basePath}: {basePath: string}) {
 }
 
 export async function validateStudioConfig({basePath}: {basePath: string}): Promise<string[]> {
-  const filenames = ['sanity.config.ts', 'sanity.config.js', 'sanity.cli.ts', 'sanity.cli.js']
+  const suffixes = ['ts', 'js', 'tsx', 'jsx']
+  const withSuffix = (fileBases: string[]): string[] =>
+    fileBases.flatMap((file) => suffixes.map((suffix) => `${file}.${suffix}`))
 
-  const files = await filenames.reduce(async (record, filename) => {
-    // @ts-expect-error it works though
-    record[filename] = await readFileContent({basePath, filename})
-    return record
-  }, Promise.resolve({} as Record<string, string | undefined>))
+  const filenames = withSuffix(['sanity.config', 'sanity.cli'])
+
+  const files: Record<string, boolean | undefined> = {}
+
+  for (const filename of filenames) {
+    const filepath = path.normalize(path.join(basePath, filename))
+    files[filename] = await fileExists(filepath)
+  }
 
   const sanityJson = await readJson5File<SanityStudioJson>({basePath, filename: 'sanity.json'})
 
-  const hasCliConfig = files['sanity.cli.ts'] || files['sanity.cli.js']
-  const hasStudioConfig = files['sanity.config.ts'] || files['sanity.config.js']
+  const hasConfigFile = (fileBase: string) =>
+    withSuffix([fileBase]).some((filename) => files[filename])
+  const hasCliConfig = hasConfigFile('sanity.cli')
+  const hasStudioConfig = hasConfigFile('sanity.config')
 
   const errors: string[] = []
 
@@ -257,7 +265,9 @@ export async function validateStudioConfig({basePath}: {basePath: string}): Prom
   if (!hasCliConfig) {
     errors.push(
       outdent`
-        sanity.cli.ts (or .js) missing. Please create a file named sanity.cli.ts with the following content:
+        sanity.cli.(${suffixes.join(
+          ' | '
+        )}) missing. Please create a file named sanity.cli.ts with the following content:
 
         ${chalk.green(
           outdent`
@@ -281,12 +291,14 @@ export async function validateStudioConfig({basePath}: {basePath: string}): Prom
   if (!hasStudioConfig) {
     errors.push(
       outdent`
-        sanity.config.ts (or .js) missing. At a minimum sanity.config.ts should contain:
+        sanity.config.(${suffixes.join(
+          ' | '
+        )}) missing. At a minimum sanity.config.ts should contain:
 
         ${chalk
           .green(
             outdent`
-            import { createConfig, createPlugin } from "sanity"
+            import { createConfig } from "sanity"
             import { deskTool } from "sanity/desk"
 
             export default createConfig({
@@ -315,7 +327,7 @@ export async function validateStudioConfig({basePath}: {basePath: string}): Prom
     )
   }
 
-  return [errors.join(`\n\n---\n\n`)]
+  return errors.length ? [errors.join(`\n\n---\n\n`)] : []
 }
 
 export async function validatePluginSanityJson({
