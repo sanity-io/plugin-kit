@@ -241,6 +241,9 @@ export async function writePackageJson(data: PackageData, options: InjectOptions
 
   const manifest: PackageJson = {
     ...alwaysOnTop,
+    // Use already configured values by default
+    ...(prev || {}),
+    // but we override these to enforce standardization
     source: flags.typescript ? './src/index.ts' : './src/index.js',
     main: './lib/cjs/index.js',
     module: './lib/esm/index.js',
@@ -252,14 +255,11 @@ export async function writePackageJson(data: PackageData, options: InjectOptions
       },
     },
     files: ['src', 'lib', 'v2-incompatible.js', 'sanity.json'],
-    scripts: {},
-    repository: {},
     engines: {
       node: '>=14.0.0',
     },
-
-    // Use already configured values by default
-    ...(prev || {}),
+    scripts: {...prev.scripts},
+    repository: {...prev.repository},
 
     // We're de-declaring properties because of key order in package.json
     ...alwaysOnTop,
@@ -271,6 +271,9 @@ export async function writePackageJson(data: PackageData, options: InjectOptions
     ...repoFromOrigin(gitOrigin),
     ...urlsFromOrigin(gitOrigin),
   }
+
+  // we use types, not typings
+  delete manifest.typings
 
   const differs = JSON.stringify(prev) !== JSON.stringify(manifest)
   log.debug('Does manifest differ? %s', differs ? 'yes' : 'no')
@@ -313,7 +316,7 @@ export function addScript(cmd: string, existing: string) {
     return existing
   }
 
-  return existing ? `${existing} && ${cmd}` : cmd
+  return cmd
 }
 
 export async function addPackageJsonScripts(
