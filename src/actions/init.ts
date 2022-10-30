@@ -67,17 +67,6 @@ export const initFlags = {
 
 export type InitFlags = TypedFlags<typeof initFlags>
 
-const defaultDependencies = [incompatiblePluginPackage]
-
-const defaultDevDependencies = {
-  react: forcedPackageVersions.react,
-  sanity: forcedPackageVersions.sanity,
-}
-const defaultPeerDependencies = {
-  react: forcedPackageVersions.react,
-  sanity: forcedPackageVersions.sanity,
-}
-
 export interface InitOptions {
   basePath: string
   flags: InitFlags
@@ -87,17 +76,6 @@ export async function init(options: InitOptions) {
   let dependencies = {}
   let devDependencies = {}
   let peerDependencies = {}
-
-  dependencies = {...dependencies, ...(await resolveLatestVersions(defaultDependencies))}
-  devDependencies = {
-    ...devDependencies,
-    ...defaultDevDependencies,
-    ...(await resolveLatestVersions(['rimraf'])),
-  }
-  peerDependencies = {
-    ...peerDependencies,
-    ...defaultPeerDependencies,
-  }
 
   await inject({
     ...options,
