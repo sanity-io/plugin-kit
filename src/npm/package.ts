@@ -230,6 +230,7 @@ export async function writePackageJson(data: PackageData, options: InjectOptions
     ...(prev.devDependencies || {}),
     ...(await resolveLatestVersions(newDevDependencies)),
   })
+  console.log(devDependencies)
   const peerDependencies = forceDependencyVersions({
     ...(prev.peerDependencies || {}),
     ...(addPeers || {}),
@@ -371,7 +372,7 @@ export function sortKeys<T extends Record<string, unknown>>(unordered: T): T {
 }
 
 function forceDependencyVersions(deps: Record<string, string>): Record<string, string> {
-  const entries = Object.entries(forcedPackageVersions).map((entry) => {
+  const entries = Object.entries(deps).map((entry) => {
     const [pkg] = entry
     const forceVersion = forcedPackageVersions[pkg as keyof typeof forcedPackageVersions]
     if (forceVersion) {
