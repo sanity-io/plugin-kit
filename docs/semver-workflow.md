@@ -1,10 +1,18 @@
-# Presets
+# Preset: semver-workflow
 
-## semver-workflow
+Add opinionated config and dependencies used by the Ecosystem team on Sanity to develop using
+semantic-release driven workflow on Github for Sanity v3 plugins.
 
-### Manual steps after inject
+## Manual steps after inject
 
-#### 1. Update `.github/workflows/main.yml` branches
+### 1. Check README.md
+
+The preset changes README.md in a naive manner. 
+Some text could be redundant or unnecessary depending on context and search for TODO.
+
+Move text around until it looks good. Remember to change any v2 usage examples.
+
+### 2. Update `.github/workflows/main.yml` branches
 This differs from repo to repo.
 
 In a typical plugin repo with a v2 and v3 version, it will typically look like this:
@@ -21,7 +29,7 @@ on:
     branches: [main, v3]
 ```
 
-#### 2. Update .releaserc.json
+### 3. Update .releaserc.json
 This differs from repo to repo.
 
 In a typical plugin repo with a v2 and v3 version, it will typically look like this:
@@ -39,7 +47,7 @@ In a typical plugin repo with a v2 and v3 version, it will typically look like t
 This assumes that the v2 version lives on `main` and the v3 versions livs on `v3`.
 The v3 version will be a pre-release using `studio-v3` as npm tag, and `v3-studio` version suffix.
 
-#### 3. Test workflow and remove `--dry-run`
+## 4. Test workflow and remove `--dry-run`
 
 The injected semantic-release command in `.github/workflows/main.yml` has `--dry-run` enabled.
 
@@ -51,27 +59,11 @@ If it is ok, remove the `--dry-run` flag from the workflow to perform a real rel
 If the version is not what you expected, you might have to perform some 
 [troubleshooting](https://semantic-release.gitbook.io/semantic-release/support/troubleshooting).
 
-
-### What does it do?
+## What does it do?
 
 Adds opinionated config and dependencies used by the Ecosystem team on Sanity to develop using
 semantic-release driven workflow on Github.
 
 * Adds husky and related files and dependencies to do pre-commit checks
 * Adds semantic-release and preset dependencies to automate npm & Github releases
-
-## renovate
-
-### Manual steps after inject
-
-After injection, Renovate bot must be enabled for the repo on Github.
-
-This can be done by adding the repo to Github Renovatebot app allow-list.
-
-### What does it do?
-
-Sets up the repo
-
-* Adds Sanity dependabot preset dependency.
-* Adds `renovate.json` to configure the above dependency for Renovatebot
-
+* Updates README.md with some standard texts
