@@ -68,14 +68,12 @@ async function updateReadme(options: InjectOptions) {
   const {basePath} = options
 
   const readmePath = path.join(basePath, 'README.md')
-  let readme = (await readFile(readmePath, 'utf8').catch(errorToUndefined)) ?? ''
+  const readme = (await readFile(readmePath, 'utf8').catch(errorToUndefined)) ?? ''
 
-  if (readme) {
-    const {v3Banner, installUsage, developFooter} = await readmeSnippets(options)
-    readme = v3Banner + installUsage + readme + developFooter
-    await writeFile(readmePath, readme, {encoding: 'utf8'})
-    log.info('Updated README. Please review the changes.')
-  }
+  const {v3Banner, installUsage, developFooter} = await readmeSnippets(options)
+  const updatedReadme = [v3Banner, installUsage, readme, developFooter].filter(Boolean).join('\n\n')
+  await writeFile(readmePath, updatedReadme, {encoding: 'utf8'})
+  log.info('Updated README. Please review the changes.')
 }
 
 async function readmeSnippets(options: InjectOptions) {
@@ -90,7 +88,6 @@ async function readmeSnippets(options: InjectOptions) {
   `
 
   const installUsage = outdent`
-
     ## Installation
 
     \`\`\`
@@ -109,7 +106,6 @@ async function readmeSnippets(options: InjectOptions) {
   `
 
   const developFooter = outdent`
-
     ## License
 
     MIT-licensed. See LICENSE.
