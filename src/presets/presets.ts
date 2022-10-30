@@ -9,7 +9,7 @@ export interface Preset {
 }
 
 const presets: Preset[] = [semverWorkflowPreset, renovatePreset]
-const presetNames = presets.map((p) => p.name)
+const presetNames = presets.map((p) => p?.name)
 
 export function presetHelpList(padStart: number) {
   return presets

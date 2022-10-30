@@ -14,6 +14,7 @@ import chalk from 'chalk'
 import path from 'path'
 import {readFile, writeFile} from '../util/files'
 import {errorToUndefined} from '../util/errorToUndefined'
+import {PackageJson} from '../actions/verify/types'
 
 export const semverWorkflowPreset: Preset = {
   name: 'semver-workflow',
@@ -79,12 +80,14 @@ async function updateReadme(options: InjectOptions) {
 async function readmeSnippets(options: InjectOptions) {
   const pkg = await getPackage(options)
 
+  const bestEffortUrl = readmeBaseurl(pkg)
+
   const v3Banner = outdent`
     > **NOTE**
     >
     > This is the **Sanity Studio v3 version** of ${pkg.name}.
     >
-    > For the v2 version, please refer to the [v2-branch](${pkg.repository?.url ?? 'TODO'}).
+    > For the v2 version, please refer to the [v2-branch](${bestEffortUrl}).
   `
 
   const installUsage = outdent`
@@ -120,7 +123,7 @@ async function readmeSnippets(options: InjectOptions) {
 
     ### Release new version
 
-    Run ["CI & Release" workflow](${pkg.repository?.url ?? 'TODO'}/actions/workflows/main.yml).
+    Run ["CI & Release" workflow](${bestEffortUrl}/actions/workflows/main.yml).
     Make sure to select the main branch and check "Release new version".
 
     Semantic release will only release on configured branches, so it is safe to run release on any branch.
@@ -155,4 +158,13 @@ async function semverWorkflowDependencies(): Promise<Record<string, string>> {
     'husky',
     'lint-staged',
   ])
+}
+
+export function readmeBaseurl(pkg: PackageJson) {
+  return ((pkg.repository?.url ?? pkg.homepage ?? 'TODO') as string)
+    .replaceAll(/.+:\/\//g, 'https://')
+    .replaceAll(/\.git/g, '')
+    .replaceAll(/git@github.com\//g, 'github.com/')
+    .replaceAll(/git@github.com:/g, 'https://github.com/')
+    .replaceAll(/#.+/g, '')
 }
