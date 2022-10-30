@@ -9,11 +9,16 @@ import {getPaths, ManifestOptions} from '../sanity/manifest'
 import {resolveLatestVersions} from './resolveLatestVersions'
 import {hasSourceEquivalent, writeJsonFile} from '../util/files'
 import log from '../util/log'
-import {cliName} from '../constants'
+import {cliName, incompatiblePluginPackage} from '../constants'
 import {InjectOptions, PackageData} from '../actions/inject'
 import {expectedScripts} from '../actions/verify/validations'
 import {PackageJson} from '../actions/verify/types'
 import {forcedPackageVersions} from '../configs/forced-package-versions'
+
+const defaultDependencies = [incompatiblePluginPackage]
+
+const defaultDevDependencies = ['rimraf', 'react', 'sanity']
+const defaultPeerDependencies = ['react', 'sanity']
 
 const readFile = util.promisify(fs.readFile)
 
@@ -224,16 +229,21 @@ export async function writePackageJson(data: PackageData, options: InjectOptions
   }
 
   log.debug('Resolving latest versions for %s', newDevDependencies.join(', '))
-  const dependencies = forceDependencyVersions({...(prev.dependencies || {}), ...(addDeps || {})})
+  const dependencies = forceDependencyVersions({
+    ...(prev.dependencies || {}),
+    ...(addDeps || {}),
+    ...(await resolveLatestVersions(defaultDependencies)),
+  })
   const devDependencies = forceDependencyVersions({
     ...(addDevDeps || {}),
     ...(prev.devDependencies || {}),
-    ...(await resolveLatestVersions(newDevDependencies)),
+    ...(await resolveLatestVersions([...newDevDependencies, ...defaultDevDependencies])),
   })
   console.log(devDependencies)
   const peerDependencies = forceDependencyVersions({
     ...(prev.peerDependencies || {}),
     ...(addPeers || {}),
+    ...(await resolveLatestVersions(defaultPeerDependencies)),
   })
 
   const alwaysOnTop = {
