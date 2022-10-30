@@ -89,6 +89,10 @@ export function validateModule(packageJson: PackageJson): string[] {
   `.trimStart()
     )
   }
+
+  if (packageJson.typings) {
+    errors.push(outdent`Found typings field in package.json. Use types instead.`)
+  }
   return errors
 }
 
