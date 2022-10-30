@@ -51,12 +51,11 @@ async function addDevDependencies(options: InjectOptions) {
   log.info(
     chalk.green(
       outdent`
-        You must configure branch-config in the following files manually:
-          - .release.json
-          - .github/workflows/main.yml
+        semantic-release preset injected.
 
-        You should remove the --dry-run from main.yml only after you have tested the workflow,
-        and the semantic-release job reports the version number you expect.
+        Please confer
+        https://github.com/sanity-io/plugin-kit/blob/main/docs/presets.md#semver-workflow
+        to finalize configuration for this preset.
   `.trim()
     )
   )
