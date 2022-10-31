@@ -1,13 +1,19 @@
 name: CI & Release
 on:
+  # Build on pushes to release branches
   push:
+    branches: [main]
+  # Build on pull requests targeting release branches
+  pull_request:
+    branches: [main]
   workflow_dispatch:
     inputs:
       release:
-        description: 'Release new version'
+        description: Release new version
         required: true
         default: false
         type: boolean
+
 jobs:
   test:
     runs-on: ${{ matrix.platform }}
