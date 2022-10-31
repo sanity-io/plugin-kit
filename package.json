@@ -1,6 +1,6 @@
 {
   "name": "@sanity/plugin-kit",
-  "version": "1.1.0-ecosystem-preset.8",
+  "version": "1.1.0-ecosystem-preset.9",
   "description": "Enhanced Sanity.io plugin development experience",
   "scripts": {
     "clean": "rimraf lib",
