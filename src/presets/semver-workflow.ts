@@ -172,7 +172,7 @@ function semverWorkflowFiles(): FromTo[] {
     {from: ['.husky', 'commit-msg'], to: ['.husky', 'commit-msg']},
     {from: ['.husky', 'pre-commit'], to: ['.husky', 'pre-commit']},
     {from: ['.releaserc.json'], to: '.releaserc.json'},
-    {from: ['.npmrc'], to: '.npmrc'},
+    {from: ['npmrc'], to: '.npmrc'},
     {from: ['commitlint.template.js'], to: 'commitlint.config.js'},
     {from: ['lint-staged.template.js'], to: 'lint-staged.config.js'},
   ].map((fromTo) => ({
