@@ -320,7 +320,7 @@ export async function validateStudioConfig({basePath}: {basePath: string}): Prom
         ${chalk
           .green(
             outdent`
-            import { createConfig, createPlugin } from "sanity"
+            import { createConfig } from "sanity"
             import { deskTool } from "sanity/desk"
 
             export default createConfig({
