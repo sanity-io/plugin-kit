@@ -71,10 +71,18 @@ async function updateReadme(options: InjectOptions) {
   const readmePath = path.join(basePath, 'README.md')
   const readme = (await readFile(readmePath, 'utf8').catch(errorToUndefined)) ?? ''
 
-  const {v3Banner, installUsage, developFooter} = await readmeSnippets(options)
-  const updatedReadme = [v3Banner, installUsage, readme, developFooter].filter(Boolean).join('\n\n')
-  await writeFile(readmePath, updatedReadme, {encoding: 'utf8'})
-  log.info('Updated README. Please review the changes.')
+  const {v3Banner, install, usage, developFooter} = await readmeSnippets(options)
+
+  const prependSections = missingSections(readme, [v3Banner, install, usage])
+  const appendSections = missingSections(readme, [developFooter])
+
+  if (prependSections.length || appendSections.length) {
+    const updatedReadme = [...prependSections, readme, ...appendSections]
+      .filter(Boolean)
+      .join('\n\n')
+    await writeFile(readmePath, updatedReadme, {encoding: 'utf8'})
+    log.info('Updated README. Please review the changes.')
+  }
 }
 
 async function readmeSnippets(options: InjectOptions) {
@@ -90,7 +98,7 @@ async function readmeSnippets(options: InjectOptions) {
     > For the v2 version, please refer to the [v2-branch](${bestEffortUrl}).
   `
 
-  const installUsage = outdent`
+  const install = outdent`
     ## Installation
 
     \`\`\`
@@ -102,10 +110,10 @@ async function readmeSnippets(options: InjectOptions) {
     \`\`\`
     yarn add ${pkg.name}@studio-v3
     \`\`\`
+  `
 
+  const usage = outdent`
     ## Usage
-
-    <TODO: Show usage here>
   `
 
   const developFooter = outdent`
@@ -131,9 +139,31 @@ async function readmeSnippets(options: InjectOptions) {
 
   return {
     v3Banner,
-    installUsage,
+    install,
+    usage,
     developFooter,
   }
+}
+
+/**
+ * Returns sections that does not exists "close enough" in readme
+ */
+export function missingSections(readme: string, sections: string[]) {
+  return sections.filter((section) => !closeEnough(section, readme))
+}
+
+/**
+ * a and b are considered "close enough" if > 50% of a lines exist in b lines
+ * @param a
+ * @param b
+ */
+function closeEnough(a: string, b: string) {
+  const aLines = a.split('\n')
+  const bLines = b.split('\n')
+
+  const matchingLines = aLines.filter((line) => bLines.find((bLine) => bLine === line)).length
+  const isCloseEnough = matchingLines > aLines.length * 0.5
+  return isCloseEnough
 }
 
 function semverWorkflowFiles(): FromTo[] {
