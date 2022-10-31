@@ -5,6 +5,31 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.0](https://github.com/sanity-io/plugin-kit/compare/v1.0.2...v1.1.0) (2022-10-31)
+
+### Features
+
+- added --ecosystem-preset to init ([219561b](https://github.com/sanity-io/plugin-kit/commit/219561bc90d29d4babd331588ce16ca6d9b9bdd2))
+- added inject command and support for --preset ([b5f5377](https://github.com/sanity-io/plugin-kit/commit/b5f53777f16591f083956ac272c33d619ad1eb65))
+- build related package.json entries are overridden instead of retained ([deb87b0](https://github.com/sanity-io/plugin-kit/commit/deb87b04a3730d5f0eefa4896b3d5465b62b505d))
+- force package versions and made stricter verifications ([9d030fb](https://github.com/sanity-io/plugin-kit/commit/9d030fb064368c6ffa21958288cd5bd94f97229d))
+- inject adds the same dependencies as init now ([dd30373](https://github.com/sanity-io/plugin-kit/commit/dd30373a3f0d0b41c37d9272cb08f202d66812ad))
+- preset semantic-release now updates README.md when it exists (naively) ([0a33a25](https://github.com/sanity-io/plugin-kit/commit/0a33a254fc137e8f3b2db0234594e725b432cfd3))
+- semver-workflow now injects .npmrc with legacy-peer-deps=true ([7c53c7a](https://github.com/sanity-io/plugin-kit/commit/7c53c7a7edabbe1f219cdeb5438475099acaceb6))
+
+### Bug Fixes
+
+- add missing lint-staged config ([071a01d](https://github.com/sanity-io/plugin-kit/commit/071a01db169d08ae89241af29c7653fb5f1c6569))
+- added --dry-run flag to release job for safety ([c09c4f3](https://github.com/sanity-io/plugin-kit/commit/c09c4f32282d2eaabf503ac89918b6071dd5c719))
+- forced dependencies now works correctly ([9b520f7](https://github.com/sanity-io/plugin-kit/commit/9b520f72f9715e61e5f4b8d231137fdeb4b392eb))
+- imports in studio config example ([a6a5b2e](https://github.com/sanity-io/plugin-kit/commit/a6a5b2ed47f9090354c145b17ae3e32ec0e1347b))
+- readme newlines ([8be3aca](https://github.com/sanity-io/plugin-kit/commit/8be3acace8af5c91f1ba6b0d6d23166b1200db8c))
+- **semantic-workflow:** filter out README sections that exists "close enough" ([04a8b8a](https://github.com/sanity-io/plugin-kit/commit/04a8b8a63a09ec3a3398b7c1e61c609dafb45568))
+- **semantic-workflow:** npmrc bundling ([31c0e77](https://github.com/sanity-io/plugin-kit/commit/31c0e775ad86b27e8c1ca777d983265feecca755))
+- show note about manual config steps in semver-workflow ([f36fc55](https://github.com/sanity-io/plugin-kit/commit/f36fc55585fb8f2cba6a157ba0a482f4cef2fcc9))
+- url readme url ([c8730da](https://github.com/sanity-io/plugin-kit/commit/c8730da4e65b96a30b1e7d77dd9079c29b272d47))
+- use correct @sanity/ui package name ([1f224a9](https://github.com/sanity-io/plugin-kit/commit/1f224a94e65e0a77fbf9d1e2e2abd201ea16914a))
+
 ## [1.0.2](https://github.com/sanity-io/plugin-kit/compare/v1.0.1...v1.0.2) (2022-09-27)
 
 ### Bug Fixes
