@@ -5,6 +5,16 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.0-ecosystem-preset.8](https://github.com/sanity-io/plugin-kit/compare/v1.1.0-ecosystem-preset.7...v1.1.0-ecosystem-preset.8) (2022-10-31)
+
+### Features
+
+- semver-workflow now injects .npmrc with legacy-peer-deps=true ([1c78e99](https://github.com/sanity-io/plugin-kit/commit/1c78e99121fe637fdddc4d2066541420aaa063d3))
+
+### Bug Fixes
+
+- use correct @sanity/ui package name ([a01dfcd](https://github.com/sanity-io/plugin-kit/commit/a01dfcdf31d22e16d7425a63abb7c905e3a5ee17))
+
 ## [1.1.0-ecosystem-preset.7](https://github.com/sanity-io/plugin-kit/compare/v1.1.0-ecosystem-preset.6...v1.1.0-ecosystem-preset.7) (2022-10-30)
 
 ### Features
