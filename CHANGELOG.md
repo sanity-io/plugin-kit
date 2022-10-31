@@ -5,6 +5,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.0-ecosystem-preset.9](https://github.com/sanity-io/plugin-kit/compare/v1.1.0-ecosystem-preset.8...v1.1.0-ecosystem-preset.9) (2022-10-31)
+
+### Bug Fixes
+
+- **semantic-workflow:** filter out README sections that exists "close enough" ([774d474](https://github.com/sanity-io/plugin-kit/commit/774d47437d523adfae7a7c44e506eea743202593))
+- **semantic-workflow:** npmrc bundling ([aa81d57](https://github.com/sanity-io/plugin-kit/commit/aa81d57e95f0fdd4818bc43f4b706f8ec7aef6e6))
+
 ## [1.1.0-ecosystem-preset.8](https://github.com/sanity-io/plugin-kit/compare/v1.1.0-ecosystem-preset.7...v1.1.0-ecosystem-preset.8) (2022-10-31)
 
 ### Features
