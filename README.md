@@ -256,6 +256,7 @@ To upgrade a plugin that already uses `@sanity/plugin-kit` 1.x:
   - This will update package.json with new defaults 
   - Feel free to answer no to any file-overwrite prompts
 - Inspect git diff to see what was changed
+- Run: `npm install`
 - Run: `npm run build`
 - Fix any outstanding issues, if any
 
