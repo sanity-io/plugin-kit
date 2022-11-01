@@ -11,12 +11,13 @@ import chalk from 'chalk'
 import {CompilerOptions, PackageJson, SanityStudioJson, SanityV2Json, TsConfig} from './types'
 
 export const expectedScripts = {
-  prebuild: `plugin-kit verify-package --silent`,
-  build: 'parcel build --no-cache',
-  watch: 'parcel watch',
+  prebuild: `plugin-kit verify-package --silent && pkg-utils`,
+  build: 'pkg-utils build',
+  watch: 'pkg-utils watch',
   'link-watch': 'plugin-kit link-watch',
   prepublishOnly: 'npm run build',
 }
+
 const expectedModulesFields = ['source', 'exports', 'main', 'module', 'files']
 const expectedCompilerOptions = {
   jsx: 'preserve',
@@ -31,9 +32,7 @@ const expectedCompilerOptions = {
   downlevelIteration: true,
   declaration: true,
   allowSyntheticDefaultImports: true,
-  //outDir: 'lib',
-  //baseUrl: '.',
-  //checkJs: false,
+  rootDir: 'src',
 }
 
 export function validateNodeEngine(packageJson: PackageJson) {
@@ -67,25 +66,28 @@ export function validateModule(packageJson: PackageJson): string[] {
 
         Example:
 
-        Given a plugin with entry-point in src/index.ts, using default parcel build command,
-        package.json should contain the following entries to ensure that cjs and esm outputs are built into lib:
+        Given a plugin with entry-point in src/index.ts, using default @sanity/pkg-utils build command,
+        package.json should contain the following entries to ensure that commonjs and esm outputs are built into lib:
 
         "source": "./src/index.ts",
         "exports": {
           ".": {
-            "require": "./lib/cjs/index.js",
-            "default": "./lib/esm/index.js"
+            "types": "./lib/src/index.d.ts",
+            "source": "./src/index.ts",
+            "import": "./lib/index.esm.js",
+            "require": "./lib/index.js",
+            "default": "./lib/index.js"
           }
         },
-        "main": "./lib/cjs/index.js",
-        "module": "./lib/esm/index.js",
-        "types": "./lib/types/index.d.ts",
+        "main": "./lib/index.js",
+        "module": "./lib/index.esm.js",
+        "types": "./lib/src/index.d.ts",
         "files": [
           "src",
           "lib"
         ],
 
-        Refer to Parcel library targets for more: https://parceljs.org/features/targets/#library-targets
+        Refer to @sanity/pkg-utils for more: https://github.com/sanity-io/pkg-utils#sanitypkg-utils
   `.trimStart()
     )
   }
@@ -156,13 +158,14 @@ export async function validateTsConfig(tsConfig: TsConfig) {
   return errors
 }
 
-export function validateParcelDependency({devDependencies}: PackageJson): string[] {
-  if (!devDependencies?.parcel) {
+export function validatePkgUtilsDependency({devDependencies}: PackageJson): string[] {
+  if (!devDependencies?.['@sanity/pkg-utils']) {
     return [
       outdent`
-        package.json does not list parcel as a devDependency.
+        package.json does not list @sanity/pkg-utils as a devDependency.
+        @sanity/pkg-utils replaced parcel as the recommended build tool in @sanity/plugin-kit 2.0.0
 
-        Please add it by running 'npm install --save-dev parcel'.
+        Please add it by running 'npm install --save-dev @sanity/pkg-utils'.
     `.trimStart(),
     ]
   }
@@ -211,28 +214,13 @@ export function validateDeprecatedDependencies(packageJson: PackageJson): string
   return []
 }
 
-export async function validateRollupConfig({basePath}: {basePath: string}) {
-  const configpath = path.normalize(path.join(basePath, 'rollup.config.js'))
-
-  if (await fileExists(configpath)) {
-    return [
-      outdent`
-        Found rollup.config.js file. When using default parcel build command, this will have no effect.
-
-        Delete the rollup.config.js file, or disable this check.
-    `.trimStart(),
-    ]
-  }
-  return []
-}
-
 export async function validateBabelConfig({basePath}: {basePath: string}) {
   const babelConfig: {file?: string} = await findBabelConfig(basePath)
 
   if (babelConfig.file) {
     return [
       outdent`
-        Found babel-config file: ${babelConfig.file}. When using default parcel build command,
+        Found babel-config file: ${babelConfig.file}. When using default @sanity/plugin-kit build command,
         this is probably not needed.
 
         Delete the ${babelConfig.file} file, or disable this check.

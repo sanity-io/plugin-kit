@@ -16,12 +16,11 @@ export const verifyPackageConfigDefaults = {
   tsconfig: true,
   tsc: true,
   dependencies: true,
-  rollupConfig: true,
   babelConfig: true,
   sanityV2Json: true,
   eslintImports: true,
   scripts: true,
-  parcel: true,
+  'pkg-utils': true,
   nodeEngine: true,
   studioConfig: true,
 } as const

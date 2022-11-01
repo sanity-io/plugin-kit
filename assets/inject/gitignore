@@ -48,8 +48,3 @@ jspm_packages
 
 # Cache
 .cache
-
-# Parcel
-.parcel-cache
-
-test/fixtures/init/empty

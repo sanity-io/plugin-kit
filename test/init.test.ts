@@ -14,6 +14,7 @@ import {incompatiblePluginPackage} from '../src/constants'
 import {PackageJson} from '../src/actions/verify/types'
 
 const defaultDevDependencies = [
+  '@sanity/pkg-utils',
   '@sanity/plugin-kit',
   '@typescript-eslint/eslint-plugin',
   '@typescript-eslint/parser',
@@ -23,7 +24,6 @@ const defaultDevDependencies = [
   'eslint-plugin-prettier',
   'eslint-plugin-react',
   'eslint-plugin-react-hooks',
-  'parcel',
   'prettier',
   'react',
   'rimraf',
@@ -44,7 +44,7 @@ tap.test('plugin-kit init --force in empty directory', async (t) => {
 
       await fileContains('LICENSE', 'MIT')
       await fileContains('README.md', `# ${pluginTestName}`)
-      await fileContains('.gitignore', 'lib', '.parcel-cache')
+      await fileContains('.gitignore', 'lib')
       await fileContains(
         '.eslintrc',
         'sanity',
@@ -80,22 +80,25 @@ tap.test('plugin-kit init --force in empty directory', async (t) => {
           // author: 'Omitted from validation',
           license: 'MIT',
           source: './src/index.ts',
-          main: './lib/cjs/index.js',
-          module: './lib/esm/index.js',
-          types: './lib/types/index.d.ts',
           exports: {
             '.': {
-              require: './lib/cjs/index.js',
-              default: './lib/esm/index.js',
+              types: './lib/src/index.d.ts',
+              source: './src/index.ts',
+              import: './lib/index.esm.js',
+              require: './lib/index.js',
+              default: './lib/index.js',
             },
           },
+          main: './lib/index.js',
+          module: './lib/index.esm.js',
+          types: './lib/src/index.d.ts',
           files: ['src', 'lib', 'v2-incompatible.js', 'sanity.json'],
           scripts: {
             clean: 'rimraf lib',
             lint: 'eslint .',
-            prebuild: 'npm run clean && plugin-kit verify-package --silent',
-            build: 'parcel build --no-cache',
-            watch: 'parcel watch',
+            prebuild: 'npm run clean && plugin-kit verify-package --silent && pkg-utils',
+            build: 'pkg-utils build',
+            watch: 'pkg-utils watch',
             'link-watch': 'plugin-kit link-watch',
             prepublishOnly: 'npm run build',
           },
@@ -183,7 +186,7 @@ tap.test('plugin-kit init --force with all the opt-outs in empty directory', asy
       )
       t.strictSame(
         Object.keys(pkg.devDependencies ?? {}),
-        ['@sanity/plugin-kit', 'parcel', 'react', 'rimraf', 'sanity'],
+        ['@sanity/pkg-utils', '@sanity/plugin-kit', 'react', 'rimraf', 'sanity'],
         'should have expected devDependencies'
       )
     },

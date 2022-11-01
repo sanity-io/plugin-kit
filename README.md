@@ -15,7 +15,7 @@ The verify-package command can be used when upgrading V2 plugins to Studio V3 ve
 
 @sanity/plugin-kit also comes with a verify-studio command that can be used to recommend upgrade steps in existing Sanity Studio v2 studio.
 
-This package assumes and recommends [Parcel](https://parceljs.org/) for building,
+This package assumes and recommends [@sanity/pkg-utils](https://github.com/sanity-io/pkg-utils#sanitypkg-utils) for building,
 and [Yalc](https://github.com/wclr/yalc) with watch for testing the plugin in Sanity Studio. 
 Check the [FAQ](#faq) fro more on these.
 
@@ -28,6 +28,7 @@ Check the [FAQ](#faq) fro more on these.
 * [Upgrade help in v2 Studio](#upgrade-help-in-v2-studio)
 * [Inject config into existing v3 plugin](#inject-config-into-existing-v3)
 * [Testing a plugin in Sanity Studio](#testing-a-plugin-in-sanity-studio)
+* [Upgrading from plugin-kit 1.x](#upgrade-from-v1x-to-v2)
 * [FAQ](#faq) aka "Do I _have_ to use this plugin-kit?" aka No
 * [Configuration reference](#configuration-reference)
 * [Developing plugin-kit](#developing-plugin-kit)
@@ -38,11 +39,9 @@ Check the [FAQ](#faq) fro more on these.
 
 ### Install build tool
 
-@sanity/plugin-kit assumes the plugin will use [Parcel](https://parceljs.org/) for build and watch:
+@sanity/plugin-kit assumes the plugin will use [@sanity/pkg-utils](https://github.com/sanity-io/pkg-utils#sanitypkg-utils) for build and watch:
 
-> npm install --save-dev parcel
-
-Parcel uses a build cache, you probably want to put `.parcel-cache` into `.gitignore`.
+> npm install --save-dev @sanity/plugin-kit
 
 ## Initialize a new plugin
 
@@ -105,11 +104,10 @@ Verify that the plugin package is configured correctly by running:
   * recommended script commands
   * recommended cjs and esm configuration
   * sanity dependency compatibility
-  * parcel devDependency
+  * @sanity/pkg-utils devDependency
   * recommended usage of devDependencies/peerDependencies/dependencies for certain packages
 * Check for redundant v2 config:
   * babel
-  * rollup
   * sanity.json
 * Check for sanity imports that has changed in v3, using eslint
 * Check tsconfig.json settings
@@ -248,6 +246,19 @@ The `prepublishOnly` task should kick in and compile the source files, then veri
 
 If you have not published any modules to npm before, you will be asked to create a user first.
 
+For an opinionated template for publication based on semantic-release, see [semver-workflow preset](docs/semver-workflow.md) 
+
+### Upgrade from v1.x to v2
+
+To upgrade a plugin that already uses `@sanity/plugin-kit` 1.x:
+- Update `@sanity/plugin-kit` to version to 2.x in `package.json`
+- Run: `npx @sanity/plugin-kit inject`
+  - This will update package.json with new defaults 
+  - Feel free to answer no to any file-overwrite prompts
+- Inspect git diff to see what was changed
+- Run: `npm run build`
+- Fix any outstanding issues, if any
+
 ## FAQ
 
 #### Q: Do I _have_ to use this for developing Sanity plugins?
@@ -282,28 +293,34 @@ See https://reactjs.org/link/invalid-hook-call for tips about how to debug and f
  
 you probably have to revert to using yalc, or use `npm pack` + and install the resulting tzg-file.
 
-#### Q: Why use Parcel?
+### Q: What appended with the Parcel recommendation?
 
-Parcel is recommended for building plugins as it provides sensible defaults for building a React library that
-output CommonJS and ESM files. 
+At the time of writing (Nov 2022) the latest version of parcel (2.7) failed to build Sanity plugins. 
+The previous version (2.6) did not work with the latest version of TypeScript. 
+Pinning these versions was confusing and caused issues. 
 
-Parcel can in most cases be configured through `package.json` alone, and can often simply be dropped in to existing
-packages without further customization . 
-`@sanity/plugin-kit verify-package` ensures Sanity Studio 3 compliant configs exist.
+We also saw issues with modules using nested async imports. 
 
-Parcel also has very speedy production builds, which is a big plus when testing plugins using watch-mode.
+As such, we decided to standardize plugins on the same build-tool used by Sanity studio, [@sanity/pkg-utils](https://github.com/sanity-io/pkg-utils#sanitypkg-utils).
 
-**A:** Sanity Studio V3 uses [Vite](https://vitejs.dev/) as the default bundler, 
+#### Q: Why use @sanity/pkg-utils?
 
-#### Q: Can I use another build tool or change parcel configuration?
+[@sanity/pkg-utils](https://github.com/sanity-io/pkg-utils#sanitypkg-utils) is the build tool used to build the `sanity`
+package. It is based on esbuild and rollup and sports an array of validation to ensure that package.json can build
+both commonjs and ems packages that can be used in a variety of js runtimes.
+
+Using this internal tool for plugins allows Sanity to more quickly address common build-related issues with plugins,
+and aims to standardize how this is done thought the community.
+
+#### Q: Can I use another build tool or change @sanity/pkg-utils configuration?
 
 **A:** Yes! 
 
-Feel free to make any changes to [parcel library configuration](https://parceljs.org/getting-started/library/) as is needed.
-`@sanity/plugin-sdk verify` output is only recommendations for defaults that has been tested to work in Sanity Studio. 
+Feel free to make any changes to `package.config.ts` as is needed.
+`@sanity/plugin-sdk verify-package` output is only recommendations for defaults that has been tested to work in Sanity Studio. 
 Your plugin may have other needs.
 
-You are also free to not use parcel at all; simply change your package.json build script, and disable any verification-steps
+You are also free to not use @sanity/pkg-utils at all; simply change your package.json build script, and disable any verification-steps
 you don't care for with `sanityPlugin.verifyPackage`.
 
 ## CLI Help
@@ -361,7 +378,7 @@ Provide a sanityPlugin config in package.json (defaults shown):
     "sanityV2Json": true,
     "eslintImports": true,
     "scripts": true,
-    "parcel": true,
+    "pkg-utils": true,
     "nodeEngine": true
   }
 }
