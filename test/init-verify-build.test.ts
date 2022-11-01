@@ -4,7 +4,7 @@ import tap from 'tap'
 import {contents, initTestArgs, normalize, runCliCommand, testFixture} from './fixture-utils'
 import outdent from 'outdent'
 
-tap.test('plugin-kit init -> verify-package -> tsc > parcel build', async (t) => {
+tap.test('plugin-kit init -> verify-package -> tsc > pkg-utils build', async (t) => {
   await testFixture({
     fixturePath: 'init/empty',
     relativeOutPath: 'buildable',
@@ -28,11 +28,11 @@ tap.test('plugin-kit init -> verify-package -> tsc > parcel build', async (t) =>
 
       start = new Date().getTime()
       const tsc = await execa('tsc', ['--noEmit'], {cwd: outputDir})
-      console.error(`"tsc --noEmit" done in ${seconds()}.\nRunning "parcel build"...`)
+      console.error(`"tsc --noEmit" done in ${seconds()}.\nRunning "pkg-utils build"...`)
 
       start = new Date().getTime()
-      const build = await execa('parcel', ['build', '--no-cache'], {cwd: outputDir})
-      console.error(`"parcel build" done in ${seconds()}.`)
+      const build = await execa('pkg-utils', ['build'], {cwd: outputDir})
+      console.error(`"pkg-utils build" done in ${seconds()}.`)
 
       return {
         stdout: outdent`
@@ -60,14 +60,9 @@ tap.test('plugin-kit init -> verify-package -> tsc > parcel build', async (t) =>
 
       t.strictSame(
         await contents(path.join(outputDir, 'lib')),
-        [
-          'types/index.d.ts',
-          'types/index.d.ts.map',
-          'esm/index.js',
-          'esm/index.js.map',
-          'cjs/index.js',
-          'cjs/index.js.map',
-        ].map(normalize),
+        ['index.esm.js', 'index.esm.js.map', 'index.js', 'index.js.map', 'src/index.d.ts'].map(
+          normalize
+        ),
         'should output expected files to lib'
       )
     },

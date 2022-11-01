@@ -55,9 +55,6 @@ lib/
 .idea/
 *.iml
 
-## Parcel
-.parcel-cache
-
 # yalc
 yalc.lock
 .yalc

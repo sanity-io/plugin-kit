@@ -197,7 +197,7 @@ export async function writePackageJson(data: PackageData, options: InjectOptions
   const useEslint = flags.eslint !== false
   const useTypescript = flags.eslint !== false
 
-  const newDevDependencies = [cliName, 'parcel']
+  const newDevDependencies = [cliName, '@sanity/pkg-utils']
 
   if (useTypescript) {
     log.debug('Using TypeScript. Adding to dev dependencies.')
@@ -259,15 +259,18 @@ export async function writePackageJson(data: PackageData, options: InjectOptions
     ...(prev || {}),
     // but we override these to enforce standardization
     source: flags.typescript ? './src/index.ts' : './src/index.js',
-    main: './lib/cjs/index.js',
-    module: './lib/esm/index.js',
-    types: './lib/types/index.d.ts',
     exports: {
       '.': {
-        require: './lib/cjs/index.js',
-        default: './lib/esm/index.js',
+        ...(flags.typescript ? {types: './lib/src/index.d.ts'} : {}),
+        source: './src/index.ts',
+        import: './lib/index.esm.js',
+        require: './lib/index.js',
+        default: './lib/index.js',
       },
     },
+    main: './lib/index.js',
+    module: './lib/index.esm.js',
+    ...(flags.typescript ? {types: './lib/src/index.d.ts'} : {}),
     files: ['src', 'lib', 'v2-incompatible.js', 'sanity.json'],
     engines: {
       node: '>=14.0.0',

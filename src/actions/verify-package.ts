@@ -15,9 +15,8 @@ import {
   validateModule,
   validateNodeEngine,
   validatePackageName,
-  validateParcelDependency,
+  validatePkgUtilsDependency,
   validatePluginSanityJson,
-  validateRollupConfig,
   validateDeprecatedDependencies,
   validateScripts,
   validateTsConfig,
@@ -37,7 +36,7 @@ export async function verifyPackage({basePath, flags}: {basePath: string; flags:
   const tsConfig = await readJson5File<TsConfig>({basePath, filename: 'tsconfig.json'})
 
   await validation('packageName', async () => validatePackageName(packageJson))
-  await validation('parcel', async () => validateParcelDependency(packageJson))
+  await validation('pkg-utils', async () => validatePkgUtilsDependency(packageJson))
   await validation('scripts', async () => validateScripts(packageJson))
   await validation('module', async () => validateModule(packageJson))
   await validation('nodeEngine', async () => validateNodeEngine(packageJson))
@@ -46,7 +45,6 @@ export async function verifyPackage({basePath, flags}: {basePath: string; flags:
 
   await validation('sanityV2Json', async () => validatePluginSanityJson({basePath, packageJson}))
 
-  await validation('rollupConfig', async () => validateRollupConfig({basePath}))
   await validation('babelConfig', async () => validateBabelConfig({basePath}))
 
   await validation('dependencies', async () => validateSanityDependencies(packageJson))

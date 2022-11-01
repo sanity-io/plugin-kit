@@ -348,6 +348,10 @@ async function writeStaticAssets(options: InjectOptions) {
     {from: 'npmignore', to: '.npmignore'},
     {from: 'sanity.json', to: 'sanity.json'},
     {from: 'v2-incompatible.js.template', to: 'v2-incompatible.js'},
+    {
+      from: 'package.config.template',
+      to: options.flags.typescript ? 'package.config.ts' : 'package.config.js',
+    },
     flags.gitignore && {from: 'gitignore', to: '.gitignore'},
     flags.typescript && {from: 'template-tsconfig.json', to: 'tsconfig.json'},
     flags.prettier && {from: 'prettierrc.js', to: '.prettierrc.js'},
