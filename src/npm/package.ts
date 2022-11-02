@@ -271,7 +271,7 @@ export async function writePackageJson(data: PackageData, options: InjectOptions
         source,
         import: './lib/index.esm.js',
         require: './lib/index.js',
-        default: './lib/index.js',
+        default: './lib/index.esm.js',
       },
     },
     main: './lib/index.js',

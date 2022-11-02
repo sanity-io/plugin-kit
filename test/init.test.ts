@@ -86,7 +86,7 @@ tap.test('plugin-kit init --force in empty directory', async (t) => {
               source: './src/index.ts',
               import: './lib/index.esm.js',
               require: './lib/index.js',
-              default: './lib/index.js',
+              default: './lib/index.esm.js',
             },
           },
           main: './lib/index.js',
