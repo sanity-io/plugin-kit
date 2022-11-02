@@ -203,6 +203,17 @@ To skip this validation add the following to your package.json:
 }
 ----------------------------------------------------------
 [error] 
+package.json contains deprecated dependencies that should be removed:
+- parcel
+
+To skip this validation add the following to your package.json:
+"sanityPlugin": {
+   "verifyPackage": {
+      "deprecatedDependencies": false
+   }
+}
+----------------------------------------------------------
+[error] 
 
 root/src/index.tsx
   1:1  error  '@sanity/base' import is restricted from being used by a pattern. Use sanity instead of @sanity/base                  no-restricted-imports
