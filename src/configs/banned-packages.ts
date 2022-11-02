@@ -18,4 +18,10 @@ export const mergedPackages = [
   '@sanity/studio-hints',
 ].sort()
 
-export const deprecatedDevDeps = ['tsdx', 'sanipack']
+export const deprecatedDevDeps = [
+  'tsdx',
+  'sanipack',
+  'parcel',
+  '@parcel/packager-ts',
+  '@parcel/transformer-typescript-types',
+]

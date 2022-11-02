@@ -16,6 +16,7 @@ export const verifyPackageConfigDefaults = {
   tsconfig: true,
   tsc: true,
   dependencies: true,
+  deprecatedDependencies: true,
   babelConfig: true,
   sanityV2Json: true,
   eslintImports: true,

@@ -50,7 +50,9 @@ export async function verifyPackage({basePath, flags}: {basePath: string; flags:
   await validation('babelConfig', async () => validateBabelConfig({basePath}))
 
   await validation('dependencies', async () => validateSanityDependencies(packageJson))
-  await validation('dependencies', async () => validateDeprecatedDependencies(packageJson))
+  await validation('deprecatedDependencies', async () =>
+    validateDeprecatedDependencies(packageJson)
+  )
   await validation('eslintImports', async () => validateImports({basePath}))
 
   if (errors.length) {
