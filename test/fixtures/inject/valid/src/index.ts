@@ -1,4 +1,4 @@
-import {createPlugin} from 'sanity'
+import {definePlugin} from 'sanity'
 
 interface MyPluginConfig {
   /* nothing here yet */
@@ -8,10 +8,10 @@ interface MyPluginConfig {
  * ## Usage in sanity.config.ts (or .js)
  *
  * ```
- * import {createConfig} from 'sanity'
+ * import {defineConfig} from 'sanity'
  * import {myPlugin} from 'sanity-plugin-test-plugin'
  *
- * export const createConfig({
+ * export const defineConfig({
  *     /...
  *     plugins: [
  *         myPlugin({})
@@ -19,7 +19,7 @@ interface MyPluginConfig {
  * })
  * ```
  */
-export const myPlugin = createPlugin<MyPluginConfig>((config = {}) => {
+export const myPlugin = definePlugin<MyPluginConfig>((config = {}) => {
   // eslint-disable-next-line no-console
   console.log('hello from sanity-plugin-test-plugin')
   return {

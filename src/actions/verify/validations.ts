@@ -308,10 +308,10 @@ export async function validateStudioConfig({basePath}: {basePath: string}): Prom
         ${chalk
           .green(
             outdent`
-            import { createConfig } from "sanity"
+            import { defineConfig } from "sanity"
             import { deskTool } from "sanity/desk"
 
-            export default createConfig({
+            export default defineConfig({
               name: "default",
 
               projectId: '${sanityJson?.api?.projectId ?? 'project-id'}',

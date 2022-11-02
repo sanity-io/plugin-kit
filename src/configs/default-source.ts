@@ -4,16 +4,16 @@ import {PackageJson} from '../actions/verify/types'
 export function defaultSourceJs(pkg: PackageJson) {
   return (
     outdent`
-  import {createPlugin} from 'sanity'
+  import {definePlugin} from 'sanity'
 
   /**
    * ## Usage in sanity.config.js (or .js)
    *
    * \`\`\`
-   * import {createConfig} from 'sanity'
+   * import {defineConfig} from 'sanity'
    * import {myPlugin} from '${pkg.name}'
    *
-   * export const createConfig({
+   * export const defineConfig({
    *     /...
    *     plugins: [
    *         myPlugin({})
@@ -21,7 +21,7 @@ export function defaultSourceJs(pkg: PackageJson) {
    * })
    * \`\`\`
    */
-  export const myPlugin = createPlugin((config = {}) => {
+  export const myPlugin = definePlugin((config = {}) => {
     // eslint-disable-next-line no-console
     console.log(\`hello from ${pkg.name}\`)
     return {
@@ -35,7 +35,7 @@ export function defaultSourceJs(pkg: PackageJson) {
 export function defaultSourceTs(pkg: PackageJson) {
   return (
     outdent`
-  import {createPlugin} from 'sanity'
+  import {definePlugin} from 'sanity'
 
   interface MyPluginConfig {
     /* nothing here yet */
@@ -45,10 +45,10 @@ export function defaultSourceTs(pkg: PackageJson) {
    * ## Usage in sanity.config.ts (or .js)
    *
    * \`\`\`
-   * import {createConfig} from 'sanity'
+   * import {defineConfig} from 'sanity'
    * import {myPlugin} from '${pkg.name}'
    *
-   * export const createConfig({
+   * export const defineConfig({
    *     /...
    *     plugins: [
    *         myPlugin()
@@ -56,7 +56,7 @@ export function defaultSourceTs(pkg: PackageJson) {
    * })
    * \`\`\`
    */
-  export const myPlugin = createPlugin<MyPluginConfig | void>((config = {}) => {
+  export const myPlugin = definePlugin<MyPluginConfig | void>((config = {}) => {
     // eslint-disable-next-line no-console
     console.log('hello from ${pkg.name}')
     return {

@@ -318,10 +318,10 @@ For more, see https://beta.sanity.io/docs/platform/v2-to-v3
 
 sanity.config.(ts | js | tsx | jsx) missing. At a minimum sanity.config.ts should contain:
 
-import { createConfig } from "sanity"
+import { defineConfig } from "sanity"
 import { deskTool } from "sanity/desk"
 
-export default createConfig({
+export default defineConfig({
   name: "default",
 
   projectId: 'q5ivv38k',

@@ -16,10 +16,10 @@ yarn add my-plugin
 Add it as a plugin in sanity.config.ts (or .js):
 
 ```
- import {createConfig} from 'sanity'
+ import {defineConfig} from 'sanity'
  import {myPlugin} from 'my-plugin'
 
- export const createConfig({
+ export const defineConfig({
      /...
      plugins: [
          myPlugin({})

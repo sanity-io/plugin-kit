@@ -63,10 +63,10 @@ yalc add --link sanity-plugin-testing-it-out && yarn install
 
 Now, configure the plugin in sanity.config.ts (or .js) in Sanity Studio:
 ```ts
-  import {createConfig} from 'sanity'
+  import {defineConfig} from 'sanity'
   import {myPlugin} from 'sanity-plugin-testing-it-out'
  
-  export const createConfig({
+  export const defineConfig({
       //...
       plugins: [
           myPlugin({})
