@@ -5,6 +5,12 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.2](https://github.com/sanity-io/plugin-kit/compare/v2.0.1...v2.0.2) (2022-11-02)
+
+### Bug Fixes
+
+- now uses defineConfig and definePlugin in templates ([a678d6d](https://github.com/sanity-io/plugin-kit/commit/a678d6d63c0d9ae89d60e4a2f49b404209258cd1))
+
 ## [2.0.1](https://github.com/sanity-io/plugin-kit/compare/v2.0.0...v2.0.1) (2022-11-02)
 
 ### Bug Fixes
