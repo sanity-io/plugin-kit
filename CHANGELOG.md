@@ -5,6 +5,12 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.6](https://github.com/sanity-io/plugin-kit/compare/v2.0.5...v2.0.6) (2022-11-02)
+
+### Bug Fixes
+
+- added yalc files to gitignore template ([1442bbd](https://github.com/sanity-io/plugin-kit/commit/1442bbd09458f61e669a48f41c38270d94abb79b))
+
 ## [2.0.5](https://github.com/sanity-io/plugin-kit/compare/v2.0.4...v2.0.5) (2022-11-02)
 
 ### Bug Fixes
