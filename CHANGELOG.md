@@ -5,6 +5,12 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.4](https://github.com/sanity-io/plugin-kit/compare/v2.0.3...v2.0.4) (2022-11-02)
+
+### Bug Fixes
+
+- use .esm.js for default ([4b63b88](https://github.com/sanity-io/plugin-kit/commit/4b63b8813cc931242295e2b74648002c4a58a8a5))
+
 ## [2.0.3](https://github.com/sanity-io/plugin-kit/compare/v2.0.2...v2.0.3) (2022-11-02)
 
 ### Bug Fixes
