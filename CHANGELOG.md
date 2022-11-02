@@ -5,6 +5,12 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.5](https://github.com/sanity-io/plugin-kit/compare/v2.0.4...v2.0.5) (2022-11-02)
+
+### Bug Fixes
+
+- require index.js or index.ts as entrypoint for the plugin ([7c25507](https://github.com/sanity-io/plugin-kit/commit/7c25507a105a6e362355d283e67e8726628a6e96))
+
 ## [2.0.4](https://github.com/sanity-io/plugin-kit/compare/v2.0.3...v2.0.4) (2022-11-02)
 
 ### Bug Fixes
