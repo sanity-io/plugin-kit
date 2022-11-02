@@ -5,6 +5,12 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.7](https://github.com/sanity-io/plugin-kit/compare/v2.0.6...v2.0.7) (2022-11-02)
+
+### Bug Fixes
+
+- added parcel to deprecated dependencies check ([6172dcb](https://github.com/sanity-io/plugin-kit/commit/6172dcb1c8c96ec8c8d87246bd5998fc4b9ba246))
+
 ## [2.0.6](https://github.com/sanity-io/plugin-kit/compare/v2.0.5...v2.0.6) (2022-11-02)
 
 ### Bug Fixes
