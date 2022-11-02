@@ -184,6 +184,7 @@ async function writeEslintIgnore(options: InjectOptions) {
     commitlint.config.js
     lib
     lint-staged.config.js
+    package.config.ts
     ${options.flags.typescript ? '*.js' : ''}
   `.trim()
 
