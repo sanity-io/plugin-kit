@@ -39,6 +39,19 @@ To skip this validation add the following to your package.json:
 }
 ----------------------------------------------------------
 [error] 
+Expected one of [src/index.js, src/index.ts] to exist.
+
+@sanity/pkg-utils expects a non-jsx file to be the source entry-point for the plugin.
+If you currently have JSX in your index file, extract it into a separate file and import it.
+
+To skip this validation add the following to your package.json:
+"sanityPlugin": {
+   "verifyPackage": {
+      "srcIndex": false
+   }
+}
+----------------------------------------------------------
+[error] 
 The following script commands did not contain expected defaults: prebuild, build, watch, link-watch, prepublishOnly
 
 This checks for that the commands-strings includes these terms.
@@ -191,7 +204,7 @@ To skip this validation add the following to your package.json:
 ----------------------------------------------------------
 [error] 
 
-root/src/index.ts
+root/src/index.tsx
   1:1  error  '@sanity/base' import is restricted from being used by a pattern. Use sanity instead of @sanity/base                  no-restricted-imports
   2:1  error  '@sanity/form-builder' import is restricted from being used by a pattern. Use sanity instead of @sanity/form-builder  no-restricted-imports
 
