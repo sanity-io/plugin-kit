@@ -5,6 +5,12 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.3](https://github.com/sanity-io/plugin-kit/compare/v2.0.2...v2.0.3) (2022-11-02)
+
+### Bug Fixes
+
+- added package.config.ts to eslintignore ([2d20f01](https://github.com/sanity-io/plugin-kit/commit/2d20f018e63f6e309b779d02b7fb8b0b42c372b2))
+
 ## [2.0.2](https://github.com/sanity-io/plugin-kit/compare/v2.0.1...v2.0.2) (2022-11-02)
 
 ### Bug Fixes
