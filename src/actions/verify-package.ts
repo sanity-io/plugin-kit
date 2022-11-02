@@ -21,6 +21,7 @@ import {
   validateScripts,
   validateTsConfig,
   validateSanityDependencies,
+  validateSrcIndexFile,
 } from './verify/validations'
 import {PackageJson, TsConfig} from './verify/types'
 import chalk from 'chalk'
@@ -37,6 +38,7 @@ export async function verifyPackage({basePath, flags}: {basePath: string; flags:
 
   await validation('packageName', async () => validatePackageName(packageJson))
   await validation('pkg-utils', async () => validatePkgUtilsDependency(packageJson))
+  await validation('srcIndex', async () => validateSrcIndexFile(basePath))
   await validation('scripts', async () => validateScripts(packageJson))
   await validation('module', async () => validateModule(packageJson))
   await validation('nodeEngine', async () => validateNodeEngine(packageJson))

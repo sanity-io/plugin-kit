@@ -253,12 +253,7 @@ export async function writePackageJson(data: PackageData, options: InjectOptions
     license: license ? license.id : 'UNLICENSE',
   }
 
-  let source = flags.typescript ? './src/index.ts' : './src/index.js'
-  // account for existing (j|t)sx
-  if (prev?.source?.endsWith('x')) {
-    source += 'x'
-  }
-
+  const source = flags.typescript ? './src/index.ts' : './src/index.js'
   const manifest: PackageJson = {
     ...alwaysOnTop,
     // Use already configured values by default

@@ -421,3 +421,25 @@ export function validatePackageName(packageJson: PackageJson) {
     ]
   }
 }
+
+export async function validateSrcIndexFile(basePath: string) {
+  const paths = ['index.js', 'index.ts'].map((p) => path.join('src', p))
+  const allowedIndexFiles = paths.map((file) => path.join(basePath, file))
+
+  let hasIndex = false
+  for (const indexFile of allowedIndexFiles) {
+    hasIndex = hasIndex || (await fileExists(indexFile))
+  }
+  if (!hasIndex) {
+    return [
+      outdent`
+      Expected one of [${paths.join(', ')}] to exist.
+
+      @sanity/pkg-utils expects a non-jsx file to be the source entry-point for the plugin.
+      If you currently have JSX in your index file, extract it into a separate file and import it.
+      `,
+    ]
+  }
+
+  return []
+}

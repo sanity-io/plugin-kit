@@ -23,6 +23,7 @@ export const verifyPackageConfigDefaults = {
   'pkg-utils': true,
   nodeEngine: true,
   studioConfig: true,
+  srcIndex: true,
 } as const
 
 export type VerifyPackageConfig = Partial<Record<keyof typeof verifyPackageConfigDefaults, boolean>>
