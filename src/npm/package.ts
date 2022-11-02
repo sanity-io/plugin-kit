@@ -253,16 +253,22 @@ export async function writePackageJson(data: PackageData, options: InjectOptions
     license: license ? license.id : 'UNLICENSE',
   }
 
+  let source = flags.typescript ? './src/index.ts' : './src/index.js'
+  // account for existing (j|t)sx
+  if (prev?.source?.endsWith('x')) {
+    source += 'x'
+  }
+
   const manifest: PackageJson = {
     ...alwaysOnTop,
     // Use already configured values by default
     ...(prev || {}),
     // but we override these to enforce standardization
-    source: flags.typescript ? './src/index.ts' : './src/index.js',
+    source,
     exports: {
       '.': {
         ...(flags.typescript ? {types: './lib/src/index.d.ts'} : {}),
-        source: './src/index.ts',
+        source,
         import: './lib/index.esm.js',
         require: './lib/index.js',
         default: './lib/index.js',
