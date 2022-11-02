@@ -5,6 +5,20 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.0](https://github.com/sanity-io/plugin-kit/compare/v1.1.0...v2.0.0) (2022-11-02)
+
+### ⚠ BREAKING CHANGES
+
+- @sanity/pkg-utils is now the recommended build tool for Sanity plugins
+
+### Features
+
+- replaced parcel with @sanity/pkg-utils for builds ([7cd554f](https://github.com/sanity-io/plugin-kit/commit/7cd554f9c4044ff0a94cee37f8d5d5e3da19875c))
+
+### Bug Fixes
+
+- use jsx suffix if source already has it ([3f1a266](https://github.com/sanity-io/plugin-kit/commit/3f1a266a5b36500dbcaaa887952e7bce3b87e8a6))
+
 ## [1.1.0](https://github.com/sanity-io/plugin-kit/compare/v1.0.2...v1.1.0) (2022-10-31)
 
 ### Features
