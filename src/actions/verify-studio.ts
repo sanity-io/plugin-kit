@@ -12,11 +12,7 @@ import {
   VerifyPackageConfig,
 } from './verify/verify-common'
 import {PackageJson, TsConfig} from './verify/types'
-import {
-  validateDeprecatedDependencies,
-  validateSanityDependencies,
-  validateStudioConfig,
-} from './verify/validations'
+import {validateSanityDependencies, validateStudioConfig} from './verify/validations'
 
 export async function verifyStudio({basePath, flags}: {basePath: string; flags: VerifyFlags}) {
   let errors: string[] = []
