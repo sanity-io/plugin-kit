@@ -5,6 +5,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.8](https://github.com/sanity-io/plugin-kit/compare/v2.0.7...v2.0.8) (2022-11-03)
+
+### Bug Fixes
+
+- **deps:** update dependencies (non-major) ([#27](https://github.com/sanity-io/plugin-kit/issues/27)) ([6753319](https://github.com/sanity-io/plugin-kit/commit/6753319d7f27dfd29b6d7158cd5e421ee5c4ce84))
+- npmignore not needed as we use `pkg.files` ([28a085d](https://github.com/sanity-io/plugin-kit/commit/28a085da8fba960915473c9cce556eb1d2efddbf))
+
 ## [2.0.7](https://github.com/sanity-io/plugin-kit/compare/v2.0.6...v2.0.7) (2022-11-02)
 
 ### Bug Fixes
