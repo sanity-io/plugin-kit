@@ -239,7 +239,7 @@ If the plugin is shared across multiple "private" studios: register an organizat
 Also; you cannot easily remove modules/versions from npm once published. 
 Take a good look at your `package.json` to see that the fields in there makes sense to you,
 and make sure there are no "secrets" (authorization tokens, API keys or similar) in the plugin directory - 
-anything not listed in `.npmignore` will be part of the published module.
+any files within folders defined in the `files` field inside `package.json` will be included with your module.
 
 When you're ready to publish, run `npm publish` (or `yarn publish` if you prefer). 
 The `prepublishOnly` task should kick in and compile the source files, then verify the built output to ensure it looks good.

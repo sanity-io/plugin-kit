@@ -1,9 +1,0 @@
-/.github
-/.editorconfig
-/.eslintrc
-/.gitignore
-/.prettierrc
-/.taprc
-/coverage
-/test
-.nyc_output
