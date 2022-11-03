@@ -61,7 +61,6 @@ tap.test('plugin-kit init --force in empty directory', async (t) => {
         'lint-staged.config.js',
         '*.js'
       )
-      await fileContains('.npmignore', '/test')
       await fileContains('.prettierrc.js', 'semi: false')
       await fileContains('sanity.json', '"path": "./v2-incompatible.js"')
       await fileContains('v2-incompatible.js', 'showIncompatiblePluginDialog')

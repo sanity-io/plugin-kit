@@ -346,7 +346,6 @@ async function writeStaticAssets(options: InjectOptions) {
 
   const files: FromTo[] = [
     {from: 'editorconfig', to: '.editorconfig'},
-    {from: 'npmignore', to: '.npmignore'},
     {from: 'sanity.json', to: 'sanity.json'},
     {from: 'v2-incompatible.js.template', to: 'v2-incompatible.js'},
     {
