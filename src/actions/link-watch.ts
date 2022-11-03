@@ -44,7 +44,7 @@ export async function linkWatch({basePath}: {basePath: string}) {
   const watch: Required<YalcWatchConfig> = {
     folder: 'lib',
     command: 'npm run watch',
-    extensions: 'js,png,svg,gif,jpeg,css',
+    extensions: 'ts,js,png,svg,gif,jpeg,css',
     ...packageJson.sanityPlugin?.linkWatch,
   }
 
