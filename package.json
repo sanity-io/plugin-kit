@@ -69,7 +69,7 @@
     "npm-run-path": "^4.0.1",
     "outdent": "^0.8.0",
     "p-any": "^3.0.0",
-    "p-props": "^4.0.0",
+    "p-props": "^5.0.0",
     "postcss": "^8.4.18",
     "rimraf": "^3.0.2",
     "semver": "^7.3.8",
