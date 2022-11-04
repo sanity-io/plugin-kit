@@ -61,7 +61,7 @@ tap.test('plugin-kit init --force in empty directory', async (t) => {
         'lint-staged.config.js',
         '*.js'
       )
-      await fileContains('.prettierrc.js', 'semi: false')
+      await fileContains('.prettierrc.json', '"semi": false')
       await fileContains('sanity.json', '"path": "./v2-incompatible.js"')
       await fileContains('v2-incompatible.js', 'showIncompatiblePluginDialog')
       await fileContains('tsconfig.json', '"target": "esnext"')
@@ -165,7 +165,7 @@ tap.test('plugin-kit init --force with all the opt-outs in empty directory', asy
       await expectNotExist('LICENSE')
       await expectNotExist('.eslintrc')
       await expectNotExist('.gitignore')
-      await expectNotExist('.prettierrc.js')
+      await expectNotExist('.prettierrc.json')
       await expectNotExist('tsconfig.json')
 
       await fileContains('src/index.js', `name: '${pluginTestName}'`)

@@ -354,7 +354,7 @@ async function writeStaticAssets(options: InjectOptions) {
     },
     flags.gitignore && {from: 'gitignore', to: '.gitignore'},
     flags.typescript && {from: 'template-tsconfig.json', to: 'tsconfig.json'},
-    flags.prettier && {from: 'prettierrc.js', to: '.prettierrc.js'},
+    flags.prettier && {from: 'prettierrc.json', to: '.prettierrc.json'},
   ]
     .map((f) => (f ? (f as FromTo) : undefined))
     .filter((f): f is FromTo => !!f)
