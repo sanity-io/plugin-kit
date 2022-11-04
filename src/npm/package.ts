@@ -206,7 +206,7 @@ export async function writePackageJson(data: PackageData, options: InjectOptions
 
   if (usePrettier) {
     log.debug('Using prettier. Adding to dev dependencies.')
-    newDevDependencies.push('prettier')
+    newDevDependencies.push('prettier', 'prettier-plugin-packagejson')
   }
 
   if (useEslint) {

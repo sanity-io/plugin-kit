@@ -16,7 +16,7 @@ on:
         default: true
         type: boolean
       release:
-        description: Publish new release
+        description: Release new version
         required: true
         default: false
         type: boolean
