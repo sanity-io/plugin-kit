@@ -46,8 +46,8 @@ jobs:
     needs: build
     strategy:
       matrix:
-        os: [ macos-latest, ubuntu-latest ]
-        node: [ lts/*, current ]
+        os: [macos-latest, ubuntu-latest]
+        node: [lts/*, current]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v3

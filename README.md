@@ -3,7 +3,7 @@
 > **NOTE**
 >
 > This is a developer preview package meant for **Sanity Studio v3** plugin development.
-> 
+>
 > For a v2 alternative, consider using [Sanipack](https://github.com/rexxars/sanipack).
 
 ## What is it?
@@ -16,22 +16,22 @@ The verify-package command can be used when upgrading V2 plugins to Studio V3 ve
 @sanity/plugin-kit also comes with a verify-studio command that can be used to recommend upgrade steps in existing Sanity Studio v2 studio.
 
 This package assumes and recommends [@sanity/pkg-utils](https://github.com/sanity-io/pkg-utils#sanitypkg-utils) for building,
-and [Yalc](https://github.com/wclr/yalc) with watch for testing the plugin in Sanity Studio. 
+and [Yalc](https://github.com/wclr/yalc) with watch for testing the plugin in Sanity Studio.
 Check the [FAQ](#faq) fro more on these.
 
 ## Table of contents
 
-* [Installation](#installation)
-* [Initialize a new plugin](#initialize-a-new-plugin)
-* [Verify plugin package](#verify-plugin-package)
-  * [Upgrading a v2 plugin](#upgrading-a-v2-plugin)
-* [Upgrade help in v2 Studio](#upgrade-help-in-v2-studio)
-* [Inject config into existing v3 plugin](#inject-config-into-existing-v3)
-* [Testing a plugin in Sanity Studio](#testing-a-plugin-in-sanity-studio)
-* [Upgrading from plugin-kit 1.x](#upgrade-from-v1x-to-v2)
-* [FAQ](#faq) aka "Do I _have_ to use this plugin-kit?" aka No
-* [Configuration reference](#configuration-reference)
-* [Developing plugin-kit](#developing-plugin-kit)
+- [Installation](#installation)
+- [Initialize a new plugin](#initialize-a-new-plugin)
+- [Verify plugin package](#verify-plugin-package)
+  - [Upgrading a v2 plugin](#upgrading-a-v2-plugin)
+- [Upgrade help in v2 Studio](#upgrade-help-in-v2-studio)
+- [Inject config into existing v3 plugin](#inject-config-into-existing-v3)
+- [Testing a plugin in Sanity Studio](#testing-a-plugin-in-sanity-studio)
+- [Upgrading from plugin-kit 1.x](#upgrade-from-v1x-to-v2)
+- [FAQ](#faq) aka "Do I _have_ to use this plugin-kit?" aka No
+- [Configuration reference](#configuration-reference)
+- [Developing plugin-kit](#developing-plugin-kit)
 
 ## Installation
 
@@ -48,6 +48,7 @@ Check the [FAQ](#faq) fro more on these.
 ### Quickstart
 
 First, run the init command:
+
 ```bash
 # Initialize a new plugin (outside of your Sanity studio folder)
 npx @sanity/plugin-kit init sanity-plugin-testing-it-out
@@ -62,10 +63,11 @@ yalc add --link sanity-plugin-testing-it-out && yarn install
 ```
 
 Now, configure the plugin in sanity.config.ts (or .js) in Sanity Studio:
+
 ```ts
   import {defineConfig} from 'sanity'
   import {myPlugin} from 'sanity-plugin-testing-it-out'
- 
+
   export const defineConfig({
       //...
       plugins: [
@@ -86,6 +88,7 @@ Since the plugin is running in watch mode, any changes you make to the plugin co
 ### Init options
 
 The init commands has several config flags, run
+
 ```
 npx @sanity/plugin-kit init --help
 ```
@@ -100,24 +103,25 @@ Verify that the plugin package is configured correctly by running:
 
 ### What does it do?
 
-* Check package.json for:
-  * recommended script commands
-  * recommended cjs and esm configuration
-  * sanity dependency compatibility
-  * @sanity/pkg-utils devDependency
-  * recommended usage of devDependencies/peerDependencies/dependencies for certain packages
-* Check for redundant v2 config:
-  * babel
-  * sanity.json
-* Check for sanity imports that has changed in v3, using eslint
-* Check tsconfig.json settings
-* Check for [SPDX](https://spdx.org/licenses/) compatible license definition
-* If the package uses TypeScript, this will also run `tsc --noEmit` when all other checks have passed
+- Check package.json for:
+  - recommended script commands
+  - recommended cjs and esm configuration
+  - sanity dependency compatibility
+  - @sanity/pkg-utils devDependency
+  - recommended usage of devDependencies/peerDependencies/dependencies for certain packages
+- Check for redundant v2 config:
+  - babel
+  - sanity.json
+- Check for sanity imports that has changed in v3, using eslint
+- Check tsconfig.json settings
+- Check for [SPDX](https://spdx.org/licenses/) compatible license definition
+- If the package uses TypeScript, this will also run `tsc --noEmit` when all other checks have passed
 
 Each check will explain why it is needed, steps to fix it and how it can be individually disabled.
 
-### What it is *not*
-`verify-package` is *not* a codemod tool (yet). It will only check files and recommended settings: it will not change any files.
+### What it is _not_
+
+`verify-package` is _not_ a codemod tool (yet). It will only check files and recommended settings: it will not change any files.
 
 ### Upgrading a v2 plugin
 
@@ -139,9 +143,9 @@ npx @sanity/plugin-kit verify-studio
 
 This will:
 
-* Check for `sanity.json,` `sanity.config.(ts|js)` and `sanity.cli.(ts|js)` and advice on how to convert the former to the latter two.
-* Check for sanity dependencies that has changed in v3
-* Check for sanity imports that has changed in v3, using ESlint
+- Check for `sanity.json,` `sanity.config.(ts|js)` and `sanity.cli.(ts|js)` and advice on how to convert the former to the latter two.
+- Check for sanity dependencies that has changed in v3
+- Check for sanity imports that has changed in v3, using ESlint
 
 ### Fail fast mode
 
@@ -155,18 +159,20 @@ npx @sanity/plugin-kit verify-package --studio --single
 
 This will only output the first validation that fails. Useful when working through the list of issues by fixing and rerunning the command.
 
-### Inject config into existing v3 
+### Inject config into existing v3
 
 Consult the inject command CLI help:
+
 ```
 npx @sanity/plugin-kit inject --help
 ```
 
 for up-to-date specifics.
 
-## Testing a plugin in Sanity Studio  
+## Testing a plugin in Sanity Studio
 
 Ensure you have the following script setup in package.json:
+
 ```json
 {
   "scripts": {
@@ -198,29 +204,32 @@ You can now change your plugin code, which will:
 5. Trigger hot-reload; you should see changes in the Studio
 
 **Note:** Yalc will modify your studio package.json when linking; remember to revert it when you are done testing.
-You should also put `.yalc` and `yalc.lock` into `.gitignore`. 
+You should also put `.yalc` and `yalc.lock` into `.gitignore`.
 
 When you are done testing, you can run
+
 ```
 npx yalc remove <your-plugin-package> && yarn install
 ```
+
 to restore the version in `package.json`.
 
 ### Link-watch configuration
+
 This command can be configured using `sanityPlugin.linkWatch` in package.json:
 
 ```json5
 {
-  "sanityPlugin": {
-    "linkWatch": {
+  sanityPlugin: {
+    linkWatch: {
       // directory to watch
-      "folder": "lib",
+      folder: 'lib',
       // command to run when content in linkWatch.folder changes
-      "command": "npm run watch",
+      command: 'npm run watch',
       // file extensions to watch for changes in the linkWatch.folder
-      "extensions": "js,png,svg,gif,jpeg,css"
-    }
-  }
+      extensions: 'js,png,svg,gif,jpeg,css',
+    },
+  },
 }
 ```
 
@@ -230,30 +239,31 @@ See the [FAQ](#faq).
 
 ## Publishing a plugin
 
-**Note:** If you're writing a plugin that is only useful for yourself or your company, 
+**Note:** If you're writing a plugin that is only useful for yourself or your company,
 you might want to develop the plugin directly in the Studio (saves you from having to publish at all, and has improved hot-reload dev experience).
 
 If the plugin is shared across multiple "private" studios: register an organization on npm and make sure your module is
 [prefixed with the organization scope](https://docs.npmjs.com/creating-and-publishing-private-packages), eg `@your-company/plugin-name`.
 
-Also; you cannot easily remove modules/versions from npm once published. 
+Also; you cannot easily remove modules/versions from npm once published.
 Take a good look at your `package.json` to see that the fields in there makes sense to you,
-and make sure there are no "secrets" (authorization tokens, API keys or similar) in the plugin directory - 
+and make sure there are no "secrets" (authorization tokens, API keys or similar) in the plugin directory -
 any files within folders defined in the `files` field inside `package.json` will be included with your module.
 
-When you're ready to publish, run `npm publish` (or `yarn publish` if you prefer). 
+When you're ready to publish, run `npm publish` (or `yarn publish` if you prefer).
 The `prepublishOnly` task should kick in and compile the source files, then verify the built output to ensure it looks good.
 
 If you have not published any modules to npm before, you will be asked to create a user first.
 
-For an opinionated template for publication based on semantic-release, see [semver-workflow preset](docs/semver-workflow.md) 
+For an opinionated template for publication based on semantic-release, see [semver-workflow preset](docs/semver-workflow.md)
 
 ### Upgrade from v1.x to v2
 
 To upgrade a plugin that already uses `@sanity/plugin-kit` 1.x:
+
 - Update `@sanity/plugin-kit` to version to 2.x in `package.json`
 - Run: `npx @sanity/plugin-kit inject`
-  - This will update package.json with new defaults 
+  - This will update package.json with new defaults
   - Feel free to answer no to any file-overwrite prompts
 - Inspect git diff to see what was changed
 - Run: `npm install`
@@ -269,18 +279,18 @@ This package was created to make it easier to set up the build toolchain and pre
 
 If you know what you're doing and don't like any magic, roll your own thing! :)
 
-#### Q: Why use yalc? 
+#### Q: Why use yalc?
 
 npm link & yarn link unfortunately can easily break the [rules of hooks](https://reactjs.org/docs/hooks-rules.html) due
-to the way packages are resolved using symlinks. 
+to the way packages are resolved using symlinks.
 
 Yalc bypass this problem as it more closely resembles installing a dependency as normal.
 
 #### Q: Do I have to use yalc?
 
-**A:** No! 
+**A:** No!
 
-Feel free to use any variation of `npm link` or `yarn link` alongside `npm run watch` for testing, 
+Feel free to use any variation of `npm link` or `yarn link` alongside `npm run watch` for testing,
 but beware that if you get errors from React along the lines of
 
 ```
@@ -291,16 +301,16 @@ This could happen for one of the following reasons:
 - You might have more than one copy of React in the same app
 See https://reactjs.org/link/invalid-hook-call for tips about how to debug and fix this problem.
 ```
- 
+
 you probably have to revert to using yalc, or use `npm pack` + and install the resulting tzg-file.
 
 ### Q: What appended with the Parcel recommendation?
 
-At the time of writing (Nov 2022) the latest version of parcel (2.7) failed to build Sanity plugins. 
-The previous version (2.6) did not work with the latest version of TypeScript. 
-Pinning these versions was confusing and caused issues. 
+At the time of writing (Nov 2022) the latest version of parcel (2.7) failed to build Sanity plugins.
+The previous version (2.6) did not work with the latest version of TypeScript.
+Pinning these versions was confusing and caused issues.
 
-We also saw issues with modules using nested async imports. 
+We also saw issues with modules using nested async imports.
 
 As such, we decided to standardize plugins on the same build-tool used by Sanity studio, [@sanity/pkg-utils](https://github.com/sanity-io/pkg-utils#sanitypkg-utils).
 
@@ -315,10 +325,10 @@ and aims to standardize how this is done thought the community.
 
 #### Q: Can I use another build tool or change @sanity/pkg-utils configuration?
 
-**A:** Yes! 
+**A:** Yes!
 
 Feel free to make any changes to `package.config.ts` as is needed.
-`@sanity/plugin-sdk verify-package` output is only recommendations for defaults that has been tested to work in Sanity Studio. 
+`@sanity/plugin-sdk verify-package` output is only recommendations for defaults that has been tested to work in Sanity Studio.
 Your plugin may have other needs.
 
 You are also free to not use @sanity/pkg-utils at all; simply change your package.json build script, and disable any verification-steps
@@ -327,7 +337,7 @@ you don't care for with `sanityPlugin.verifyPackage`.
 ## CLI Help
 
 ```sh
-$ npx @sanity/plugin-kit --help 
+$ npx @sanity/plugin-kit --help
 
 Usage
   $ plugin-kit [--help] [--debug] <command> [<args>]
@@ -394,6 +404,7 @@ MIT © [Espen Hovlandsdal](https://espen.codes/) and [Sanity.io](https://www.san
 ### Test in another package
 
 In one shell, run
+
 ```sh
 npm link
 npm run watch
@@ -435,7 +446,6 @@ npm run test -- test/verify-package.test.ts
 npm run test -- test/verify-package.test.ts --snapshot
 ```
 
-
 ## Developing plugin kit
 
 ### Release new version
@@ -444,4 +454,3 @@ Run ["CI & Release" workflow](https://github.com/sanity-io/plugin-kitactions).
 Make sure to select the main branch and check "Release new version".
 
 Semantic release will only release on configured branches, so it is safe to run release on any branch.
-

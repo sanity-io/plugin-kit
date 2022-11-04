@@ -13,6 +13,7 @@ yarn add sanity-plugin-test-plugin
 ```
 
 ## Usage
+
 Add it as a plugin in sanity.config.ts (or .js):
 
 ```
@@ -26,6 +27,7 @@ Add it as a plugin in sanity.config.ts (or .js):
      ]
  })
 ```
+
 ## License
 
 MIT © Test Person

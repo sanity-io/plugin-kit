@@ -10,6 +10,5 @@ This can be done by adding the repo to Github Renovatebot app allow-list.
 
 Sets up the repo
 
-* Adds Sanity dependabot preset dependency.
-* Adds `renovate.json` to configure the above dependency for Renovatebot
-
+- Adds Sanity dependabot preset dependency.
+- Adds `renovate.json` to configure the above dependency for Renovatebot
