@@ -5,9 +5,7 @@
  * Make sure to inspect the output below.  Do not ignore changes!
  */
 'use strict'
-exports[
-  `test/verify-package.test.ts TAP plugin-kit verify-package in ok package > stdout should match snapshot 1`
-] = `
+exports[`test/verify-package.test.ts TAP plugin-kit verify-package in ok package > stdout should match snapshot 1`] = `
 [success] No outstanding upgrade issues detected.
 
 Suggested next steps:
@@ -16,9 +14,7 @@ Suggested next steps:
   - Test the plugin using the link-watch command
 `
 
-exports[
-  `test/verify-package.test.ts TAP plugin-kit verify-package in package with all checks failing > stderr should match snapshot 1`
-] = `
+exports[`test/verify-package.test.ts TAP plugin-kit verify-package in package with all checks failing > stderr should match snapshot 1`] = `
 [error] 
 Invalid package.json: "name" should be prefixed with "sanity-plugin-" (or scoped - @your-company/plugin-name)
 
@@ -260,9 +256,7 @@ To fail-fast on first detected issue run:
 npx @sanity/plugin-kit verify-package' --single
 `
 
-exports[
-  `test/verify-package.test.ts TAP plugin-kit verify-package in package with invalid eslint config > stderr should match snapshot 1`
-] = `
+exports[`test/verify-package.test.ts TAP plugin-kit verify-package in package with invalid eslint config > stderr should match snapshot 1`] = `
 [error] Failed to run eslint check Error: Failed to load config "this-does-not-exist" to extend from.
 Referenced from: root/.eslintrc
     at configInvalidError root/node_modules/@eslint/eslintrc/lib/config-array-factory.js:299:9)
@@ -316,9 +310,7 @@ To fail-fast on first detected issue run:
 npx @sanity/plugin-kit verify-package' --single
 `
 
-exports[
-  `test/verify-package.test.ts TAP plugin-kit verify-studio in fresh v2 studio > stderr should match snapshot 1`
-] = `
+exports[`test/verify-package.test.ts TAP plugin-kit verify-studio in fresh v2 studio > stderr should match snapshot 1`] = `
 [error] 
 Found sanity.json. This file is not used by Sanity Studio V3.
 
