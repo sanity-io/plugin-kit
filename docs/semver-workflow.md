@@ -14,7 +14,7 @@ Move text around until it looks good. Remember to change any v2 usage examples.
 
 ### 2. Update `.github/workflows/main.yml` branches
 
-This differs from repo to repo.
+This differs from repo to repo, default is `[main]`
 
 In a typical plugin repo with a v2 and v3 version, it will typically look like this:
 
@@ -22,17 +22,19 @@ In a typical plugin repo with a v2 and v3 version, it will typically look like t
 # .github/workflows/main.yml
 name: CI & Release
 on:
-  # Build on pushes to release branches
   push:
-    branches: [main, v3]
-  # Build on pull requests targeting release branches
-  pull_request:
     branches: [main, v3]
 ```
 
+** Check secrets **
+Ensure that your repo or Github org has set the secrets used by the workflow.
+
+`secrets.GITHUB_TOKEN` should always be available by default, but
+`secrets.NPM_PUBLISH_TOKEN` is not.
+
 ### 3. Update .releaserc.json
 
-This differs from repo to repo.
+This differs from repo to repo. Branches defaults to `"branches": ["main"]`
 
 In a typical plugin repo with a v2 and v3 version, it will typically look like this:
 
