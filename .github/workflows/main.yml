@@ -1,8 +1,14 @@
 ---
 name: CI & Release
 
-# Workflow name in the actions list, falls back to default naming (PR, commit depending) when expression evaluates to empty string
-run-name: "${{inputs.release && 'Publish to NPM' || github.event_name == 'workflow_dispatch' && 'Manual run: Build & Test' }} || ''"
+# Workflow name based on selected inputs. Fallback to default naming when expression evaluates to empty string
+run-name: >
+  ${{
+    inputs.release && inputs.test && 'Build & Test -> Publish to NPM' ||
+    inputs.release && !inputs.test && 'Build & Skip Tests -> Publish to NPM' ||
+    github.event_name == 'workflow_dispatch' && inputs.test && 'Manual run: Build & Test' ||
+    github.event_name == 'workflow_dispatch' && !inputs.test && 'Manual run: Build only' ||
+  }}
 
 on:
   # Build on pushes branches that have a PR (including drafts)
