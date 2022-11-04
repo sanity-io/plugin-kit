@@ -91,7 +91,7 @@
     "@commitlint/cli": "^17.0.3",
     "@commitlint/config-conventional": "^17.0.3",
     "@sanity/pkg-utils": "^1.16.2",
-    "@sanity/semantic-release-preset": "^2.0.0",
+    "@sanity/semantic-release-preset": "^2.0.2",
     "@types/eslint": "^8.4.6",
     "@types/fs-extra": "^9.0.13",
     "@types/inquirer": "^8.2.3",
