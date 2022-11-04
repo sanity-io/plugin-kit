@@ -1,5 +1,5 @@
 // Node 14 does not implement String.replaceAll: https://node.green/#ES2021-features--String-prototype-replaceAll
-import 'string.prototype.replaceall/polyfill'
+import 'string.prototype.replaceall/auto'
 import {FromTo, InjectOptions, writeAssets} from '../actions/inject'
 import {resolveLatestVersions} from '../npm/resolveLatestVersions'
 import {Preset} from './presets'
