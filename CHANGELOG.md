@@ -5,6 +5,12 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.1.4](https://github.com/sanity-io/plugin-kit/compare/v2.1.3...v2.1.4) (2022-11-04)
+
+### Bug Fixes
+
+- test --if-present in workflow ([f243753](https://github.com/sanity-io/plugin-kit/commit/f24375375b3531f3b3c5aecfe2611fe19751b795))
+
 ## [2.1.3](https://github.com/sanity-io/plugin-kit/compare/v2.1.2...v2.1.3) (2022-11-04)
 
 ### Bug Fixes
