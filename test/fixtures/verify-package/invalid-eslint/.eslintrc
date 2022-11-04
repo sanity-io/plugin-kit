@@ -4,8 +4,5 @@
     "node": true,
     "browser": true
   },
-  "extends": [
-    "sanity",
-    "this-does-not-exist"
-  ]
+  "extends": ["sanity", "this-does-not-exist"]
 }

@@ -4,9 +4,5 @@
     "node": true,
     "browser": true
   },
-  "extends": [
-    "sanity",
-    "sanity/typescript",
-    "plugin:prettier/recommended"
-  ]
+  "extends": ["sanity", "sanity/typescript", "plugin:prettier/recommended"]
 }
