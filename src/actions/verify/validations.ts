@@ -37,7 +37,7 @@ const expectedCompilerOptions = {
 
 export function validateNodeEngine(packageJson: PackageJson) {
   const nodeVersionRange = '>=14'
-  if (packageJson.engines?.node !== nodeVersionRange) {
+  if (!packageJson.engines?.node?.startsWith(nodeVersionRange)) {
     return [
       outdent`
         Expected package.json to contain engines.node: ">=14" to ensure Studio compatible builds,
