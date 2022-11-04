@@ -220,16 +220,16 @@ This command can be configured using `sanityPlugin.linkWatch` in package.json:
 
 ```json5
 {
-  sanityPlugin: {
-    linkWatch: {
+  "sanityPlugin": {
+    "linkWatch": {
       // directory to watch
-      folder: 'lib',
+      "folder": "lib",
       // command to run when content in linkWatch.folder changes
-      command: 'npm run watch',
+      "command": "npm run watch",
       // file extensions to watch for changes in the linkWatch.folder
-      extensions: 'js,png,svg,gif,jpeg,css',
-    },
-  },
+      "extensions": "js,png,svg,gif,jpeg,css"
+    }
+  }
 }
 ```
 
