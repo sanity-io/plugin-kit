@@ -3,14 +3,14 @@
   "version": "1.0.0",
   "private": true,
   "description": "Just an invalid thing",
-  "main": "./src/one.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "keywords": [
     "sanity",
     "sanity-plugin"
   ],
+  "license": "MIT",
   "author": "Some person",
-  "license": "MIT"
+  "main": "./src/one.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
 }

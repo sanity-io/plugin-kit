@@ -3,19 +3,19 @@
   "version": "1.0.0",
   "private": true,
   "description": "Just a valid typescript Sanity plugin fixture. Do not publish.",
-  "main": "./lib/one.js",
-  "types": "types.d.ts",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "keywords": [
     "sanity",
     "sanity-plugin"
   ],
+  "license": "MIT",
+  "author": "Some person",
+  "main": "./lib/one.js",
+  "types": "types.d.ts",
   "files": [
     "lib",
     ".eslintignore"
   ],
-  "author": "Some person",
-  "license": "MIT"
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
 }
