@@ -5,6 +5,12 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.1.6](https://github.com/sanity-io/plugin-kit/compare/v2.1.5...v2.1.6) (2022-11-04)
+
+### Bug Fixes
+
+- package.json is now part of exports ([9e0631a](https://github.com/sanity-io/plugin-kit/commit/9e0631af37b7e1c87945d5ae9fc82775c8eebe4c))
+
 ## [2.1.5](https://github.com/sanity-io/plugin-kit/compare/v2.1.4...v2.1.5) (2022-11-04)
 
 ### Bug Fixes
