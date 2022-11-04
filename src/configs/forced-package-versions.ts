@@ -4,5 +4,5 @@ export const forcedPackageVersions = {
   'react-dom': '^18',
   '@types/react-dom': '^18',
   sanity: 'dev-preview || 3.0.0-rc.0',
-  '@sanity/ui': '1.0.0-beta.31',
+  '@sanity/ui': '1.0.0-beta.32',
 } as const
