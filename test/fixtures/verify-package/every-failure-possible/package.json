@@ -23,6 +23,6 @@
   },
   "peerDependencies": {
     "@sanity/base": "^2.30.1",
-    "react": "^17 || ^18"
+    "react": "^18"
   }
 }
