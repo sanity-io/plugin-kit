@@ -11,7 +11,7 @@ export interface PackageJson {
   author?: string
   source?: string
   exports?: {
-    [index: string]: Record<string, string> | undefined
+    [index: string]: Record<string, string> | string | undefined
   }
   main?: string
   module?: string
