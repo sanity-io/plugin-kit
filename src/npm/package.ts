@@ -274,7 +274,7 @@ export async function writePackageJson(data: PackageData, options: InjectOptions
     ...(flags.typescript ? {types: './lib/src/index.d.ts'} : {}),
     files: ['src', 'lib', 'v2-incompatible.js', 'sanity.json'],
     engines: {
-      node: '>=14.0.0',
+      node: '>=14',
     },
     scripts: {...prev.scripts},
     repository: {...prev.repository},

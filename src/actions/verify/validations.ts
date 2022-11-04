@@ -36,11 +36,11 @@ const expectedCompilerOptions = {
 }
 
 export function validateNodeEngine(packageJson: PackageJson) {
-  const nodeVersionRange = '>=14.0.0'
+  const nodeVersionRange = '>=14'
   if (packageJson.engines?.node !== nodeVersionRange) {
     return [
       outdent`
-        Expected package.json to contain engines.node: ">=14.0.0" to ensure Studio compatible builds,
+        Expected package.json to contain engines.node: ">=14" to ensure Studio compatible builds,
         but it was: ${packageJson.engines?.node}
 
         Please add the following to package.json:
