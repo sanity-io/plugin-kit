@@ -25,6 +25,7 @@ const defaultDevDependencies = [
   'eslint-plugin-react',
   'eslint-plugin-react-hooks',
   'prettier',
+  'prettier-plugin-packagejson',
   'react',
   'rimraf',
   'sanity',

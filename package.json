@@ -2,38 +2,6 @@
   "name": "@sanity/plugin-kit",
   "version": "2.0.9",
   "description": "Enhanced Sanity.io plugin development experience",
-  "scripts": {
-    "clean": "rimraf lib",
-    "prebuild": "npm run clean",
-    "build": "tsc",
-    "postbuild": "node executable-index.js",
-    "watch": "tsc --watch",
-    "test": "tap",
-    "prepare": "husky install",
-    "commit": "git-cz",
-    "lint": "eslint .",
-    "compile": "tsc --noEmit",
-    "format": "prettier src -w",
-    "prepublishOnly": "npm run build"
-  },
-  "binname": "sanity-plugin",
-  "source": "./src/index.ts",
-  "types": "./lib/src/index.d.ts",
-  "bin": "lib/src/index.js",
-  "main": "./lib/src/index.js",
-  "files": [
-    "v2-incompatible.js",
-    "src",
-    "lib",
-    "assets"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "git+ssh://git@github.com/sanity-io/plugin-kit.git"
-  },
-  "engines": {
-    "node": ">=14.0.0"
-  },
   "keywords": [
     "sanity-io",
     "sanity",
@@ -43,12 +11,52 @@
     "typescript",
     "bootstrap"
   ],
-  "author": "Sanity.io <hello@sanity.io>",
-  "license": "MIT",
+  "homepage": "https://github.com/sanity-io/plugin-kit#readme",
   "bugs": {
     "url": "https://github.com/sanity-io/plugin-kit/issues"
   },
-  "homepage": "https://github.com/sanity-io/plugin-kit#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/sanity-io/plugin-kit.git"
+  },
+  "license": "MIT",
+  "author": "Sanity.io <hello@sanity.io>",
+  "main": "./lib/src/index.js",
+  "source": "./src/index.ts",
+  "types": "./lib/src/index.d.ts",
+  "bin": "lib/src/index.js",
+  "files": [
+    "v2-incompatible.js",
+    "src",
+    "lib",
+    "assets"
+  ],
+  "scripts": {
+    "prebuild": "npm run clean",
+    "build": "tsc",
+    "postbuild": "node executable-index.js",
+    "clean": "rimraf lib",
+    "commit": "git-cz",
+    "compile": "tsc --noEmit",
+    "format": "prettier src -w",
+    "lint": "eslint .",
+    "prepare": "husky install",
+    "prepublishOnly": "npm run build",
+    "test": "tap",
+    "watch": "tsc --watch"
+  },
+  "tap": {
+    "browser": false,
+    "check-coverage": false,
+    "coverage-report": [
+      "html"
+    ],
+    "jobs": 2,
+    "reporter": "spec",
+    "test-ignore": "^lib/.*|.*ignore.*|.*run-test-command.*|.*fixture.utils.*",
+    "timeout": 120,
+    "ts": true
+  },
   "dependencies": {
     "@rexxars/choosealicense-list": "^1.1.2",
     "chalk": "^4.1.2",
@@ -78,9 +86,6 @@
     "xdg-basedir": "^4.0.0",
     "yalc": "^1.0.0-pre.53"
   },
-  "peerDependencies": {
-    "eslint": ">=8.0.0"
-  },
   "devDependencies": {
     "@commitlint/cli": "^17.0.3",
     "@commitlint/config-conventional": "^17.0.3",
@@ -104,6 +109,7 @@
     "json5": "^2.2.1",
     "lint-staged": "^13.0.3",
     "prettier": "^2.7.1",
+    "prettier-plugin-packagejson": "^2.3.0",
     "readdirp": "^3.6.0",
     "rimraf": "^3.0.2",
     "sanity": "3.0.0-rc.0",
@@ -112,16 +118,11 @@
     "ts-node": "^10.9.1",
     "typescript": "^4.8.4"
   },
-  "tap": {
-    "jobs": 2,
-    "browser": false,
-    "timeout": 120,
-    "reporter": "spec",
-    "check-coverage": false,
-    "coverage-report": [
-      "html"
-    ],
-    "test-ignore": "^lib/.*|.*ignore.*|.*run-test-command.*|.*fixture.utils.*",
-    "ts": true
-  }
+  "peerDependencies": {
+    "eslint": ">=8.0.0"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "binname": "sanity-plugin"
 }

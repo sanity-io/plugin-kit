@@ -3,7 +3,12 @@
   "version": "1.0.0",
   "private": true,
   "description": "Just a valid Sanity plugin fixture. Do not publish.",
-  "source": "./src/index.js",
+  "keywords": [
+    "sanity",
+    "sanity-plugin"
+  ],
+  "license": "MIT",
+  "author": "Some person",
   "exports": {
     ".": {
       "require": "./lib/cjs/index.js",
@@ -12,6 +17,7 @@
   },
   "main": "./lib/cjs/index.js",
   "module": "./lib/esm/index.js",
+  "source": "./src/index.js",
   "files": [
     "src",
     "lib"
@@ -19,13 +25,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [
-    "sanity",
-    "sanity-plugin"
-  ],
   "peerDependencies": {
     "react": "^16.2.0 || ^18.0.0"
-  },
-  "author": "Some person",
-  "license": "MIT"
+  }
 }
