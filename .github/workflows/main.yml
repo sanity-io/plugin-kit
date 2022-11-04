@@ -2,7 +2,7 @@
 name: CI & Release
 
 # Workflow name in the actions list, falls back to commit message when expression evaluates to empty string
-run-name: "${{inputs.release && 'Publish to NPM' || github.event_name == 'workflow_dispatch' && 'Manual run: Build & Test' }}"
+run-name: "${{inputs.release && 'Publish to NPM' || github.event_name == 'workflow_dispatch' && 'Manual run: Build & Test' }} || ''"
 
 on:
   # Build on pushes branches that have a PR (including drafts)
