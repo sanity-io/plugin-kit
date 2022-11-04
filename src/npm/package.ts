@@ -13,7 +13,7 @@ import {cliName, incompatiblePluginPackage} from '../constants'
 import {InjectOptions, PackageData} from '../actions/inject'
 import {expectedScripts} from '../actions/verify/validations'
 import {PackageJson} from '../actions/verify/types'
-import {forcedPackageVersions} from '../configs/forced-package-versions'
+import {forcedDevPackageVersions, forcedPackageVersions} from '../configs/forced-package-versions'
 
 const defaultDependencies = [incompatiblePluginPackage]
 
@@ -234,11 +234,14 @@ export async function writePackageJson(data: PackageData, options: InjectOptions
     ...(addDeps || {}),
     ...(await resolveLatestVersions(defaultDependencies)),
   })
-  const devDependencies = forceDependencyVersions({
-    ...(addDevDeps || {}),
-    ...(prev.devDependencies || {}),
-    ...(await resolveLatestVersions([...newDevDependencies, ...defaultDevDependencies])),
-  })
+  const devDependencies = forceDependencyVersions(
+    {
+      ...(addDevDeps || {}),
+      ...(prev.devDependencies || {}),
+      ...(await resolveLatestVersions([...newDevDependencies, ...defaultDevDependencies])),
+    },
+    forcedDevPackageVersions
+  )
   const peerDependencies = forceDependencyVersions({
     ...(prev.peerDependencies || {}),
     ...(addPeers || {}),
@@ -384,10 +387,13 @@ export function sortKeys<T extends Record<string, unknown>>(unordered: T): T {
     }, {} as T)
 }
 
-function forceDependencyVersions(deps: Record<string, string>): Record<string, string> {
+function forceDependencyVersions(
+  deps: Record<string, string>,
+  versions = forcedPackageVersions
+): Record<string, string> {
   const entries = Object.entries(deps).map((entry) => {
     const [pkg] = entry
-    const forceVersion = forcedPackageVersions[pkg as keyof typeof forcedPackageVersions]
+    const forceVersion = versions[pkg as keyof typeof versions]
     if (forceVersion) {
       return [pkg, forceVersion]
     }

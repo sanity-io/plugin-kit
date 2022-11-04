@@ -1,13 +1,10 @@
 import path from 'path'
 import {inject} from './inject'
 import {ensureDir, writeFile} from '../util/files'
-import {resolveLatestVersions} from '../npm/resolveLatestVersions'
 import sharedFlags from '../sharedFlags'
 import {TypedFlags} from 'meow'
 import {getPackage} from '../npm/package'
 import {defaultSourceJs, defaultSourceTs} from '../configs/default-source'
-import {incompatiblePluginPackage} from '../constants'
-import {forcedPackageVersions} from '../configs/forced-package-versions'
 
 export const initFlags = {
   ...sharedFlags,
