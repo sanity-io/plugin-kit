@@ -1,5 +1,3 @@
-// Node 14 does not implement String.replaceAll: https://node.green/#ES2021-features--String-prototype-replaceAll
-import 'string.prototype.replaceall/auto'
 import {FromTo, InjectOptions, writeAssets} from '../actions/inject'
 import {resolveLatestVersions} from '../npm/resolveLatestVersions'
 import {Preset} from './presets'
@@ -195,9 +193,9 @@ async function semverWorkflowDependencies(): Promise<Record<string, string>> {
 
 export function readmeBaseurl(pkg: PackageJson) {
   return ((pkg.repository?.url ?? pkg.homepage ?? 'TODO') as string)
-    .replaceAll(/.+:\/\//g, 'https://')
-    .replaceAll(/\.git/g, '')
-    .replaceAll(/git@github.com\//g, 'github.com/')
-    .replaceAll(/git@github.com:/g, 'https://github.com/')
-    .replaceAll(/#.+/g, '')
+    .replace(/.+:\/\//g, 'https://')
+    .replace(/\.git/g, '')
+    .replace(/git@github.com\//g, 'github.com/')
+    .replace(/git@github.com:/g, 'https://github.com/')
+    .replace(/#.+/g, '')
 }
