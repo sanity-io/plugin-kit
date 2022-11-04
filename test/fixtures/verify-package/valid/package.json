@@ -59,7 +59,7 @@
     "typescript": "^4.7.3"
   },
   "peerDependencies": {
-    "react": "^17 || ^18",
+    "react": "^18",
     "sanity": "dev-preview || 3.0.0-rc.0"
   },
   "engines": {
