@@ -79,5 +79,6 @@ function cleanupOutput(val: string, packagePath: RegExp) {
   return val
     .replace(packagePath, 'root/')
     .replace(/\((.+)[/\\\\]node_modules[/\\\\]/g, 'root/node_modules/')
+    .replace(/\\/g, '/')
     .replace(/\[\d+m/g, '')
 }
