@@ -259,16 +259,16 @@ npx @sanity/plugin-kit verify-package' --single
 exports[`test/verify-package.test.ts TAP plugin-kit verify-package in package with invalid eslint config > stderr should match snapshot 1`] = `
 [error] Failed to run eslint check Error: Failed to load config "this-does-not-exist" to extend from.
 Referenced from: root/.eslintrc
-    at configInvalidError root/node_modules/@eslint/eslintrc/lib/config-array-factory.js:299:9)
-    at ConfigArrayFactory._loadExtendedShareableConfig root/node_modules/@eslint/eslintrc/lib/config-array-factory.js:917:23)
-    at ConfigArrayFactory._loadExtends root/node_modules/@eslint/eslintrc/lib/config-array-factory.js:794:25)
-    at ConfigArrayFactory._normalizeObjectConfigDataBody root/node_modules/@eslint/eslintrc/lib/config-array-factory.js:733:25)
+    at configInvalidError root/node_modules/@eslint/eslintrc/lib/config-array-factory.js:302:9)
+    at ConfigArrayFactory._loadExtendedShareableConfig root/node_modules/@eslint/eslintrc/lib/config-array-factory.js:933:23)
+    at ConfigArrayFactory._loadExtends root/node_modules/@eslint/eslintrc/lib/config-array-factory.js:810:25)
+    at ConfigArrayFactory._normalizeObjectConfigDataBody root/node_modules/@eslint/eslintrc/lib/config-array-factory.js:749:25)
     at _normalizeObjectConfigDataBody.next (<anonymous>)
-    at ConfigArrayFactory._normalizeObjectConfigData root/node_modules/@eslint/eslintrc/lib/config-array-factory.js:678:20)
+    at ConfigArrayFactory._normalizeObjectConfigData root/node_modules/@eslint/eslintrc/lib/config-array-factory.js:694:20)
     at _normalizeObjectConfigData.next (<anonymous>)
-    at ConfigArrayFactory.loadInDirectory root/node_modules/@eslint/eslintrc/lib/config-array-factory.js:524:28)
-    at CascadingConfigArrayFactory._loadConfigInAncestors root/node_modules/@eslint/eslintrc/lib/cascading-config-array-factory.js:393:46)
-    at CascadingConfigArrayFactory.getConfigArrayForFile root/node_modules/@eslint/eslintrc/lib/cascading-config-array-factory.js:314:18) {
+    at ConfigArrayFactory.loadInDirectory root/node_modules/@eslint/eslintrc/lib/config-array-factory.js:540:28)
+    at CascadingConfigArrayFactory._loadConfigInAncestors root/node_modules/@eslint/eslintrc/lib/cascading-config-array-factory.js:392:46)
+    at CascadingConfigArrayFactory.getConfigArrayForFile root/node_modules/@eslint/eslintrc/lib/cascading-config-array-factory.js:313:18) {
   messageTemplate: 'extend-config-missing',
   messageData: {
     configName: 'this-does-not-exist',

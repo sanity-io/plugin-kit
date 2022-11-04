@@ -73,7 +73,7 @@ function cleanupOutput(val: string, packagePath: RegExp) {
   return val
     .split('\\')
     .join('/')
-    .replace('D://', '/')
+    .replace('D://', '')
     .replace(packagePath, 'root/')
     .replace(/\((.+)\/node_modules\//g, 'root/node_modules/')
     .replace(/\[\d+m/g, '')
