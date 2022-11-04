@@ -9,7 +9,7 @@ tap.test('plugin-kit verify-package in package with all checks failing', async (
     assert: async ({result: {stderr}}) => {
       const redactFilePaths = cleanupOutput(
         stderr,
-        /[\S]+verify-package\/every-failure-possible\//g
+        /[\S]+verify-package[/\\\\]every-failure-possible[/\\\\]/g
       )
 
       // to regenerate the snapshot, in root dir run:
@@ -37,7 +37,7 @@ tap.test('plugin-kit verify-package in ok package', async (t) => {
 
       // to regenerate the snapshot, in root dir run:
       // tap test/verify-package.test.ts --snapshot
-      const redactFilePaths = cleanupOutput(stdout, /[\S]+verify-package\/valid\//g)
+      const redactFilePaths = cleanupOutput(stdout, /[\S]+verify-package[/\\\\]valid[/\\\\]/g)
       t.matchSnapshot(redactFilePaths, 'stdout should match snapshot')
     },
   })
@@ -50,7 +50,10 @@ tap.test('plugin-kit verify-package in package with invalid eslint config', asyn
     assert: async ({result: {stdout, stderr}, outputDir}) => {
       // to regenerate the snapshot, in root dir run:
       // tap test/verify-package.test.ts --snapshot
-      const redactFilePaths = cleanupOutput(stderr, /[\S]+verify-package\/invalid-eslint\//g)
+      const redactFilePaths = cleanupOutput(
+        stderr,
+        /[\S]+verify-package[/\\\\]invalid-eslint[/\\\\]/g
+      )
       t.matchSnapshot(redactFilePaths, 'stderr should match snapshot')
     },
   })
@@ -63,7 +66,10 @@ tap.test('plugin-kit verify-studio in fresh v2 studio', async (t) => {
     assert: async ({result: {stdout, stderr}}) => {
       // to regenerate the snapshot, in root dir run:
       // tap test/verify-package.test.ts --snapshot
-      const redactFilePaths = cleanupOutput(stderr, /[\S]+verify-package\/fresh-v2-movie-studio\//g)
+      const redactFilePaths = cleanupOutput(
+        stderr,
+        /[\S]+verify-package[/\\\\]fresh-v2-movie-studio[/\\\\]/g
+      )
       t.matchSnapshot(redactFilePaths, 'stderr should match snapshot')
     },
   })
@@ -72,6 +78,6 @@ tap.test('plugin-kit verify-studio in fresh v2 studio', async (t) => {
 function cleanupOutput(val: string, packagePath: RegExp) {
   return val
     .replace(packagePath, 'root/')
-    .replace(/\((.+)\/node_modules\//g, 'root/node_modules/')
+    .replace(/\((.+)[/\\\\]node_modules[/\\\\]/g, 'root/node_modules/')
     .replace(/\[\d+m/g, '')
 }
