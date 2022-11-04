@@ -5,6 +5,26 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.1.0](https://github.com/sanity-io/plugin-kit/compare/v2.0.9...v2.1.0) (2022-11-04)
+
+### Features
+
+- add `prettier-plugin-packagejson` ([937f4bc](https://github.com/sanity-io/plugin-kit/commit/937f4bce5f1e5fea3ad5482bca39641b1078b667))
+
+### Bug Fixes
+
+- `@sanity/ui@v1` is a prerelease and must be exact ([e8641b9](https://github.com/sanity-io/plugin-kit/commit/e8641b97a3ecd3ada07e649244ea5a359e27303b))
+- node validation only checks for starts with >=14 now ([2a77c61](https://github.com/sanity-io/plugin-kit/commit/2a77c61c3669c766dc8c7573ffe9ab4f3b5a2541))
+- only peer deps should use `||` semver ranges ([9869feb](https://github.com/sanity-io/plugin-kit/commit/9869febd0e32324c356003cca2cefeb14bad40f6))
+- polyfill `String.replaceAll` for Node v14 ([33e4deb](https://github.com/sanity-io/plugin-kit/commit/33e4debe0346c94694a64f6d1ac02858851ea34b))
+- remove purple-unicorn references ([34c745a](https://github.com/sanity-io/plugin-kit/commit/34c745a1bf63edd0ea5f3098e7d0cf84efb4dfca))
+- replaceAll -> replace ([e2f574c](https://github.com/sanity-io/plugin-kit/commit/e2f574c1286c2d5b400a89f864d781f2c3f26726))
+- shorter version numbers are better ([b860b9c](https://github.com/sanity-io/plugin-kit/commit/b860b9c5c0000fdef22df0427247d91c45ba414b))
+- update semver `main.yaml` template ([82d72e6](https://github.com/sanity-io/plugin-kit/commit/82d72e6cb4270ffa015d2a844448a6c58ca7771e))
+- use `.prettierrc.json` instead of `.js` ([39a2a52](https://github.com/sanity-io/plugin-kit/commit/39a2a5251d8a807803a79b257e465767b2802939))
+- use latest `@sanity/ui` exact version ([c5e8643](https://github.com/sanity-io/plugin-kit/commit/c5e8643d3420d5df0c6696dfb24e7d7d2c1ac1af))
+- use main as default branch in workflow and releaserc ([4d06bb3](https://github.com/sanity-io/plugin-kit/commit/4d06bb3f91c7b7f323d90bb60883ab0c8686cc52))
+
 ## [2.0.9](https://github.com/sanity-io/plugin-kit/compare/v2.0.8...v2.0.9) (2022-11-03)
 
 ### Bug Fixes
