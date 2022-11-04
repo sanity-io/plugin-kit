@@ -5,6 +5,12 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.1.5](https://github.com/sanity-io/plugin-kit/compare/v2.1.4...v2.1.5) (2022-11-04)
+
+### Bug Fixes
+
+- no longer includes tag in sanity devDependency range ([bd33294](https://github.com/sanity-io/plugin-kit/commit/bd33294b275f2fc9ca926cae6f998fea066e8ed7))
+
 ## [2.1.4](https://github.com/sanity-io/plugin-kit/compare/v2.1.3...v2.1.4) (2022-11-04)
 
 ### Bug Fixes
