@@ -109,13 +109,13 @@ To skip this validation add the following to your package.json:
 }
 ----------------------------------------------------------
 [error] 
-Expected package.json to contain engines.node: ">=14.0.0" to ensure Studio compatible builds,
+Expected package.json to contain engines.node: ">=14" to ensure Studio compatible builds,
 but it was: undefined
 
 Please add the following to package.json:
 
 "engines": {
-  "node": ">=14.0.0"
+  "node": ">=14"
 }
 
 To skip this validation add the following to your package.json:
