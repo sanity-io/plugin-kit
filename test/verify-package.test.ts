@@ -1,4 +1,5 @@
 import tap from 'tap'
+import {platform} from 'node:os'
 import {runCliCommand, testFixture} from './fixture-utils'
 import {verifyPackageConfigDefaults} from '../src/actions/verify/verify-common'
 
@@ -51,7 +52,9 @@ tap.test('plugin-kit verify-package in package with invalid eslint config', asyn
       // to regenerate the snapshot, in root dir run:
       // tap test/verify-package.test.ts --snapshot
       const redactFilePaths = cleanupOutput(stderr, /[\S]+verify-package\/invalid-eslint\//g)
-      t.matchSnapshot(redactFilePaths, 'stderr should match snapshot')
+      t.matchSnapshot(redactFilePaths, 'stderr should match snapshot', {
+        skip: platform() === 'win32',
+      })
     },
   })
 })
