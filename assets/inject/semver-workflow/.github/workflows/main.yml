@@ -91,8 +91,9 @@ jobs:
 
   release:
     needs: test
-    # only run if opt-in during workflow_dispatch, and run if tests are skipped using the toggle, but not if they have failed
-    if: always() && github.event.inputs.release == 'true' && needs.test.result != 'failure' && needs.test.result != 'cancelled'
+    needs: [build, test]
+    # only run if opt-in during workflow_dispatch
+    if: always() && github.event.inputs.release == 'true' && needs.build.result != 'failure' && needs.test.result != 'failure' && needs.test.result != 'cancelled'
     runs-on: ubuntu-latest
     name: Semantic release
     steps:
