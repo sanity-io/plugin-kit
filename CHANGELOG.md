@@ -5,6 +5,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.1.8](https://github.com/sanity-io/plugin-kit/compare/v2.1.7...v2.1.8) (2022-11-07)
+
+### Bug Fixes
+
+- **deps:** sanity 3.0.0-rc.1 ([aa2d619](https://github.com/sanity-io/plugin-kit/commit/aa2d6196dd3c20e26bee0f3f5df125d3a8d9cba3))
+- **deps:** sanity 3.0.0-rc.2 ([345eaa8](https://github.com/sanity-io/plugin-kit/commit/345eaa8808e6ee158cb10c25f73e3337be8fff81))
+
 ## [2.1.7](https://github.com/sanity-io/plugin-kit/compare/v2.1.6...v2.1.7) (2022-11-04)
 
 ### Bug Fixes
