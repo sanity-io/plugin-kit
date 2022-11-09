@@ -192,7 +192,7 @@ This will publish the plugin to a local [yalc](https://github.com/wclr/yalc) reg
 In another shell, in your test Sanity Studio directory, run:
 
 ```sh
-npx yalc add <your-plugin-package> && npx yalc add <your-plugin-package> --link && npm install
+npx yalc add <your-plugin-package> && npx yalc add <your-plugin-package> --link && yarn install
 ```
 
 You can now change your plugin code, which will:
