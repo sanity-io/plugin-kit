@@ -2,33 +2,28 @@
 
 ## Installation
 
-```
-npm install --save sanity-plugin-test-plugin
-```
-
-or
-
-```
-yarn add sanity-plugin-test-plugin
+```sh
+npm install sanity-plugin-test-plugin
 ```
 
 ## Usage
 
-Add it as a plugin in sanity.config.ts (or .js):
+Install the plugin in your [Sanity Studio](https://sanity.io/studio) configuration 
+`sanity.config.ts` (or `.js`):
 
-```
- import {defineConfig} from 'sanity'
- import {myPlugin} from 'sanity-plugin-test-plugin'
+```ts
+import {defineConfig} from 'sanity'
+import {myPlugin} from 'sanity-plugin-test-plugin'
 
- export const defineConfig({
-     /...
-     plugins: [
-         myPlugin({})
-     ]
- })
+export const defineConfig({
+  // ...
+
+  plugins: [
+    myPlugin(),
+  ],
+})
 ```
 
 ## License
 
-MIT © Test Person
-See LICENSE
+[MIT](LICENSE) © Test Person
