@@ -63,6 +63,16 @@ If it is ok, remove the `--dry-run` flag from the workflow to perform a real rel
 If the version is not what you expected, you might have to perform some
 [troubleshooting](https://semantic-release.gitbook.io/semantic-release/support/troubleshooting).
 
+#### Testing semantic-release locally
+
+Create a github token with push access and set it in your shell as GH_TOKEN.
+
+Now run:
+`GH_TOKEN=$GH_TOKEN npx semantic-release --no-ci --dry-run --debug`
+
+This will run semantic-release in dry-run mode (no git push or npm publish) and show everything that would
+go into a release.
+
 ## What does it do?
 
 Adds opinionated config and dependencies used by the Ecosystem team on Sanity to develop using
@@ -71,3 +81,6 @@ semantic-release driven workflow on Github.
 - Adds husky and related files and dependencies to do pre-commit checks
 - Adds semantic-release and preset dependencies to automate npm & Github releases
 - Updates README.md with some standard texts
+
+
+
