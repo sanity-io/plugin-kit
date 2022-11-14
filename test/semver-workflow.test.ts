@@ -2,6 +2,7 @@ import tap from 'tap'
 import {missingSections, readmeBaseurl} from '../src/presets/semver-workflow'
 import {PackageJson} from '../src/actions/verify/types'
 import outdent from 'outdent'
+import {getLicenseText} from '../src/util/readme'
 
 tap.test('readmeBaseUrl', async (t) => {
   const testCases: {pkg: PackageJson; expectedUrl: string}[] = [
@@ -36,18 +37,29 @@ tap.test('missingSections', async (t) => {
   matches b
   exactly c
 `
+
+  const exactMatch2 = getLicenseText('MIT', {name: 'yolo'})
+
   const over50PercentMatch = outdent`
   This x
   matches y
   enough z
 `
-  const only50PercentMatch = outdent`
+  const fiftyPercentMatch = outdent`
   This
   does
-  not
+  barely
   match
 `
-  const sections = [exactMatch, over50PercentMatch, only50PercentMatch]
+
+  const lessThan50PercentMatch = outdent`
+  This not
+  does not
+  not not
+  match
+`
+
+  const sections = [exactMatch, over50PercentMatch, fiftyPercentMatch, lessThan50PercentMatch]
 
   const readme = outdent`
     This a
@@ -60,9 +72,17 @@ tap.test('missingSections', async (t) => {
 
     This
     does
+    barely
+    match
+
+    This
+    does
     miss
+
+    ${exactMatch2}
+
   `
 
   const missing = missingSections(readme, sections)
-  t.same(missing, [only50PercentMatch])
+  t.same(missing, [lessThan50PercentMatch])
 })

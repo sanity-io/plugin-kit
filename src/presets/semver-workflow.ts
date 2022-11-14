@@ -147,7 +147,7 @@ function closeEnough(a: string, b: string) {
   const bLines = b.split('\n')
 
   const matchingLines = aLines.filter((line) => bLines.find((bLine) => bLine === line)).length
-  const isCloseEnough = matchingLines > aLines.length * 0.5
+  const isCloseEnough = matchingLines >= aLines.length * 0.5
   return isCloseEnough
 }
 
