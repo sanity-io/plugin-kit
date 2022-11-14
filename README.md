@@ -57,9 +57,10 @@ npx @sanity/plugin-kit init sanity-plugin-testing-it-out
 cd sanity-plugin-testing-it-out
 npm run link-watch
 
-# In another shell, link the plugin to your Sanity studio
+# In another shell, link the plugin to your Sanity studio using the command indicated by link-watch
 cd /path/to/my-studio
-yalc add --link sanity-plugin-testing-it-out && yarn install
+npx yalc add sanity-plugin-testing-it-out && npx yalc link sanity-plugin-testing-it-out && npm install
+
 ```
 
 Now, configure the plugin in sanity.config.ts (or .js) in Sanity Studio:

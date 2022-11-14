@@ -25,6 +25,7 @@ import path from 'path'
 import log from '../util/log'
 import {getPackage} from '../npm/package'
 import outdent from 'outdent'
+import {fileExists, mkdir} from '../util/files'
 
 interface YalcWatchConfig {
   folder?: string
@@ -38,7 +39,7 @@ interface PackageJson {
 
 export async function linkWatch({basePath}: {basePath: string}) {
   const packageJson: PackageJson = JSON.parse(
-    fs.readFileSync(path.join(process.cwd(), 'package.json'), 'utf8')
+    fs.readFileSync(path.join(basePath, 'package.json'), 'utf8')
   )
 
   const watch: Required<YalcWatchConfig> = {
@@ -55,7 +56,15 @@ export async function linkWatch({basePath}: {basePath: string}) {
     //delay: 1000
   })
 
+  // ensure the folder exits so it can be watched
+  const folder = path.join(basePath, watch.folder)
+  if (!(await fileExists(folder))) {
+    await mkdir(folder)
+  }
+
   const pkg = await getPackage({basePath, validate: false})
+
+  concurrently([watch.command])
 
   nodemon
     .on('start', function () {
@@ -75,6 +84,4 @@ export async function linkWatch({basePath}: {basePath: string}) {
       log.info('Found changes in files:', chalk.magentaBright(files))
       log.info('Pushing new yalc package...')
     })
-
-  concurrently([watch.command])
 }
