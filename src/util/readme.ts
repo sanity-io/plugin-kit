@@ -10,17 +10,7 @@ export function generateReadme(data: PackageData) {
   return outdent`
     # ${pluginName}
 
-    ## Installation
-
-    \`\`\`
-    npm install --save ${pluginName}
-    \`\`\`
-
-    or
-
-    \`\`\`
-    yarn add ${pluginName}
-    \`\`\`
+    ${installationSnippet(pluginName ?? 'unknown')}
 
     ## Usage
     Add it as a plugin in sanity.config.ts (or .js):
@@ -30,13 +20,36 @@ export function generateReadme(data: PackageData) {
      import {myPlugin} from '${pluginName}'
 
      export const defineConfig({
-         /...
+         //...
          plugins: [
              myPlugin({})
          ]
      })
     \`\`\`
     ${getLicenseText(license?.id, user?.name ? (user as User) : undefined)}
+    ${developTestSnippet()}
+  `
+}
+
+export function installationSnippet(packageName: string) {
+  return outdent`
+    ## Installation
+
+    \`\`\`
+    npm install --save ${packageName}@studio-v3
+    \`\`\`
+    `
+}
+
+export function developTestSnippet() {
+  return outdent`
+    ## Develop & test
+
+    This plugin uses [@sanity/plugin-kit](https://github.com/sanity-io/plugin-kit)
+    with default configuration for build & watch scripts.
+
+    See [Testing a plugin in Sanity Studio](https://github.com/sanity-io/plugin-kit#testing-a-plugin-in-sanity-studio)
+    on how to run this plugin with hotreload in the studio.
   `
 }
 
@@ -50,11 +63,11 @@ export function getLicenseText(licenseId?: string, user?: User) {
 
   let licenseText = '## License\n'
   if (licenseName && user?.name) {
-    licenseText = `${licenseText}\n${licenseName} © ${user?.name}\nSee LICENSE`
+    licenseText = `${licenseText}\n[${licenseName}](LICENSE) © ${user?.name}\n`
   } else if (licenseName) {
-    licenseText = `${licenseText}\n${licenseName}\nSee LICENSE`
+    licenseText = `${licenseText}\n[${licenseName}](LICENSE)\n`
   } else {
-    licenseText = `${licenseText}\nSee LICENSE`
+    licenseText = `${licenseText}\nSee [LICENSE](LICENSE)`
   }
 
   return licenseText

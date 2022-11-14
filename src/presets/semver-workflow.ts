@@ -15,6 +15,8 @@ import path from 'path'
 import {readFile, writeFile} from '../util/files'
 import {errorToUndefined} from '../util/errorToUndefined'
 import {PackageJson} from '../actions/verify/types'
+import {developTestSnippet, getLicenseText, installationSnippet} from '../util/readme'
+import {getUserInfo} from '../util/user'
 
 export const semverWorkflowPreset: Preset = {
   name: 'semver-workflow',
@@ -71,10 +73,12 @@ async function updateReadme(options: InjectOptions) {
   const readmePath = path.join(basePath, 'README.md')
   const readme = (await readFile(readmePath, 'utf8').catch(errorToUndefined)) ?? ''
 
-  const {v3Banner, install, usage, developFooter} = await readmeSnippets(options)
+  const {v3Banner, install, usage, developTest, license, releaseSnippet} = await readmeSnippets(
+    options
+  )
 
   const prependSections = missingSections(readme, [v3Banner, install, usage])
-  const appendSections = missingSections(readme, [developFooter])
+  const appendSections = missingSections(readme, [license, developTest, releaseSnippet])
 
   if (prependSections.length || appendSections.length) {
     const updatedReadme = [...prependSections, readme, ...appendSections]
@@ -87,6 +91,7 @@ async function updateReadme(options: InjectOptions) {
 
 async function readmeSnippets(options: InjectOptions) {
   const pkg = await getPackage(options)
+  const user = await getUserInfo(options, pkg)
 
   const bestEffortUrl = readmeBaseurl(pkg)
 
@@ -98,37 +103,15 @@ async function readmeSnippets(options: InjectOptions) {
     > For the v2 version, please refer to the [v2-branch](${bestEffortUrl}).
   `
 
-  const install = outdent`
-    ## Installation
-
-    \`\`\`
-    npm install --save ${pkg.name}@studio-v3
-    \`\`\`
-
-    or
-
-    \`\`\`
-    yarn add ${pkg.name}@studio-v3
-    \`\`\`
-  `
+  const install = installationSnippet(pkg.name ?? 'unknown')
 
   const usage = outdent`
     ## Usage
   `
 
-  const developFooter = outdent`
-    ## License
+  const license = getLicenseText(typeof pkg.license === 'string' ? pkg.license : undefined, user)
 
-    MIT-licensed. See LICENSE.
-
-    ## Develop & test
-
-    This plugin uses [@sanity/plugin-kit](https://github.com/sanity-io/plugin-kit)
-    with default configuration for build & watch scripts.
-
-    See [Testing a plugin in Sanity Studio](https://github.com/sanity-io/plugin-kit#testing-a-plugin-in-sanity-studio)
-    on how to run this plugin with hotreload in the studio.
-
+  const releaseSnippet = outdent`
     ### Release new version
 
     Run ["CI & Release" workflow](${bestEffortUrl}/actions/workflows/main.yml).
@@ -141,7 +124,9 @@ async function readmeSnippets(options: InjectOptions) {
     v3Banner,
     install,
     usage,
-    developFooter,
+    license,
+    developTest: developTestSnippet(),
+    releaseSnippet,
   }
 }
 

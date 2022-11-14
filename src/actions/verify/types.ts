@@ -9,6 +9,7 @@ export interface PackageJson {
   version?: string
   description?: string
   author?: string
+  license?: string
   source?: string
   exports?: {
     [index: string]: Record<string, string> | string | undefined

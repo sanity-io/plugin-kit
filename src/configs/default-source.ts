@@ -14,7 +14,7 @@ export function defaultSourceJs(pkg: PackageJson) {
    * import {myPlugin} from '${pkg.name}'
    *
    * export const defineConfig({
-   *     /...
+   *     //...
    *     plugins: [
    *         myPlugin({})
    *     ]
@@ -49,7 +49,7 @@ export function defaultSourceTs(pkg: PackageJson) {
    * import {myPlugin} from '${pkg.name}'
    *
    * export const defineConfig({
-   *     /...
+   *     //...
    *     plugins: [
    *         myPlugin()
    *     ]

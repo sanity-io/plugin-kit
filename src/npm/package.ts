@@ -14,7 +14,6 @@ import {InjectOptions, PackageData} from '../actions/inject'
 import {expectedScripts} from '../actions/verify/validations'
 import {PackageJson} from '../actions/verify/types'
 import {forcedDevPackageVersions, forcedPackageVersions} from '../configs/forced-package-versions'
-
 const defaultDependencies = [incompatiblePluginPackage]
 
 const defaultDevDependencies = ['rimraf', 'react', 'sanity']
@@ -248,21 +247,18 @@ export async function writePackageJson(data: PackageData, options: InjectOptions
     ...(await resolveLatestVersions(defaultPeerDependencies)),
   })
 
-  const alwaysOnTop = {
+  const source = flags.typescript ? './src/index.ts' : './src/index.js'
+
+  // order should be compatible with prettier-plugin-packagejson
+  const forcedOrder = {
     name: pluginName,
     version: prev.version ?? '1.0.0',
     description: description || '',
+    keywords: prev.keywords ?? ['sanity', 'sanity-plugin'],
+    ...urlsFromOrigin(gitOrigin),
+    ...repoFromOrigin(gitOrigin),
+    license: license ? license.id : 'UNLICENSED',
     author: user?.email ? `${user.name} <${user.email}>` : user?.name,
-    license: license ? license.id : 'UNLICENSE',
-  }
-
-  const source = flags.typescript ? './src/index.ts' : './src/index.js'
-  const manifest: PackageJson = {
-    ...alwaysOnTop,
-    // Use already configured values by default
-    ...(prev || {}),
-    // but we override these to enforce standardization
-    source,
     exports: {
       '.': {
         ...(flags.typescript ? {types: './lib/src/index.d.ts'} : {}),
@@ -275,23 +271,24 @@ export async function writePackageJson(data: PackageData, options: InjectOptions
     },
     main: './lib/index.js',
     module: './lib/index.esm.js',
+    source,
     ...(flags.typescript ? {types: './lib/src/index.d.ts'} : {}),
     files: ['src', 'lib', 'v2-incompatible.js', 'sanity.json'],
-    engines: {
-      node: '>=14',
-    },
     scripts: {...prev.scripts},
-    repository: {...prev.repository},
-
-    // We're de-declaring properties because of key order in package.json
-    ...alwaysOnTop,
     dependencies: sortKeys(dependencies),
     devDependencies: sortKeys(devDependencies),
     peerDependencies: sortKeys(peerDependencies),
-    /* eslint-enable no-dupe-keys */
+    engines: {
+      node: '>=14',
+    },
+  }
 
-    ...repoFromOrigin(gitOrigin),
-    ...urlsFromOrigin(gitOrigin),
+  const manifest: PackageJson = {
+    ...forcedOrder,
+    // Use already configured values by default (if not otherwise specified)
+    ...(prev || {}),
+    // We're de-declaring properties because of key order in package.json
+    ...forcedOrder,
   }
 
   // we use types, not typings
@@ -313,14 +310,15 @@ function urlsFromOrigin(gitOrigin?: string): {bugs?: {url: string}; homepage?: s
   }
 
   return {
+    homepage: `https://github.com/${details.user}/${details.repo}#readme`,
     bugs: {
       url: `https://github.com/${details.user}/${details.repo}/issues`,
     },
-    homepage: `https://github.com/${details.user}/${details.repo}#readme`,
   }
 }
 
 function repoFromOrigin(gitOrigin?: string) {
+  console.log(gitOrigin)
   if (!gitOrigin) {
     return {}
   }
@@ -367,13 +365,13 @@ export async function addBuildScripts(manifest: PackageJson, options: InjectOpti
     return false
   }
   return addPackageJsonScripts(manifest, options, (scripts) => {
-    scripts.clean = addScript(`rimraf lib`, scripts.clean)
-    scripts.lint = addScript(`eslint .`, scripts.lint)
     scripts.prebuild = addScript('npm run clean && ' + expectedScripts.prebuild, scripts.prebuild)
     scripts.build = addScript(expectedScripts.build, scripts.build)
-    scripts.watch = addScript(expectedScripts.watch, scripts.watch)
+    scripts.clean = addScript(`rimraf lib`, scripts.clean)
     scripts['link-watch'] = addScript(expectedScripts['link-watch'], scripts['link-watch'])
+    scripts.lint = addScript(`eslint .`, scripts.lint)
     scripts.prepublishOnly = addScript(expectedScripts.prepublishOnly, scripts.prepublishOnly)
+    scripts.watch = addScript(expectedScripts.watch, scripts.watch)
     return scripts
   })
 }
