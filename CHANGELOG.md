@@ -5,6 +5,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.1.12](https://github.com/sanity-io/plugin-kit/compare/v2.1.11...v2.1.12) (2022-11-14)
+
+### Bug Fixes
+
+- **docs:** made check secrets an explicit step in semver-workflow readme ([9315e14](https://github.com/sanity-io/plugin-kit/commit/9315e14f0a27cfa394528f43e721e6695df9be51))
+- semver-workflow readme link ([f454246](https://github.com/sanity-io/plugin-kit/commit/f454246f4cb24fb8c92059f56c87270910ccadba))
+
 ## [2.1.11](https://github.com/sanity-io/plugin-kit/compare/v2.1.10...v2.1.11) (2022-11-14)
 
 ### Bug Fixes
