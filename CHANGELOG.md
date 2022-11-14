@@ -5,6 +5,12 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.1.9](https://github.com/sanity-io/plugin-kit/compare/v2.1.8...v2.1.9) (2022-11-14)
+
+### Bug Fixes
+
+- semver-workflow readme is now compatible with init ([95e8cba](https://github.com/sanity-io/plugin-kit/commit/95e8cba76582474271734f5e9259d9e5ce85acda))
+
 ## [2.1.8](https://github.com/sanity-io/plugin-kit/compare/v2.1.7...v2.1.8) (2022-11-07)
 
 ### Bug Fixes
