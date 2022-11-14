@@ -26,13 +26,16 @@ on:
     branches: [main, v3]
 ```
 
-** Check secrets **
+### 3. Check secrets 
 Ensure that your repo or Github org has set the secrets used by the workflow.
 
 `secrets.GITHUB_TOKEN` should always be available by default, but
-`secrets.NPM_PUBLISH_TOKEN` is not.
+`secrets.NPM_PUBLISH_TOKEN` is not. 
 
-### 3. Update .releaserc.json
+Secrets can be set using `Settings -> Secrets -> Actions -> "New reposiotry secret"`
+on Github for a repository.
+
+### 4. Update .releaserc.json
 
 This differs from repo to repo. Branches defaults to `"branches": ["main"]`
 
@@ -48,7 +51,7 @@ In a typical plugin repo with a v2 and v3 version, it will typically look like t
 This assumes that the v2 version lives on `main` and the v3 versions livs on `v3`.
 The v3 version will be a pre-release using `studio-v3` as npm tag, and `v3-studio` version suffix.
 
-## 4. Test workflow and remove `--dry-run`
+### 5. Test workflow and remove `--dry-run`
 
 The injected semantic-release command in `.github/workflows/main.yml` has `--dry-run` enabled.
 
