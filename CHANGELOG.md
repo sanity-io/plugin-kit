@@ -5,6 +5,12 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.1.10](https://github.com/sanity-io/plugin-kit/compare/v2.1.9...v2.1.10) (2022-11-14)
+
+### Bug Fixes
+
+- link-watch now works when the watch directory does not exist on startup ([a4acd54](https://github.com/sanity-io/plugin-kit/commit/a4acd54800c7866e58f44dc1785fd151aa0350a2))
+
 ## [2.1.9](https://github.com/sanity-io/plugin-kit/compare/v2.1.8...v2.1.9) (2022-11-14)
 
 ### Bug Fixes
