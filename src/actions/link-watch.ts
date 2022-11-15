@@ -72,7 +72,15 @@ export async function linkWatch({basePath}: {basePath: string}) {
         outdent`
         Watching ${watch.folder} for changes to files with extensions: ${watch.extensions}
 
-        To test this package in another repository directory run:
+        To test this package in Sanity Studio or another package, in a separate shell run:
+        cd /path/to/sanity/studio-or-package
+
+        Then, run one of the below commands, based on the package manager used in studio-or-package:
+
+        ## yarn
+        ${chalk.greenBright(`yalc add --link ${pkg.name} && yarn install`)}
+
+        ## npm
         ${chalk.greenBright(`npx yalc add ${pkg.name} && npx yalc link ${pkg.name} && npm install`)}
       `.trimStart()
       )
