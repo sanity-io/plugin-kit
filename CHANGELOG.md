@@ -5,6 +5,12 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.1.13](https://github.com/sanity-io/plugin-kit/compare/v2.1.12...v2.1.13) (2022-11-15)
+
+### Bug Fixes
+
+- shortened the V3 banner and added it to init readme ([31757d7](https://github.com/sanity-io/plugin-kit/commit/31757d71d16e4a9c7536a857a01b3e52419f8cf1))
+
 ## [2.1.12](https://github.com/sanity-io/plugin-kit/compare/v2.1.11...v2.1.12) (2022-11-14)
 
 ### Bug Fixes
