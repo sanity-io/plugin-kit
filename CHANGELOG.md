@@ -5,6 +5,18 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.1.14](https://github.com/sanity-io/plugin-kit/compare/v2.1.13...v2.1.14) (2022-11-15)
+
+### Bug Fixes
+
+- **deps:** update dependency get-it to v7 ([#28](https://github.com/sanity-io/plugin-kit/issues/28)) ([9928b10](https://github.com/sanity-io/plugin-kit/commit/9928b10aa42dc128b17c4eaae9fdae1a4a439ca1))
+- **deps:** update dependency git-user-info to v2 ([#20](https://github.com/sanity-io/plugin-kit/issues/20)) ([71ea801](https://github.com/sanity-io/plugin-kit/commit/71ea80136c86e7875fdd8a3c6cffcf62b5ea388b))
+- **deps:** update dependency npm-packlist to v7 ([#33](https://github.com/sanity-io/plugin-kit/issues/33)) ([bb883c8](https://github.com/sanity-io/plugin-kit/commit/bb883c836b8a5f81c26c873426337aaaf6edc4b3))
+- **deps:** update dependency postcss to ^8.4.19 ([#45](https://github.com/sanity-io/plugin-kit/issues/45)) ([21a7c0c](https://github.com/sanity-io/plugin-kit/commit/21a7c0cca3fe96094cda188dfcebd07ed4dc46f8))
+- **deps:** update dependency validate-npm-package-name to v5 ([#37](https://github.com/sanity-io/plugin-kit/issues/37)) ([4005536](https://github.com/sanity-io/plugin-kit/commit/40055360f5dafa6f802ba4145deeb626e98ba9cf))
+- show correct yalc command for both npm and yarn ([47ac2a0](https://github.com/sanity-io/plugin-kit/commit/47ac2a0a54ba13ad71fe4dedbdd6a4b791e4c9ff))
+- support how renovatebot generate lockfiles ([#47](https://github.com/sanity-io/plugin-kit/issues/47)) ([160e64b](https://github.com/sanity-io/plugin-kit/commit/160e64bba42fc0b61c5a1b6dd9de5072eeeeb719))
+
 ## [2.1.13](https://github.com/sanity-io/plugin-kit/compare/v2.1.12...v2.1.13) (2022-11-15)
 
 ### Bug Fixes
