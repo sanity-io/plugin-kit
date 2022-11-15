@@ -7,7 +7,8 @@ semantic-release driven workflow on Github for Sanity v3 plugins.
 
 ### 1. Install new dependencies
 
-Run 
+Run
+
 ```bash
 npm install
 ```
@@ -33,13 +34,14 @@ on:
     branches: [main, v3]
 ```
 
-### 4. Check secrets 
+### 4. Check secrets
+
 Ensure that your repo or Github org has set the secrets used by the workflow.
 
 `secrets.GITHUB_TOKEN` should always be available by default, but
-`secrets.NPM_PUBLISH_TOKEN` is not. 
+`secrets.NPM_PUBLISH_TOKEN` is not.
 
-Secrets can be set using `Settings -> Secrets -> Actions -> "New reposiotry secret"`
+Secrets can be set using `Settings -> Secrets -> Actions -> "New repository secret"`
 on Github for a repository.
 
 ### 5. Update .releaserc.json
@@ -88,6 +90,3 @@ semantic-release driven workflow on Github.
 - Adds husky and related files and dependencies to do pre-commit checks
 - Adds semantic-release and preset dependencies to automate npm & Github releases
 - Updates README.md with some standard texts
-
-
-

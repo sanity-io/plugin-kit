@@ -96,7 +96,7 @@ jobs:
         with:
           cache: npm
           node-version: ${{ matrix.node }}
-      - run: npm ci
+      - run: npm i
       - run: npm test --if-present
 
   release:
