@@ -1,7 +1,6 @@
 import path from 'path'
 import xdgBasedir from 'xdg-basedir'
-// @ts-expect-error missing types
-import gitUserInfo from 'git-user-info'
+import {getGitUserInfo as _getGitUserInfo} from 'git-user-info'
 import {validate as isValidEmail} from 'email-validator'
 import {readJsonFile} from './files'
 import {request} from './request'
@@ -98,8 +97,8 @@ async function getSanityUserInfo(): Promise<User | undefined> {
   }
 }
 
-function getGitUserInfo(): User | undefined {
-  const user = gitUserInfo()
+async function getGitUserInfo(): Promise<User | undefined> {
+  const user = await _getGitUserInfo()
   return user ? {name: user.name, email: user.email} : undefined
 }
 
