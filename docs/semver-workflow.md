@@ -5,14 +5,21 @@ semantic-release driven workflow on Github for Sanity v3 plugins.
 
 ## Manual steps after inject
 
-### 1. Check README.md
+### 1. Install new dependencies
+
+Run 
+```bash
+npm install
+```
+
+### 2. Check README.md
 
 The preset changes README.md in a naive manner.
 Some text could be redundant or unnecessary depending on context and search for TODO.
 
 Move text around until it looks good. Remember to change any v2 usage examples.
 
-### 2. Update `.github/workflows/main.yml` branches
+### 3. Update `.github/workflows/main.yml` branches
 
 This differs from repo to repo, default is `[main]`
 
@@ -26,7 +33,7 @@ on:
     branches: [main, v3]
 ```
 
-### 3. Check secrets 
+### 4. Check secrets 
 Ensure that your repo or Github org has set the secrets used by the workflow.
 
 `secrets.GITHUB_TOKEN` should always be available by default, but
@@ -35,7 +42,7 @@ Ensure that your repo or Github org has set the secrets used by the workflow.
 Secrets can be set using `Settings -> Secrets -> Actions -> "New reposiotry secret"`
 on Github for a repository.
 
-### 4. Update .releaserc.json
+### 5. Update .releaserc.json
 
 This differs from repo to repo. Branches defaults to `"branches": ["main"]`
 
@@ -51,7 +58,7 @@ In a typical plugin repo with a v2 and v3 version, it will typically look like t
 This assumes that the v2 version lives on `main` and the v3 versions livs on `v3`.
 The v3 version will be a pre-release using `studio-v3` as npm tag, and `v3-studio` version suffix.
 
-### 5. Test workflow and remove `--dry-run`
+### 6. Test workflow and remove `--dry-run`
 
 The injected semantic-release command in `.github/workflows/main.yml` has `--dry-run` enabled.
 
