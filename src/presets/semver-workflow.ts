@@ -15,7 +15,12 @@ import path from 'path'
 import {readFile, writeFile} from '../util/files'
 import {errorToUndefined} from '../util/errorToUndefined'
 import {PackageJson} from '../actions/verify/types'
-import {developTestSnippet, getLicenseText, installationSnippet} from '../util/readme'
+import {
+  developTestSnippet,
+  getLicenseText,
+  installationSnippet,
+  v3BannerNotice,
+} from '../util/readme'
 import {getUserInfo} from '../util/user'
 
 export const semverWorkflowPreset: Preset = {
@@ -95,14 +100,6 @@ async function readmeSnippets(options: InjectOptions) {
 
   const bestEffortUrl = readmeBaseurl(pkg)
 
-  const v3Banner = outdent`
-    > **NOTE**
-    >
-    > This is the **Sanity Studio v3 version** of ${pkg.name}.
-    >
-    > For the v2 version, please refer to the [v2-branch](${bestEffortUrl}).
-  `
-
   const install = installationSnippet(pkg.name ?? 'unknown')
 
   const usage = outdent`
@@ -121,7 +118,7 @@ async function readmeSnippets(options: InjectOptions) {
   `
 
   return {
-    v3Banner,
+    v3Banner: v3BannerNotice(),
     install,
     usage,
     license,

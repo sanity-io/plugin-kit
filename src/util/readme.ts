@@ -10,6 +10,8 @@ export function generateReadme(data: PackageData) {
   return outdent`
     # ${pluginName}
 
+    ${v3BannerNotice()}
+
     ${installationSnippet(pluginName ?? 'unknown')}
 
     ## Usage
@@ -29,6 +31,10 @@ export function generateReadme(data: PackageData) {
     ${getLicenseText(license?.id, user?.name ? (user as User) : undefined)}
     ${developTestSnippet()}
   `
+}
+
+export function v3BannerNotice() {
+  return `> This is a **Sanity Studio v3** plugin.`
 }
 
 export function installationSnippet(packageName: string) {
