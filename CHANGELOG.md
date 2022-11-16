@@ -5,6 +5,12 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.1.15](https://github.com/sanity-io/plugin-kit/compare/v2.1.14...v2.1.15) (2022-11-16)
+
+### Bug Fixes
+
+- **docs:** added more details on inject command ([9f0d3ae](https://github.com/sanity-io/plugin-kit/commit/9f0d3ae1a8dedbb3c5c0f9443ac6088fe170b66c))
+
 ## [2.1.14](https://github.com/sanity-io/plugin-kit/compare/v2.1.13...v2.1.14) (2022-11-15)
 
 ### Bug Fixes
