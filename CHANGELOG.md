@@ -5,6 +5,12 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.1.16](https://github.com/sanity-io/plugin-kit/compare/v2.1.15...v2.1.16) (2022-11-16)
+
+### Bug Fixes
+
+- **docs:** quickstart correction ([02a0fa4](https://github.com/sanity-io/plugin-kit/commit/02a0fa44ac104080df5aa0e79c6b66275cf1575c))
+
 ## [2.1.15](https://github.com/sanity-io/plugin-kit/compare/v2.1.14...v2.1.15) (2022-11-16)
 
 ### Bug Fixes
