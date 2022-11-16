@@ -65,7 +65,7 @@ async function addDevDependencies(options: InjectOptions) {
         semantic-release preset injected.
 
         Please confer
-        https://github.com/sanity-io/plugin-kit/blob/main/docs/semver-workflow.md
+        https://github.com/sanity-io/plugin-kit/blob/main/docs/semver-workflow.md#manual-steps-after-inject
         to finalize configuration for this preset.
   `.trim()
     )

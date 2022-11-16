@@ -26,12 +26,12 @@ Check the [FAQ](#faq) fro more on these.
 - [Verify plugin package](#verify-plugin-package)
   - [Upgrading a v2 plugin](#upgrading-a-v2-plugin)
 - [Upgrade help in v2 Studio](#upgrade-help-in-v2-studio)
-- [Inject config into existing v3 plugin](#inject-config-into-existing-v3)
+- [Inject config into existing v3 plugin](#inject-config-into-existing-package)
 - [Testing a plugin in Sanity Studio](#testing-a-plugin-in-sanity-studio)
 - [Upgrading from plugin-kit 1.x](#upgrade-from-v1x-to-v2)
 - [FAQ](#faq) aka "Do I _have_ to use this plugin-kit?" aka No
 - [Configuration reference](#configuration-reference)
-- [Developing plugin-kit](#developing-plugin-kit)
+- [Developing plugin-kit](#develop-plugin-kit)
 
 ## Installation
 
@@ -140,7 +140,10 @@ Each check will explain why it is needed, steps to fix it and how it can be indi
 
 ### What it is _not_
 
-`verify-package` is _not_ a codemod tool (yet). It will only check files and recommended settings: it will not change any files.
+`verify-package` is _not_ a codemod tool. It will only check files and recommended settings: it will not change any files.
+
+Consider using `npx @sanity/plugin-kit inject` if you want to add recommended V3 plugin configuration automatically.
+See the [Inject docs](#inject-config-into-existing-package) for more on this.
 
 ### Upgrading a v2 plugin
 
@@ -178,15 +181,28 @@ npx @sanity/plugin-kit verify-package --studio --single
 
 This will only output the first validation that fails. Useful when working through the list of issues by fixing and rerunning the command.
 
-### Inject config into existing v3
+## Inject config into existing package
+
+```
+npx @sanity/plugin-kit inject 
+```
+will inject recommended V3 plugin package boilerplate into an existing plugin.
+Be sure to commit any local changes before running this command, so you can easily revert anything
+you dont want.
 
 Consult the inject command CLI help:
-
 ```
 npx @sanity/plugin-kit inject --help
 ```
 
 for up-to-date specifics.
+
+### Presets
+
+The inject command can do more work by adding presets. Consult the individual preset docs for details:
+
+* [semver-workflow](./docs/semver-workflow.md) - Add an opinionated Github workflow to automate NPM releases
+* [renovatebot](./docs/renovatebot.md) - Add opinionated Renovatebot config to make dependency management a breeze
 
 ## Testing a plugin in Sanity Studio
 
@@ -465,7 +481,7 @@ npm run test -- test/verify-package.test.ts
 npm run test -- test/verify-package.test.ts --snapshot
 ```
 
-## Developing plugin kit
+## Develop plugin-kit
 
 ### Release new version
 
