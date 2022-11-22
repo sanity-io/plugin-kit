@@ -5,6 +5,12 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.1.17](https://github.com/sanity-io/plugin-kit/compare/v2.1.16...v2.1.17) (2022-11-22)
+
+### Bug Fixes
+
+- workflow manual trigger now includes branch name om run-name ([0596fdf](https://github.com/sanity-io/plugin-kit/commit/0596fdf850cedce588608b2c18fc400e29247efc))
+
 ## [2.1.16](https://github.com/sanity-io/plugin-kit/compare/v2.1.15...v2.1.16) (2022-11-16)
 
 ### Bug Fixes
