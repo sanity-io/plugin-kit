@@ -90,10 +90,10 @@ Now, configure the plugin in sanity.config.ts (or .js) in Sanity Studio:
   })
 ```
 
-Start the studio:
+Start the Sanity Studio development server:
 
 ```bash
-sanity start
+sanity dev
 ```
 
 Check browser console: the plugin should have logged `"hello from my-sanity-plugin"`.
