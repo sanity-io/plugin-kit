@@ -5,6 +5,12 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.1.19](https://github.com/sanity-io/plugin-kit/compare/v2.1.18...v2.1.19) (2022-12-01)
+
+### Bug Fixes
+
+- **docs:** sanity dev instead of sanity start ([f068ad8](https://github.com/sanity-io/plugin-kit/commit/f068ad83d8dde680b04230dd65bffeecfc3b0259))
+
 ## [2.1.18](https://github.com/sanity-io/plugin-kit/compare/v2.1.17...v2.1.18) (2022-11-30)
 
 ### Bug Fixes
