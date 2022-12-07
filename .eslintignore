@@ -9,3 +9,4 @@ babel
 *.js
 v2-incompatible.js.template
 *.json
+assets/

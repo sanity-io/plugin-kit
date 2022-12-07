@@ -25,7 +25,7 @@ Options
   --license [spdx]        Use the license with the given SPDX identifier
   --force                 No promt when overwriting files
 
-  --preset [preset-name]  [beta] - Adds config and files from a named preset. --preset can be supplied multiple times.
+  --preset [preset-name]  Adds config and files from a named preset. --preset can be supplied multiple times.
                           The following presets are available:
 ${presetHelpList(30)}
   --preset-only           Skips the default inject steps. Use this to apply a preset to an otherwise complete plugin.

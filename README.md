@@ -198,6 +198,7 @@ The inject command can do more work by adding presets. Consult the individual pr
 
 * [semver-workflow](./docs/semver-workflow.md) - Add an opinionated Github workflow to automate NPM releases
 * [renovatebot](./docs/renovatebot.md) - Add opinionated Renovatebot config to make dependency management a breeze
+* [ui-workshop](./docs/ui-workshop.md) - Add  [@sanity/ui-workshop](https://github.com/sanity-io/ui-workshop) to make component testing a breeze
 
 ## Testing a plugin in Sanity Studio
 
