@@ -5,6 +5,12 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.2.0](https://github.com/sanity-io/plugin-kit/compare/v2.1.19...v2.2.0) (2022-12-07)
+
+### Features
+
+- added ui-workshop preset ([d9a1ec5](https://github.com/sanity-io/plugin-kit/commit/d9a1ec50659146d5df102a6ee6fe7d52abc36686))
+
 ## [2.1.19](https://github.com/sanity-io/plugin-kit/compare/v2.1.18...v2.1.19) (2022-12-01)
 
 ### Bug Fixes
