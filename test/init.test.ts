@@ -65,7 +65,9 @@ tap.test('plugin-kit init --force in empty directory', async (t) => {
       await fileContains('.prettierrc.json', '"semi": false')
       await fileContains('sanity.json', '"path": "./v2-incompatible.js"')
       await fileContains('v2-incompatible.js', 'showIncompatiblePluginDialog')
-      await fileContains('tsconfig.json', '"target": "esnext"')
+      await fileContains('tsconfig.json', '"extends": "./tsconfig.settings"')
+      await fileContains('tsconfig.lib.json', '"extends": "./tsconfig.settings"')
+      await fileContains('tsconfig.settings.json', '"target": "esnext"')
 
       await fileContains('src/index.ts', `name: '${pluginTestName}'`)
 

@@ -1,19 +1,10 @@
 {
-  "include": ["./src"],
+  "extends": "./tsconfig.settings",
+  "include": ["./src", "./package.config.ts"],
   "compilerOptions": {
     "rootDir": ".",
     "outDir": "./lib",
     "jsx": "preserve",
-    "moduleResolution": "node",
-    "target": "esnext",
-    "module": "esnext",
-    "lib": ["DOM", "DOM.Iterable", "ESNext"],
-    "esModuleInterop": true,
-    "strict": true,
-    "downlevelIteration": true,
-    "declaration": true,
-    "allowSyntheticDefaultImports": true,
-    "skipLibCheck": true,
-    "isolatedModules": true
+    "noEmit": true
   }
 }

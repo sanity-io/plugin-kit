@@ -1,3 +1,4 @@
+import {loadConfig as loadPackageConfig} from '@sanity/pkg-utils'
 import {getPackage} from '../npm/package'
 import log from '../util/log'
 import {cliName, urls} from '../constants'
@@ -31,10 +32,12 @@ export async function verifyPackage({basePath, flags}: {basePath: string; flags:
 
   const packageJson: PackageJson = await getPackage({basePath, validate: false})
   const verifyConfig: VerifyPackageConfig = packageJson.sanityPlugin?.verifyPackage || {}
+  const packageConfig = await loadPackageConfig({cwd: basePath})
+  const tsconfig = packageConfig?.tsconfig ?? 'tsconfig.json'
 
   const validation = createValidator(verifyConfig, flags, errors)
 
-  const ts = await readTSConfig({basePath, filename: 'tsconfig.json'})
+  const ts = await readTSConfig({basePath, filename: tsconfig})
 
   await validation('packageName', async () => validatePackageName(packageJson))
   await validation('pkg-utils', async () => validatePkgUtilsDependency(packageJson))
