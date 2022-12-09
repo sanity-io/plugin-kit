@@ -2,30 +2,22 @@
 
 ## Installation
 
-```
-npm install --save my-plugin
-```
-
-or
-
-```
-yarn add my-plugin
+```sh
+npm install my-plugin
 ```
 
 ## Usage
 
-Add it as a plugin in sanity.config.ts (or .js):
+Add it as a plugin in `sanity.config.ts` (or .js):
 
-```
- import {defineConfig} from 'sanity'
- import {myPlugin} from 'my-plugin'
+```ts
+import {defineConfig} from 'sanity'
+import {myPlugin} from 'my-plugin'
 
- export const defineConfig({
-     /...
-     plugins: [
-         myPlugin({})
-     ]
- })
+export default defineConfig({
+  // ...
+  plugins: [myPlugin({})],
+})
 ```
 
 ## License
