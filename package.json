@@ -33,16 +33,14 @@
     "assets"
   ],
   "scripts": {
-    "prebuild": "npm run clean",
-    "build": "tsc",
-    "postbuild": "node executable-index.js",
+    "build": "run-s clean && tsc && node executable-index.js",
     "clean": "rimraf lib",
     "commit": "git-cz",
     "compile": "tsc --noEmit",
     "format": "prettier src -w",
     "lint": "eslint .",
     "prepare": "husky install",
-    "prepublishOnly": "npm run build",
+    "prepublishOnly": "run-s build",
     "test": "tap",
     "watch": "tsc --watch"
   },
@@ -110,6 +108,7 @@
     "husky": "^8.0.2",
     "json5": "^2.2.1",
     "lint-staged": "^13.0.3",
+    "npm-run-all": "^4.1.5",
     "prettier": "^2.7.1",
     "prettier-plugin-packagejson": "^2.3.0",
     "readdirp": "^3.6.0",

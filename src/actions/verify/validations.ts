@@ -12,11 +12,11 @@ import {PackageJson, SanityStudioJson, SanityV2Json} from './types'
 import {ParsedCommandLine} from 'typescript'
 
 export const expectedScripts = {
-  prebuild: `plugin-kit verify-package --silent && pkg-utils`,
-  build: 'pkg-utils build',
-  watch: 'pkg-utils watch',
+  build:
+    'run-s clean && plugin-kit verify-package --silent && pkg-utils build --strict && pkg-utils --strict',
+  watch: 'pkg-utils watch --strict',
   'link-watch': 'plugin-kit link-watch',
-  prepublishOnly: 'npm run build',
+  prepublishOnly: 'run-s build',
 }
 
 const expectedModulesFields = ['source', 'exports', 'main', 'module', 'files']
@@ -115,8 +115,6 @@ export function validateScripts(packageJson: PackageJson): string[] {
         .join(', ')}
 
       This checks for that the commands-strings includes these terms.
-      For example, this will validate ok:
-      "prebuild": "npm run clean && ${expectedScripts.prebuild}",
 
       Please add the following to your package.json "scripts":
 
