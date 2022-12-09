@@ -140,7 +140,7 @@ Expected to find these values:
 "downlevelIteration": true,
 "declaration": true,
 "allowSyntheticDefaultImports": true,
-"rootDir": "src",
+"rootDir": ".",
 "outDir": "lib",
 
 Please update your tsconfig.json accordingly.
