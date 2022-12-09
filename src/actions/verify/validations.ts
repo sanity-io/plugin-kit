@@ -25,8 +25,6 @@ const expectedCompilerOptions = {
   moduleResolution: 'node',
   target: 'esnext',
   module: 'esnext',
-  sourceMap: false,
-  inlineSourceMap: false,
   esModuleInterop: true,
   skipLibCheck: true,
   isolatedModules: true,
