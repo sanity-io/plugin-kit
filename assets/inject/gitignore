@@ -53,5 +53,5 @@ jspm_packages
 .yalc
 yalc.lock
 
-##npm package zips
+# npm package zips
 *.tgz
