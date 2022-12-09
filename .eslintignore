@@ -10,3 +10,4 @@ babel
 v2-incompatible.js.template
 *.json
 assets/
+tap-snapshots/
