@@ -106,7 +106,7 @@ export async function readJsonFile<T>(filePath: string) {
 }
 
 export function writeJsonFile(filePath: string, content: Record<string, unknown>) {
-  const data = JSON.stringify(content, null, 2)
+  const data = JSON.stringify(content, null, 2) + '\n'
   return writeFile(filePath, data, {encoding: 'utf8'})
 }
 

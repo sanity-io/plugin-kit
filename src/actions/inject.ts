@@ -163,7 +163,7 @@ async function writeEslintrc(options: InjectOptions) {
     ].filter(Boolean),
   }
 
-  const content = JSON.stringify(config, null, 2)
+  const content = JSON.stringify(config, null, 2) + '\n'
   await writeFileWithOverwritePrompt(eslintrc, content, {
     encoding: 'utf8',
     force: options.flags.force,
@@ -179,14 +179,15 @@ async function writeEslintIgnore(options: InjectOptions) {
 
   const eslintignore = path.join(basePath, '.eslintignore')
 
-  const content = outdent`
+  const content =
+    outdent`
     .eslintrc.js
     commitlint.config.js
     lib
     lint-staged.config.js
     package.config.ts
     ${options.flags.typescript ? '*.js' : ''}
-  `.trim()
+  `.trim() + '\n'
 
   await writeFileWithOverwritePrompt(eslintignore, content, {
     encoding: 'utf8',
@@ -410,13 +411,13 @@ async function addCompileDirToGitIgnore(data: PackageData, options: InjectOption
     return false
   }
 
-  const lines = gitignore.split('\n')
+  const lines = gitignore.trim().split('\n')
   if (lines.includes(ignore)) {
     return false
   }
 
-  lines.push('# Compiled plugin', ignore, '\n')
+  lines.push('', '# Compiled plugin', ignore)
 
-  await writeFile(gitIgnorePath, lines.join('\n'), {encoding: 'utf8'})
+  await writeFile(gitIgnorePath, lines.join('\n') + '\n', {encoding: 'utf8'})
   return true
 }
