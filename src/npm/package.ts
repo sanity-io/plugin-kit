@@ -261,7 +261,7 @@ export async function writePackageJson(data: PackageData, options: InjectOptions
     author: user?.email ? `${user.name} <${user.email}>` : user?.name,
     exports: {
       '.': {
-        ...(flags.typescript ? {types: './lib/src/index.d.ts'} : {}),
+        ...(flags.typescript ? {types: './lib/index.d.ts'} : {}),
         source,
         import: './lib/index.esm.js',
         require: './lib/index.js',
@@ -272,7 +272,7 @@ export async function writePackageJson(data: PackageData, options: InjectOptions
     main: './lib/index.js',
     module: './lib/index.esm.js',
     source,
-    ...(flags.typescript ? {types: './lib/src/index.d.ts'} : {}),
+    ...(flags.typescript ? {types: './lib/index.d.ts'} : {}),
     files: ['src', 'lib', 'v2-incompatible.js', 'sanity.json'],
     scripts: {...prev.scripts},
     dependencies: sortKeys(dependencies),

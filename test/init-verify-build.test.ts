@@ -60,7 +60,7 @@ tap.test('plugin-kit init -> verify-package -> tsc > pkg-utils build', async (t)
 
       t.strictSame(
         await contents(path.join(outputDir, 'lib')),
-        ['index.esm.js', 'index.esm.js.map', 'index.js', 'index.js.map', 'src/index.d.ts'].map(
+        ['index.d.ts', 'index.esm.js', 'index.esm.js.map', 'index.js', 'index.js.map'].map(
           normalize
         ),
         'should output expected files to lib'

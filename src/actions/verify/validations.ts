@@ -72,7 +72,7 @@ export function validateModule(packageJson: PackageJson): string[] {
         "source": "./src/index.ts",
         "exports": {
           ".": {
-            "types": "./lib/src/index.d.ts",
+            "types": "./lib/index.d.ts",
             "source": "./src/index.ts",
             "import": "./lib/index.esm.js",
             "require": "./lib/index.js",
@@ -81,7 +81,7 @@ export function validateModule(packageJson: PackageJson): string[] {
         },
         "main": "./lib/index.js",
         "module": "./lib/index.esm.js",
-        "types": "./lib/src/index.d.ts",
+        "types": "./lib/index.d.ts",
         "files": [
           "src",
           "lib"

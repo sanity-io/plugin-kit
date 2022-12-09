@@ -84,7 +84,7 @@ package.json should contain the following entries to ensure that commonjs and es
 "source": "./src/index.ts",
 "exports": {
   ".": {
-    "types": "./lib/src/index.d.ts",
+    "types": "./lib/index.d.ts",
     "source": "./src/index.ts",
     "import": "./lib/index.esm.js",
     "require": "./lib/index.js",
@@ -93,7 +93,7 @@ package.json should contain the following entries to ensure that commonjs and es
 },
 "main": "./lib/index.js",
 "module": "./lib/index.esm.js",
-"types": "./lib/src/index.d.ts",
+"types": "./lib/index.d.ts",
 "files": [
   "src",
   "lib"
