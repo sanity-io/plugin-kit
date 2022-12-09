@@ -34,6 +34,7 @@ const expectedCompilerOptions = {
   declaration: true,
   allowSyntheticDefaultImports: true,
   rootDir: 'src',
+  outDir: 'lib',
 }
 
 export function validateNodeEngine(packageJson: PackageJson) {
