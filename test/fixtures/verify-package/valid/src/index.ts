@@ -5,17 +5,15 @@ interface MyPluginConfig {
 }
 
 /**
- * ## Usage in sanity.config.ts (or .js)
+ * Usage in `sanity.config.ts` (or .js)
  *
- * ```
+ * ```ts
  * import {defineConfig} from 'sanity'
  * import {myPlugin} from 'sanity-plugin-test-plugin'
  *
- * export const defineConfig({
- *     /...
- *     plugins: [
- *         myPlugin({})
- *     ]
+ * export default defineConfig({
+ *   // ...
+ *   plugins: [myPlugin({})],
  * })
  * ```
  */

@@ -76,13 +76,13 @@ cd /path/to/my-studio
 npx yalc add sanity-plugin-testing-it-out && npx yalc link sanity-plugin-testing-it-out && npm install
 ```
 
-Now, configure the plugin in sanity.config.ts (or .js) in Sanity Studio:
+Now, configure the plugin in `sanity.config.ts` (or .js) in Sanity Studio:
 
 ```ts
   import {defineConfig} from 'sanity'
   import {myPlugin} from 'sanity-plugin-testing-it-out'
 
-  export const defineConfig({
+  export default defineConfig({
       //...
       plugins: [
           myPlugin({})

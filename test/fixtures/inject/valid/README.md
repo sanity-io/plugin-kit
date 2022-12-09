@@ -15,12 +15,9 @@ Install the plugin in your [Sanity Studio](https://sanity.io/studio) configurati
 import {defineConfig} from 'sanity'
 import {myPlugin} from 'sanity-plugin-test-plugin'
 
-export const defineConfig({
+export default defineConfig({
   // ...
-
-  plugins: [
-    myPlugin(),
-  ],
+  plugins: [myPlugin({})],
 })
 ```
 

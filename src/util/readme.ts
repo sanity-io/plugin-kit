@@ -7,7 +7,8 @@ import {User} from './user'
 export function generateReadme(data: PackageData) {
   const {user, pluginName, license, description} = data
 
-  return outdent`
+  return (
+    outdent`
     # ${pluginName}
 
     ${v3BannerNotice()}
@@ -15,22 +16,23 @@ export function generateReadme(data: PackageData) {
     ${installationSnippet(pluginName ?? 'unknown')}
 
     ## Usage
-    Add it as a plugin in sanity.config.ts (or .js):
 
-    \`\`\`
-     import {defineConfig} from 'sanity'
-     import {myPlugin} from '${pluginName}'
+    Add it as a plugin in \`sanity.config.ts\` (or .js):
 
-     export const defineConfig({
-         //...
-         plugins: [
-             myPlugin({})
-         ]
-     })
+    \`\`\`ts
+    import {defineConfig} from 'sanity'
+    import {myPlugin} from '${pluginName}'
+
+    export default defineConfig({
+      //...
+      plugins: [myPlugin({})],
+    })
     \`\`\`
+
     ${getLicenseText(license?.id, user?.name ? (user as User) : undefined)}
     ${developTestSnippet()}
-  `
+  ` + '\n'
+  )
 }
 
 export function v3BannerNotice() {
@@ -41,8 +43,8 @@ export function installationSnippet(packageName: string) {
   return outdent`
     ## Installation
 
-    \`\`\`
-    npm install --save ${packageName}@studio-v3
+    \`\`\`sh
+    npm install ${packageName}
     \`\`\`
     `
 }

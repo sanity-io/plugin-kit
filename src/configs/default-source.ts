@@ -15,9 +15,7 @@ export function defaultSourceJs(pkg: PackageJson) {
    *
    * export default defineConfig({
    *   // ...
-   *   plugins: [
-   *     myPlugin({}),
-   *   ],
+   *   plugins: [myPlugin({})],
    * })
    * \`\`\`
    */
@@ -42,7 +40,7 @@ export function defaultSourceTs(pkg: PackageJson) {
   }
 
   /**
-   * Usage in sanity.config.ts (or .js)
+   * Usage in \`sanity.config.ts\` (or .js)
    *
    * \`\`\`ts
    * import {defineConfig} from 'sanity'
@@ -50,9 +48,7 @@ export function defaultSourceTs(pkg: PackageJson) {
    *
    * export default defineConfig({
    *   // ...
-   *   plugins: [
-   *     myPlugin(),
-   *   ],
+   *   plugins: [myPlugin()],
    * })
    * \`\`\`
    */
