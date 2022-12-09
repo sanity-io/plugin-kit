@@ -2,10 +2,10 @@ import log from '../../util/log'
 import {TypedFlags} from 'meow'
 import fs from 'fs'
 import sharedFlags from '../../sharedFlags'
-import {TsConfig} from './types'
 import chalk from 'chalk'
 import outdent from 'outdent'
 import {runCommand} from '../../util/command-parser'
+import {ParsedCommandLine} from 'typescript'
 
 export const readFile = fs.promises.readFile
 const splitLine = `\n----------------------------------------------------------`
@@ -82,8 +82,8 @@ export function createValidator(
   }
 }
 
-export async function runTscMaybe(verifyConfig: VerifyPackageConfig, tsConfig?: TsConfig) {
-  if (tsConfig && verifyConfig.tsc !== false) {
+export async function runTscMaybe(verifyConfig: VerifyPackageConfig, ts?: ParsedCommandLine) {
+  if (ts && verifyConfig.tsc !== false) {
     log.info('All checks ok, running Typescript compiler.')
     const {code} = await runCommand('tsc --noEmit')
     if (code !== 0) {
