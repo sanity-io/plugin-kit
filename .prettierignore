@@ -1,0 +1,5 @@
+assets
+coverage
+lib
+tap-snapshots
+test/fixtures
