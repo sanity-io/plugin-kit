@@ -16,6 +16,7 @@ import {PackageJson} from '../src/actions/verify/types'
 const defaultDevDependencies = [
   '@sanity/pkg-utils',
   '@sanity/plugin-kit',
+  '@types/react',
   '@typescript-eslint/eslint-plugin',
   '@typescript-eslint/parser',
   'eslint',
@@ -28,8 +29,11 @@ const defaultDevDependencies = [
   'prettier',
   'prettier-plugin-packagejson',
   'react',
+  'react-dom',
+  'react-is',
   'rimraf',
   'sanity',
+  'styled-components',
   'typescript',
 ]
 
@@ -189,7 +193,17 @@ tap.test('plugin-kit init --force with all the opt-outs in empty directory', asy
       )
       t.strictSame(
         Object.keys(pkg.devDependencies ?? {}),
-        ['@sanity/pkg-utils', '@sanity/plugin-kit', 'npm-run-all', 'react', 'rimraf', 'sanity'],
+        [
+          '@sanity/pkg-utils',
+          '@sanity/plugin-kit',
+          'npm-run-all',
+          'react',
+          'react-dom',
+          'react-is',
+          'rimraf',
+          'sanity',
+          'styled-components',
+        ],
         'should have expected devDependencies'
       )
     },
