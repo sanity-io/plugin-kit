@@ -13,10 +13,27 @@ import {cliName, incompatiblePluginPackage} from '../constants'
 import {InjectOptions, PackageData} from '../actions/inject'
 import {expectedScripts} from '../actions/verify/validations'
 import {PackageJson} from '../actions/verify/types'
-import {forcedDevPackageVersions, forcedPackageVersions} from '../configs/forced-package-versions'
+import {
+  forcedDevPackageVersions,
+  forcedPackageVersions,
+  forcedPeerPackageVersions,
+} from '../configs/forced-package-versions'
 const defaultDependencies = [incompatiblePluginPackage]
 
-const defaultDevDependencies = ['npm-run-all', 'rimraf', 'react', 'sanity']
+const defaultDevDependencies = [
+  'npm-run-all',
+  'rimraf',
+  'sanity',
+
+  // peer dependencies of `sanity`
+  'react',
+  'react-dom',
+  'styled-components',
+
+  // peer dependencies of `styled-components`
+  'react-is',
+]
+
 const defaultPeerDependencies = ['react', 'sanity']
 
 const readFile = util.promisify(fs.readFile)
@@ -200,7 +217,7 @@ export async function writePackageJson(data: PackageData, options: InjectOptions
 
   if (useTypescript) {
     log.debug('Using TypeScript. Adding to dev dependencies.')
-    newDevDependencies.push('typescript')
+    newDevDependencies.push('@types/react', 'typescript')
   }
 
   if (usePrettier) {
@@ -228,11 +245,14 @@ export async function writePackageJson(data: PackageData, options: InjectOptions
   }
 
   log.debug('Resolving latest versions for %s', newDevDependencies.join(', '))
-  const dependencies = forceDependencyVersions({
-    ...(prev.dependencies || {}),
-    ...(addDeps || {}),
-    ...(await resolveLatestVersions(defaultDependencies)),
-  })
+  const dependencies = forceDependencyVersions(
+    {
+      ...(prev.dependencies || {}),
+      ...(addDeps || {}),
+      ...(await resolveLatestVersions(defaultDependencies)),
+    },
+    forcedPackageVersions
+  )
   const devDependencies = forceDependencyVersions(
     {
       ...(addDevDeps || {}),
@@ -241,11 +261,14 @@ export async function writePackageJson(data: PackageData, options: InjectOptions
     },
     forcedDevPackageVersions
   )
-  const peerDependencies = forceDependencyVersions({
-    ...(prev.peerDependencies || {}),
-    ...(addPeers || {}),
-    ...(await resolveLatestVersions(defaultPeerDependencies)),
-  })
+  const peerDependencies = forceDependencyVersions(
+    {
+      ...(prev.peerDependencies || {}),
+      ...(addPeers || {}),
+      ...(await resolveLatestVersions(defaultPeerDependencies)),
+    },
+    forcedPeerPackageVersions
+  )
 
   const source = flags.typescript ? './src/index.ts' : './src/index.js'
 
