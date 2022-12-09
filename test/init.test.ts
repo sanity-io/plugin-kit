@@ -82,7 +82,7 @@ tap.test('plugin-kit init --force in empty directory', async (t) => {
           source: './src/index.ts',
           exports: {
             '.': {
-              types: './lib/src/index.d.ts',
+              types: './lib/index.d.ts',
               source: './src/index.ts',
               import: './lib/index.esm.js',
               require: './lib/index.js',
@@ -91,7 +91,7 @@ tap.test('plugin-kit init --force in empty directory', async (t) => {
           },
           main: './lib/index.js',
           module: './lib/index.esm.js',
-          types: './lib/src/index.d.ts',
+          types: './lib/index.d.ts',
           files: ['src', 'lib', 'v2-incompatible.js', 'sanity.json'],
           scripts: {
             clean: 'rimraf lib',
