@@ -34,29 +34,6 @@ export interface PackageJson {
   [index: string]: unknown
 }
 
-export interface CompilerOptions {
-  jsx?: string
-  moduleResolution?: string
-  target?: string
-  module?: string
-  sourceMap?: boolean
-  inlineSourceMap?: boolean
-  esModuleInterop?: boolean
-  skipLibCheck?: boolean
-  isolatedModules?: boolean
-  downlevelIteration?: boolean
-  declaration?: boolean
-  allowSyntheticDefaultImports?: boolean
-  outDir?: string
-  baseUrl?: string
-  checkJs?: false
-}
-
-export interface TsConfig {
-  compilerOptions?: CompilerOptions
-  include?: string[]
-}
-
 export interface SanityV2Json {
   parts?: [
     {

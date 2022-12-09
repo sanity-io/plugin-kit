@@ -1,6 +1,5 @@
 import {getPackage} from '../npm/package'
 import log from '../util/log'
-import {readJson5File} from '../util/files'
 import {cliName, urls} from '../constants'
 import {validateImports} from '../dependencies/import-linter'
 import outdent from 'outdent'
@@ -11,8 +10,9 @@ import {
   VerifyFlags,
   VerifyPackageConfig,
 } from './verify/verify-common'
-import {PackageJson, TsConfig} from './verify/types'
+import {PackageJson} from './verify/types'
 import {validateSanityDependencies, validateStudioConfig} from './verify/validations'
+import {readTSConfig} from '../util/ts'
 
 export async function verifyStudio({basePath, flags}: {basePath: string; flags: VerifyFlags}) {
   let errors: string[] = []
@@ -22,7 +22,7 @@ export async function verifyStudio({basePath, flags}: {basePath: string; flags: 
 
   const validation = createValidator(verifyConfig, flags, errors)
 
-  const tsConfig = await readJson5File<TsConfig>({basePath, filename: 'tsconfig.json'})
+  const ts = await readTSConfig({basePath, filename: 'tsconfig.json'})
 
   await validation('studioConfig', async () => validateStudioConfig({basePath}))
   await validation('dependencies', async () => validateSanityDependencies(packageJson))
@@ -45,7 +45,7 @@ export async function verifyStudio({basePath, flags}: {basePath: string; flags: 
     )
   }
 
-  await runTscMaybe(verifyConfig, tsConfig)
+  await runTscMaybe(verifyConfig, ts)
 
   log.success(
     outdent`

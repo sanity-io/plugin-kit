@@ -6,9 +6,10 @@ import findBabelConfig from 'find-babel-config'
 import {incompatiblePluginPackage, urls} from '../../constants'
 import {deprecatedDevDeps, mergedPackages} from '../../configs/banned-packages'
 import path from 'path'
-import {fileExists, readFileContent, readJson5File} from '../../util/files'
+import {fileExists, readJson5File} from '../../util/files'
 import chalk from 'chalk'
-import {CompilerOptions, PackageJson, SanityStudioJson, SanityV2Json, TsConfig} from './types'
+import {PackageJson, SanityStudioJson, SanityV2Json} from './types'
+import {ParsedCommandLine} from 'typescript'
 
 export const expectedScripts = {
   prebuild: `plugin-kit verify-package --silent && pkg-utils`,
@@ -127,11 +128,36 @@ export function validateScripts(packageJson: PackageJson): string[] {
   return errors
 }
 
-export async function validateTsConfig(tsConfig: TsConfig) {
+export async function validateTsConfig(ts: ParsedCommandLine, options: {basePath: string}) {
   const errors: string[] = []
-  const options = tsConfig.compilerOptions ?? {}
+
   const wrongEntries = Object.entries(expectedCompilerOptions).filter(([key, value]) => {
-    const option = options[key as keyof CompilerOptions]
+    let option: any = ts.options[key]
+
+    if (key === 'rootDir' && typeof option === 'string') {
+      option = path.relative(options.basePath, option) || '.'
+    }
+
+    if (key === 'outDir' && typeof option === 'string') {
+      option = path.relative(options.basePath, option) || '.'
+    }
+
+    if (key === 'jsx' && option === 1) {
+      option = 'preserve'
+    }
+
+    if (key === 'moduleResolution' && option === 2) {
+      option = 'node'
+    }
+
+    if (key === 'target' && option === 99) {
+      option = 'esnext'
+    }
+
+    if (key === 'module' && option === 99) {
+      option = 'esnext'
+    }
+
     return typeof value === 'string' && typeof option === 'string'
       ? value.toLowerCase() !== option?.toLowerCase()
       : value !== option

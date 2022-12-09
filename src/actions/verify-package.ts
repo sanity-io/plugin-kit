@@ -9,7 +9,6 @@ import {
   VerifyFlags,
   VerifyPackageConfig,
 } from './verify/verify-common'
-import {readJson5File} from '../util/files'
 import {
   validateBabelConfig,
   validateModule,
@@ -23,8 +22,9 @@ import {
   validateSanityDependencies,
   validateSrcIndexFile,
 } from './verify/validations'
-import {PackageJson, TsConfig} from './verify/types'
+import {PackageJson} from './verify/types'
 import chalk from 'chalk'
+import {readTSConfig} from '../util/ts'
 
 export async function verifyPackage({basePath, flags}: {basePath: string; flags: VerifyFlags}) {
   let errors: string[] = []
@@ -34,7 +34,7 @@ export async function verifyPackage({basePath, flags}: {basePath: string; flags:
 
   const validation = createValidator(verifyConfig, flags, errors)
 
-  const tsConfig = await readJson5File<TsConfig>({basePath, filename: 'tsconfig.json'})
+  const ts = await readTSConfig({basePath, filename: 'tsconfig.json'})
 
   await validation('packageName', async () => validatePackageName(packageJson))
   await validation('pkg-utils', async () => validatePkgUtilsDependency(packageJson))
@@ -43,7 +43,9 @@ export async function verifyPackage({basePath, flags}: {basePath: string; flags:
   await validation('module', async () => validateModule(packageJson))
   await validation('nodeEngine', async () => validateNodeEngine(packageJson))
 
-  tsConfig && (await validation('tsconfig', async () => validateTsConfig(tsConfig)))
+  if (ts) {
+    await validation('tsconfig', async () => validateTsConfig(ts, {basePath}))
+  }
 
   await validation('sanityV2Json', async () => validatePluginSanityJson({basePath, packageJson}))
 
@@ -76,7 +78,7 @@ export async function verifyPackage({basePath, flags}: {basePath: string; flags:
     )
   }
 
-  await runTscMaybe(verifyConfig, tsConfig)
+  await runTscMaybe(verifyConfig, ts)
 
   log.success(
     outdent`
