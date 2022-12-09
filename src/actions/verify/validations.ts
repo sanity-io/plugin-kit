@@ -31,7 +31,7 @@ const expectedCompilerOptions = {
   downlevelIteration: true,
   declaration: true,
   allowSyntheticDefaultImports: true,
-  rootDir: 'src',
+  rootDir: '.',
   outDir: 'lib',
 }
 
