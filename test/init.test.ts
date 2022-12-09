@@ -24,6 +24,7 @@ const defaultDevDependencies = [
   'eslint-plugin-prettier',
   'eslint-plugin-react',
   'eslint-plugin-react-hooks',
+  'npm-run-all',
   'prettier',
   'prettier-plugin-packagejson',
   'react',
@@ -98,11 +99,11 @@ tap.test('plugin-kit init --force in empty directory', async (t) => {
           scripts: {
             clean: 'rimraf lib',
             lint: 'eslint .',
-            prebuild: 'npm run clean && plugin-kit verify-package --silent && pkg-utils',
-            build: 'pkg-utils build',
-            watch: 'pkg-utils watch',
+            build:
+              'run-s clean && plugin-kit verify-package --silent && pkg-utils build --strict && pkg-utils --strict',
+            watch: 'pkg-utils watch --strict',
             'link-watch': 'plugin-kit link-watch',
-            prepublishOnly: 'npm run build',
+            prepublishOnly: 'run-s build',
           },
           repository: {
             type: 'git',
@@ -188,7 +189,7 @@ tap.test('plugin-kit init --force with all the opt-outs in empty directory', asy
       )
       t.strictSame(
         Object.keys(pkg.devDependencies ?? {}),
-        ['@sanity/pkg-utils', '@sanity/plugin-kit', 'react', 'rimraf', 'sanity'],
+        ['@sanity/pkg-utils', '@sanity/plugin-kit', 'npm-run-all', 'react', 'rimraf', 'sanity'],
         'should have expected devDependencies'
       )
     },

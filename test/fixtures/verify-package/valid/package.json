@@ -29,13 +29,12 @@
     "sanity.json"
   ],
   "scripts": {
-    "prebuild": "npm run clean && plugin-kit verify-package --silent && pkg-utils",
-    "build": "pkg-utils build --no-cache",
+    "build": "run-s clean && plugin-kit verify-package --silent && pkg-utils build --strict && pkg-utils --strict",
     "clean": "rimraf lib",
     "link-watch": "plugin-kit link-watch",
     "lint": "eslint .",
-    "prepublishOnly": "npm run build",
-    "watch": "pkg-utils watch"
+    "prepublishOnly": "run-s build",
+    "watch": "pkg-utils watch --strict"
   },
   "dependencies": {
     "@sanity/incompatible-plugin": "^0.0.1-studio-v3.1"
@@ -51,6 +50,7 @@
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.30.0",
     "eslint-plugin-react-hooks": "^4.5.0",
+    "npm-run-all": "^4.1.5",
     "prettier": "^2.6.2",
     "prettier-plugin-packagejson": "^2.3.0",
     "react": "^18.2.0",

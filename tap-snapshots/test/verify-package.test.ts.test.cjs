@@ -52,19 +52,16 @@ To skip this validation add the following to your package.json:
 }
 ----------------------------------------------------------
 [error] 
-The following script commands did not contain expected defaults: prebuild, build, watch, link-watch, prepublishOnly
+The following script commands did not contain expected defaults: build, watch, link-watch, prepublishOnly
 
 This checks for that the commands-strings includes these terms.
-For example, this will validate ok:
-"prebuild": "npm run clean && plugin-kit verify-package --silent && pkg-utils",
 
 Please add the following to your package.json "scripts":
 
-"prebuild": "plugin-kit verify-package --silent && pkg-utils",
-"build": "pkg-utils build",
-"watch": "pkg-utils watch",
+"build": "run-s clean && plugin-kit verify-package --silent && pkg-utils build --strict && pkg-utils --strict",
+"watch": "pkg-utils watch --strict",
 "link-watch": "plugin-kit link-watch",
-"prepublishOnly": "npm run build"
+"prepublishOnly": "run-s build"
 
 To skip this validation add the following to your package.json:
 "sanityPlugin": {

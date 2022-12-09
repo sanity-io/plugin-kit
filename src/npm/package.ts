@@ -16,7 +16,7 @@ import {PackageJson} from '../actions/verify/types'
 import {forcedDevPackageVersions, forcedPackageVersions} from '../configs/forced-package-versions'
 const defaultDependencies = [incompatiblePluginPackage]
 
-const defaultDevDependencies = ['rimraf', 'react', 'sanity']
+const defaultDevDependencies = ['npm-run-all', 'rimraf', 'react', 'sanity']
 const defaultPeerDependencies = ['react', 'sanity']
 
 const readFile = util.promisify(fs.readFile)
@@ -365,7 +365,6 @@ export async function addBuildScripts(manifest: PackageJson, options: InjectOpti
     return false
   }
   return addPackageJsonScripts(manifest, options, (scripts) => {
-    scripts.prebuild = addScript('npm run clean && ' + expectedScripts.prebuild, scripts.prebuild)
     scripts.build = addScript(expectedScripts.build, scripts.build)
     scripts.clean = addScript(`rimraf lib`, scripts.clean)
     scripts['link-watch'] = addScript(expectedScripts['link-watch'], scripts['link-watch'])
