@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-'use strict'
 import meow from 'meow'
 import log from './util/log'
 import commands from './cmds'
@@ -64,7 +62,7 @@ export async function cliEntry(argv = process.argv, autoExit = true) {
   }
 
   // Lazy-load command
-  const cmd = require(commands[commandName as keyof typeof commands]).default
+  const cmd = commands[commandName as keyof typeof commands]
 
   try {
     log.setVerbosity(cli.flags)

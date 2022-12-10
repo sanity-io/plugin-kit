@@ -22,18 +22,30 @@
   "license": "MIT",
   "author": "Sanity.io <hello@sanity.io>",
   "type": "commonjs",
-  "main": "./lib/src/index.js",
+  "types": "./lib/index.d.ts",
   "source": "./src/index.ts",
-  "types": "./lib/src/index.d.ts",
-  "bin": "lib/src/index.js",
+  "main": "./lib/index.js",
+  "exports": {
+    ".": {
+      "types": "./lib/index.d.ts",
+      "source": "./src/index.ts",
+      "require": "./lib/index.js",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "plugin-kit": "./bin/plugin-kit.js"
+  },
   "files": [
+    "bin",
     "v2-incompatible.js",
     "src",
     "lib",
     "assets"
   ],
   "scripts": {
-    "build": "run-s clean && tsc && node executable-index.js",
+    "build": "run-s clean && pkg-utils build --strict && pkg-utils --strict",
     "clean": "rimraf lib",
     "commit": "git-cz",
     "compile": "tsc --noEmit",
@@ -42,7 +54,7 @@
     "prepare": "husky install",
     "prepublishOnly": "run-s build",
     "test": "tap",
-    "watch": "tsc --watch"
+    "watch": "pkg-utils watch --strict"
   },
   "tap": {
     "browser": false,
