@@ -205,7 +205,12 @@ function validateLockFiles(options: {basePath: string}) {
 
 export async function writePackageJson(data: PackageData, options: InjectOptions) {
   const {user, pluginName, license, description, pkg: prevPkg, gitOrigin} = data
-  const {peerDependencies: addPeers, dependencies: addDeps, devDependencies: addDevDeps} = options
+  const {
+    outDir,
+    peerDependencies: addPeers,
+    dependencies: addDeps,
+    devDependencies: addDevDeps,
+  } = options
   const {flags} = options
   const prev = prevPkg || {}
 
@@ -272,6 +277,11 @@ export async function writePackageJson(data: PackageData, options: InjectOptions
 
   const source = flags.typescript ? './src/index.ts' : './src/index.js'
 
+  const files = [outDir, 'sanity.json', 'src', 'v2-incompatible.js']
+
+  // sort alphabetically for scanability
+  files.sort()
+
   // order should be compatible with prettier-plugin-packagejson
   const forcedOrder = {
     name: pluginName,
@@ -284,19 +294,19 @@ export async function writePackageJson(data: PackageData, options: InjectOptions
     author: user?.email ? `${user.name} <${user.email}>` : user?.name,
     exports: {
       '.': {
-        ...(flags.typescript ? {types: './lib/index.d.ts'} : {}),
+        ...(flags.typescript ? {types: `./${outDir}/index.d.ts`} : {}),
         source,
-        import: './lib/index.esm.js',
-        require: './lib/index.js',
-        default: './lib/index.esm.js',
+        import: `./${outDir}/index.esm.js`,
+        require: `./${outDir}/index.js`,
+        default: `./${outDir}/index.esm.js`,
       },
       './package.json': './package.json',
     },
-    main: './lib/index.js',
-    module: './lib/index.esm.js',
+    main: `./${outDir}/index.js`,
+    module: `./${outDir}/index.esm.js`,
     source,
-    ...(flags.typescript ? {types: './lib/index.d.ts'} : {}),
-    files: ['src', 'lib', 'v2-incompatible.js', 'sanity.json'],
+    ...(flags.typescript ? {types: `./${outDir}/index.d.ts`} : {}),
+    files,
     scripts: {...prev.scripts},
     dependencies: sortKeys(dependencies),
     devDependencies: sortKeys(devDependencies),
@@ -384,12 +394,14 @@ export async function writePackageJsonDirect(manifest: PackageJson, {basePath}: 
 }
 
 export async function addBuildScripts(manifest: PackageJson, options: InjectOptions) {
+  const {outDir} = options
+
   if (!options.flags.scripts) {
     return false
   }
   return addPackageJsonScripts(manifest, options, (scripts) => {
     scripts.build = addScript(expectedScripts.build, scripts.build)
-    scripts.clean = addScript(`rimraf lib`, scripts.clean)
+    scripts.clean = addScript(`rimraf ${outDir}`, scripts.clean)
     scripts['link-watch'] = addScript(expectedScripts['link-watch'], scripts['link-watch'])
     scripts.lint = addScript(`eslint .`, scripts.lint)
     scripts.prepublishOnly = addScript(expectedScripts.prepublishOnly, scripts.prepublishOnly)

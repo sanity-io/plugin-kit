@@ -1,7 +1,7 @@
 import {loadConfig as loadPackageConfig} from '@sanity/pkg-utils'
 import {getPackage} from '../npm/package'
 import log from '../util/log'
-import {cliName, urls} from '../constants'
+import {cliName, defaultOutDir, urls} from '../constants'
 import {validateImports} from '../dependencies/import-linter'
 import outdent from 'outdent'
 import {
@@ -33,6 +33,7 @@ export async function verifyPackage({basePath, flags}: {basePath: string; flags:
   const packageJson: PackageJson = await getPackage({basePath, validate: false})
   const verifyConfig: VerifyPackageConfig = packageJson.sanityPlugin?.verifyPackage || {}
   const packageConfig = await loadPackageConfig({cwd: basePath})
+  const outDir = packageConfig?.dist ?? defaultOutDir
   const tsconfig = packageConfig?.tsconfig ?? 'tsconfig.json'
 
   const validation = createValidator(verifyConfig, flags, errors)
@@ -43,11 +44,11 @@ export async function verifyPackage({basePath, flags}: {basePath: string; flags:
   await validation('pkg-utils', async () => validatePkgUtilsDependency(packageJson))
   await validation('srcIndex', async () => validateSrcIndexFile(basePath))
   await validation('scripts', async () => validateScripts(packageJson))
-  await validation('module', async () => validateModule(packageJson))
+  await validation('module', async () => validateModule(packageJson, {outDir}))
   await validation('nodeEngine', async () => validateNodeEngine(packageJson))
 
   if (ts) {
-    await validation('tsconfig', async () => validateTsConfig(ts, {basePath}))
+    await validation('tsconfig', async () => validateTsConfig(ts, {basePath, outDir, tsconfig}))
   }
 
   await validation('sanityV2Json', async () => validatePluginSanityJson({basePath, packageJson}))

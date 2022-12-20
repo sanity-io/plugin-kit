@@ -11,3 +11,5 @@ export const urls = {
 }
 
 export const incompatiblePluginPackage = '@sanity/incompatible-plugin'
+
+export const defaultOutDir = 'lib'

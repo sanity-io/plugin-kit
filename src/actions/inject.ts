@@ -18,8 +18,11 @@ import {
 } from '../util/files'
 import {InitFlags} from './init'
 import {PackageJson} from './verify/types'
-import outdent from 'outdent'
 import {injectPresets} from '../presets/presets'
+import {tsconfigTemplateDist, tsconfigTemplate, tsconfigTemplateSettings} from '../configs/tsconfig'
+import {pkgConfigTemplate} from '../configs/pkg-config'
+import {gitignoreTemplate} from '../configs/git'
+import {eslintignoreTemplate, eslintrcTemplate} from '../configs/eslint'
 
 const bannedFields = ['login', 'description', 'projecturl', 'email']
 const preferredLicenses = ['MIT', 'ISC', 'BSD-3-Clause']
@@ -31,7 +34,20 @@ const otherLicenses = Object.keys(licenses.list).filter((id) => {
   )
 })
 
-export type FromTo = {from: string | string[]; to: string | string[]}
+export interface InjectCopyFromTo {
+  type: 'copy'
+  from: string | string[]
+  to: string | string[]
+}
+
+export interface InjectTemplate {
+  type: 'template'
+  to: string | string[]
+  value: string
+  force?: boolean
+}
+
+export type Injectable = InjectCopyFromTo | InjectTemplate
 
 export interface InjectOptions {
   basePath: string
@@ -41,6 +57,7 @@ export interface InjectOptions {
   devDependencies?: Record<string, string>
   peerDependencies?: Record<string, string>
   validate?: boolean
+  outDir: string
 }
 
 export interface PackageData {
@@ -111,11 +128,6 @@ async function injectBase(options: InjectOptions) {
   didWrite = await writeStaticAssets(options)
   info(didWrite.length > 0, 'Wrote static asset files: %s', didWrite.join(', '))
 
-  didWrite = await writeEslintrc(options)
-  info(didWrite, 'Wrote .eslintrc.js')
-  didWrite = await writeEslintIgnore(options)
-  info(didWrite, 'Wrote .eslintignore')
-
   didWrite = await addBuildScripts(newPkg, options)
   info(didWrite, 'Added build scripts to package.json')
 
@@ -134,62 +146,6 @@ async function writeReadme(data: PackageData, options: InjectOptions) {
   }
 
   await writeFileWithOverwritePrompt(readmePath, generateReadme(data), {
-    encoding: 'utf8',
-    force: options.flags.force,
-  })
-  return true
-}
-
-async function writeEslintrc(options: InjectOptions) {
-  if (!options.flags.eslint) {
-    return false
-  }
-  const {basePath} = options
-
-  const eslintrc = path.join(basePath, '.eslintrc')
-
-  const config = {
-    root: true,
-    env: {
-      node: true,
-      browser: true,
-    },
-    extends: [
-      'sanity',
-      options.flags.typescript && 'sanity/typescript',
-      'sanity/react',
-      'plugin:react-hooks/recommended',
-      options.flags.prettier && 'plugin:prettier/recommended',
-    ].filter(Boolean),
-  }
-
-  const content = JSON.stringify(config, null, 2) + '\n'
-  await writeFileWithOverwritePrompt(eslintrc, content, {
-    encoding: 'utf8',
-    force: options.flags.force,
-  })
-  return true
-}
-
-async function writeEslintIgnore(options: InjectOptions) {
-  if (!options.flags.eslint) {
-    return false
-  }
-  const {basePath} = options
-
-  const eslintignore = path.join(basePath, '.eslintignore')
-
-  const content =
-    outdent`
-    .eslintrc.js
-    commitlint.config.js
-    lib
-    lint-staged.config.js
-    package.config.ts
-    ${options.flags.typescript ? '*.js' : ''}
-  `.trim() + '\n'
-
-  await writeFileWithOverwritePrompt(eslintignore, content, {
     encoding: 'utf8',
     force: options.flags.force,
   })
@@ -324,45 +280,63 @@ async function resolveProjectDescription(basePath: string, pkg: PackageJson | un
   }
 }
 
-export async function writeAssets(files: FromTo[], {basePath, flags}: InjectOptions) {
+export async function writeAssets(injectables: Injectable[], {basePath, flags}: InjectOptions) {
   const assetsDir = await findAssetsDir()
 
   const from = (...segments: string[]) => path.join(assetsDir, 'inject', ...segments)
   const to = (...segments: string[]) => path.join(basePath, ...segments)
 
   const writes: string[] = []
-  for (const file of files) {
-    const fromPath = asArray(file.from)
-    const toPath = asArray(file.to)
-    if (await copyFileWithOverwritePrompt(from(...fromPath), to(...toPath), flags)) {
-      writes.push(path.join(...toPath))
+  for (const injectable of injectables) {
+    if (injectable.type === 'copy') {
+      const fromPath = asArray(injectable.from)
+      const toPath = asArray(injectable.to)
+      if (await copyFileWithOverwritePrompt(from(...fromPath), to(...toPath), flags)) {
+        writes.push(path.join(...toPath))
+      }
+      continue
     }
+
+    if (injectable.type === 'template') {
+      const toPath = asArray(injectable.to)
+
+      await writeFileWithOverwritePrompt(to(...toPath), `${injectable.value.trim()}\n`, {
+        default: 'n',
+        force: injectable.force || flags.force,
+      })
+
+      writes.push(path.join(...toPath))
+      continue
+    }
+
+    throw new Error(`Unknown operation type "${(injectable as any).type}"`)
   }
 
   return writes
 }
 
 async function writeStaticAssets(options: InjectOptions) {
-  const {flags} = options
+  const {outDir, flags} = options
 
-  const files: FromTo[] = [
-    {from: 'editorconfig', to: '.editorconfig'},
-    {from: 'sanity.json', to: 'sanity.json'},
-    {from: 'v2-incompatible.js.template', to: 'v2-incompatible.js'},
-    {
-      from: 'package.config.template',
-      to: options.flags.typescript ? 'package.config.ts' : 'package.config.js',
-    },
-    flags.gitignore && {from: 'gitignore', to: '.gitignore'},
-    flags.typescript && {from: 'template-tsconfig.json', to: 'tsconfig.json'},
-    flags.typescript && {from: 'template-tsconfig.lib.json', to: 'tsconfig.lib.json'},
-    flags.typescript && {from: 'template-tsconfig.settings.json', to: 'tsconfig.settings.json'},
-    flags.prettier && {from: 'prettierrc.json', to: '.prettierrc.json'},
+  const files: Injectable[] = [
+    flags.eslint && eslintrcTemplate({flags: options.flags}),
+    flags.eslint && eslintignoreTemplate({outDir, flags: options.flags}),
+    {type: 'copy', from: 'editorconfig', to: '.editorconfig'},
+    {type: 'copy', from: 'sanity.json', to: 'sanity.json'},
+    {type: 'copy', from: 'v2-incompatible.js.template', to: 'v2-incompatible.js'},
+    pkgConfigTemplate({outDir, flags: options.flags}),
+    flags.gitignore && gitignoreTemplate(),
+    flags.typescript && tsconfigTemplate({flags: options.flags}),
+    flags.typescript && tsconfigTemplateDist({outDir, flags: options.flags}),
+    flags.typescript && tsconfigTemplateSettings({flags: options.flags}),
+    flags.prettier && {type: 'copy', from: 'prettierrc.json', to: '.prettierrc'},
   ]
-    .map((f) => (f ? (f as FromTo) : undefined))
-    .filter((f): f is FromTo => !!f)
+    .map((f) => (f ? (f as Injectable) : undefined))
+    .filter((f): f is Injectable => !!f)
 
-  return writeAssets(files, options)
+  const result = writeAssets(files, options)
+
+  return result
 }
 
 function asArray(input: string | string[]): string[] {
