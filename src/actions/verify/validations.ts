@@ -125,6 +125,7 @@ export async function validateTsConfig(
     moduleResolution: 'node',
     target: 'esnext',
     module: 'esnext',
+    emitDeclarationOnly: true,
     esModuleInterop: true,
     skipLibCheck: true,
     isolatedModules: true,

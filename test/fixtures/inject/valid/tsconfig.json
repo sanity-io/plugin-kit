@@ -18,7 +18,8 @@
     "skipLibCheck": true,
     "isolatedModules": true,
     "checkJs": false,
-    "rootDir": "."
+    "rootDir": ".",
+    "emitDeclarationOnly": true
   },
   "include": ["src/**/*"]
 }
