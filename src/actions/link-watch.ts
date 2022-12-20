@@ -30,7 +30,6 @@ import {loadConfig as loadPackageConfig} from '@sanity/pkg-utils'
 import {defaultOutDir} from '../constants'
 
 interface YalcWatchConfig {
-  folder?: string
   command?: string
   extensions?: string
 }
@@ -45,23 +44,23 @@ export async function linkWatch({basePath}: {basePath: string}) {
   )
 
   const packageConfig = await loadPackageConfig({cwd: basePath})
+  const outDir = packageConfig?.dist ?? defaultOutDir
 
   const watch: Required<YalcWatchConfig> = {
-    folder: packageConfig?.dist ?? defaultOutDir,
     command: 'npm run watch',
     extensions: 'ts,js,png,svg,gif,jpeg,css',
     ...packageJson.sanityPlugin?.linkWatch,
   }
 
   nodemon({
-    watch: [watch.folder],
+    watch: [outDir],
     ext: watch.extensions,
     exec: 'yalc push --changed',
     //delay: 1000
   })
 
   // ensure the folder exits so it can be watched
-  const folder = path.join(basePath, watch.folder)
+  const folder = path.join(basePath, outDir)
   if (!(await fileExists(folder))) {
     await mkdir(folder)
   }
@@ -74,7 +73,7 @@ export async function linkWatch({basePath}: {basePath: string}) {
     .on('start', function () {
       log.info(
         outdent`
-        Watching ${watch.folder} for changes to files with extensions: ${watch.extensions}
+        Watching ${outDir} for changes to files with extensions: ${watch.extensions}
 
         To test this package in Sanity Studio or another package, in a separate shell run:
         cd /path/to/sanity/studio-or-package
