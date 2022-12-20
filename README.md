@@ -253,8 +253,6 @@ This command can be configured using `sanityPlugin.linkWatch` in package.json:
 {
   "sanityPlugin": {
     "linkWatch": {
-      // directory to watch
-      "folder": "lib",
       // command to run when content in linkWatch.folder changes
       "command": "npm run watch",
       // file extensions to watch for changes in the linkWatch.folder
@@ -404,7 +402,6 @@ Provide a sanityPlugin config in package.json (defaults shown):
 {
   "sanityPlugin": {
     "linkWatch": {
-      "folder": "lib",
       "command": "npm run watch",
       "extensions": "js,png,svg,gif,jpeg,css"
     }
