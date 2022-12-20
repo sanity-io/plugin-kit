@@ -24,10 +24,10 @@ export function hasSourceEquivalent(compiledFile: string, paths: ManifestPaths) 
     )
   }
 
-  // /plugin/lib/MyComponent.js => /plugin/src
+  // /plugin/dist/MyComponent.js => /plugin/src
   const baseDir = path.dirname(compiledFile.replace(paths.compiled as string, paths.source))
 
-  // /plugin/lib/MyComponent.js => MyComponent
+  // /plugin/dist/MyComponent.js => MyComponent
   const baseName = path.basename(compiledFile, path.extname(compiledFile))
 
   // MyComponent => /plugin/src/MyComponent
@@ -72,14 +72,14 @@ export function hasCompiledFile(filePath: string, paths?: ManifestPaths) {
   }
 
   // filePath: components/SomeInput
-  // paths: {compiled: '/plugin/lib'}
+  // paths: {compiled: '/plugin/dist'}
 
-  // components/SomeInput => /plugin/lib/components/SomeInput
+  // components/SomeInput => /plugin/dist/components/SomeInput
   const absPath = path.isAbsolute(filePath) ? filePath : path.resolve(paths.compiled, filePath)
 
-  // /plugin/lib/components/SomeInput     => /plugin/lib/components/SomeInput.js
-  // /plugin/lib/components/SomeInput.js  => /plugin/lib/components/SomeInput.js
-  // /plugin/lib/components/SomeInput.css => /plugin/lib/components/SomeInput.css
+  // /plugin/dist/components/SomeInput     => /plugin/dist/components/SomeInput.js
+  // /plugin/dist/components/SomeInput.js  => /plugin/dist/components/SomeInput.js
+  // /plugin/dist/components/SomeInput.css => /plugin/dist/components/SomeInput.css
   const fileExt = path.extname(absPath)
   const withExt = fileExt === '' ? `${absPath}.js` : absPath
 

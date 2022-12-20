@@ -50,7 +50,7 @@ tap.test('plugin-kit init --force in empty directory', async (t) => {
 
       await fileContains('LICENSE', 'MIT')
       await fileContains('README.md', `# ${pluginTestName}`)
-      await fileContains('.gitignore', 'lib')
+      await fileContains('.gitignore', 'dist')
       await fileContains(
         '.eslintrc',
         'sanity',
@@ -63,7 +63,7 @@ tap.test('plugin-kit init --force in empty directory', async (t) => {
         '.eslintignore',
         '.eslintrc.js',
         'commitlint.config.js',
-        'lib',
+        'dist',
         'lint-staged.config.js',
         '*.js'
       )
@@ -71,7 +71,7 @@ tap.test('plugin-kit init --force in empty directory', async (t) => {
       await fileContains('sanity.json', '"path": "./v2-incompatible.js"')
       await fileContains('v2-incompatible.js', 'showIncompatiblePluginDialog')
       await fileContains('tsconfig.json', '"extends": "./tsconfig.settings"')
-      await fileContains('tsconfig.lib.json', '"extends": "./tsconfig.settings"')
+      await fileContains('tsconfig.dist.json', '"extends": "./tsconfig.settings"')
       await fileContains('tsconfig.settings.json', '"target": "esnext"')
 
       await fileContains('src/index.ts', `name: '${pluginTestName}'`)
@@ -89,19 +89,19 @@ tap.test('plugin-kit init --force in empty directory', async (t) => {
           source: './src/index.ts',
           exports: {
             '.': {
-              types: './lib/index.d.ts',
+              types: './dist/index.d.ts',
               source: './src/index.ts',
-              import: './lib/index.esm.js',
-              require: './lib/index.js',
-              default: './lib/index.esm.js',
+              import: './dist/index.esm.js',
+              require: './dist/index.js',
+              default: './dist/index.esm.js',
             },
           },
-          main: './lib/index.js',
-          module: './lib/index.esm.js',
-          types: './lib/index.d.ts',
-          files: ['lib', 'sanity.json', 'src', 'v2-incompatible.js'],
+          main: './dist/index.js',
+          module: './dist/index.esm.js',
+          types: './dist/index.d.ts',
+          files: ['dist', 'sanity.json', 'src', 'v2-incompatible.js'],
           scripts: {
-            clean: 'rimraf lib',
+            clean: 'rimraf dist',
             lint: 'eslint .',
             build:
               'run-s clean && plugin-kit verify-package --silent && pkg-utils build --strict && pkg-utils --strict',

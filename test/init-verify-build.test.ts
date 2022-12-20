@@ -59,11 +59,11 @@ tap.test('plugin-kit init -> verify-package -> tsc > pkg-utils build', async (t)
       t.equal(trimmedErrors, '', 'should have empty stderr')
 
       t.strictSame(
-        await contents(path.join(outputDir, 'lib')),
+        await contents(path.join(outputDir, 'dist')),
         ['index.d.ts', 'index.esm.js', 'index.esm.js.map', 'index.js', 'index.js.map'].map(
           normalize
         ),
-        'should output expected files to lib'
+        'should output expected files to dist'
       )
     },
   })

@@ -1,7 +1,7 @@
 import {defineConfig} from '@sanity/pkg-utils'
 
 export default defineConfig({
-  dist: 'lib',
+  dist: 'dist',
   minify: false,
   legacyExports: true
 })

@@ -15,26 +15,26 @@
   "type": "commonjs",
   "exports": {
     ".": {
-      "types": "./lib/index.d.ts",
+      "types": "./dist/index.d.ts",
       "source": "./src/index.ts",
-      "import": "./lib/index.esm.js",
-      "require": "./lib/index.js",
-      "default": "./lib/index.js"
+      "import": "./dist/index.esm.js",
+      "require": "./dist/index.js",
+      "default": "./dist/index.js"
     }
   },
-  "main": "./lib/index.js",
-  "module": "./lib/index.esm.js",
+  "main": "./dist/index.js",
+  "module": "./dist/index.esm.js",
   "source": "./src/index.ts",
-  "types": "./lib/index.d.ts",
+  "types": "./dist/index.d.ts",
   "files": [
-    "lib",
+    "dist",
     "sanity.json",
     "src",
     "v2-incompatible.js"
   ],
   "scripts": {
     "build": "run-s clean && plugin-kit verify-package --silent && pkg-utils build --strict && pkg-utils --strict",
-    "clean": "rimraf lib",
+    "clean": "rimraf dist",
     "link-watch": "plugin-kit link-watch",
     "lint": "eslint .",
     "prepublishOnly": "run-s build",
