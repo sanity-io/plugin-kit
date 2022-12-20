@@ -1,5 +1,5 @@
 assets
+build
 coverage
-lib
 tap-snapshots
 test/fixtures

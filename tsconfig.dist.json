@@ -3,7 +3,7 @@
   "include": ["./src"],
   "compilerOptions": {
     "rootDir": ".",
-    "outDir": "./lib",
+    "outDir": "./dist",
     "emitDeclarationOnly": true,
     "resolveJsonModule": true
   }

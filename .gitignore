@@ -49,7 +49,7 @@ jspm_packages
 .cache
 
 ## TypeScript out
-lib/
+dist/
 
 # IntelliJ
 .idea/
