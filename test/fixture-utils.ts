@@ -30,7 +30,7 @@ export const initTestArgs = [
 
 export async function testFixture({
   fixturePath,
-  relativeOutPath = 'lib',
+  relativeOutPath = 'dist',
   command,
   assert,
 }: {

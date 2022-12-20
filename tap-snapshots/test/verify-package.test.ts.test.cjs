@@ -76,23 +76,23 @@ Expected source, exports, main, module and files entries in package.json, but so
 Example:
 
 Given a plugin with entry-point in src/index.ts, using default @sanity/pkg-utils build command,
-package.json should contain the following entries to ensure that commonjs and esm outputs are built into lib:
+package.json should contain the following entries to ensure that commonjs and esm outputs are built into dist:
 
 "source": "./src/index.ts",
 "exports": {
   ".": {
-    "types": "./lib/index.d.ts",
+    "types": "./dist/index.d.ts",
     "source": "./src/index.ts",
-    "import": "./lib/index.esm.js",
-    "require": "./lib/index.js",
-    "default": "./lib/index.js"
+    "import": "./dist/index.esm.js",
+    "require": "./dist/index.js",
+    "default": "./dist/index.js"
   }
 },
-"main": "./lib/index.js",
-"module": "./lib/index.esm.js",
-"types": "./lib/index.d.ts",
+"main": "./dist/index.js",
+"module": "./dist/index.esm.js",
+"types": "./dist/index.d.ts",
 "files": [
-  "lib",
+  "dist",
   "src"
 ],
 
@@ -138,7 +138,7 @@ Expected to find these values:
 "declaration": true,
 "allowSyntheticDefaultImports": true,
 "rootDir": ".",
-"outDir": "lib",
+"outDir": "dist",
 
 Please update your tsconfig.json accordingly.
 

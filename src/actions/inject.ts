@@ -345,7 +345,7 @@ function asArray(input: string | string[]): string[] {
 
 /**
  * assets dir might be in higher or lower in the dir hierarchy depending on
- * if we run from lib or src
+ * if we run from `dist` or `src`
  */
 async function findAssetsDir(): Promise<string> {
   let maxBackpaddle = 3

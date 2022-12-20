@@ -154,7 +154,7 @@ async function validatePaths(manifest: PackageJson, options: ManifestOptions) {
     }
 
     // We don't want to reference `./src/MyComponent.js` containing a bunch of JSX and whatnot,
-    // instead we want to target `./lib/MyComponent.js` which is the location it'll be compiled to
+    // instead we want to target `./dist/MyComponent.js` which is the location it'll be compiled to
     if (!options?.flags?.allowSourceTarget && paths && withinSourceDir(manifestValue)) {
       throw new Error(
         `Invalid package.json: "${key}" points to file within source (uncompiled) directory. Use --allow-source-target if you really want to do this.`

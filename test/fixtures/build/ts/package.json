@@ -9,10 +9,10 @@
   ],
   "license": "MIT",
   "author": "Some person",
-  "main": "./lib/one.js",
+  "main": "./dist/one.js",
   "types": "types.d.ts",
   "files": [
-    "lib",
+    "dist",
     ".eslintignore"
   ],
   "scripts": {

@@ -22,7 +22,7 @@ To override the default watch command configuration, provide an override in pack
   "sanityPlugin": {
     "watchCommand": "microbundle watch --format modern,esm,cjs --jsx React.createElement --jsxImportSource react --css inline",
     "linkWatch": {
-      "folder": "lib",
+      "folder": "dist",
       "command": "npm run watch",
       "extensions": "js,png,svg,gif,jpeg,css"
     }

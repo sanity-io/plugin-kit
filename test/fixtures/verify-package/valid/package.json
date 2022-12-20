@@ -14,23 +14,23 @@
   "author": "Test Person <test.person@somewhere-on-the-internet.nowhere>",
   "exports": {
     ".": {
-      "require": "./lib/cjs/index.js",
-      "default": "./lib/esm/index.js"
+      "require": "./dist/index.js",
+      "default": "./dist/index.esm.js"
     }
   },
-  "main": "./lib/cjs/index.js",
-  "module": "./lib/esm/index.js",
+  "main": "./dist/index.js",
+  "module": "./dist/index.esm.js",
   "source": "./src/index.ts",
-  "types": "./lib/types/index.d.ts",
+  "types": "./dist/index.d.ts",
   "files": [
     "src",
-    "lib",
+    "dist",
     "v2-incompatible.js",
     "sanity.json"
   ],
   "scripts": {
     "build": "run-s clean && plugin-kit verify-package --silent && pkg-utils build --strict && pkg-utils --strict",
-    "clean": "rimraf lib",
+    "clean": "rimraf dist",
     "link-watch": "plugin-kit link-watch",
     "lint": "eslint .",
     "prepublishOnly": "run-s build",
