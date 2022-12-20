@@ -1,6 +1,6 @@
 .eslintrc.js
 commitlint.config.js
-lib
+dist
 lint-staged.config.js
 node_modules
 test/fixtures

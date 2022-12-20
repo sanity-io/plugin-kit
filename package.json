@@ -22,15 +22,15 @@
   "license": "MIT",
   "author": "Sanity.io <hello@sanity.io>",
   "type": "commonjs",
-  "types": "./lib/index.d.ts",
+  "types": "./dist/index.d.ts",
   "source": "./src/index.ts",
-  "main": "./lib/index.js",
+  "main": "./dist/index.js",
   "exports": {
     ".": {
-      "types": "./lib/index.d.ts",
+      "types": "./dist/index.d.ts",
       "source": "./src/index.ts",
-      "require": "./lib/index.js",
-      "default": "./lib/index.js"
+      "require": "./dist/index.js",
+      "default": "./dist/index.js"
     },
     "./package.json": "./package.json"
   },
@@ -38,15 +38,15 @@
     "plugin-kit": "./bin/plugin-kit.js"
   },
   "files": [
+    "assets",
     "bin",
-    "v2-incompatible.js",
+    "dist",
     "src",
-    "lib",
-    "assets"
+    "v2-incompatible.js"
   ],
   "scripts": {
     "build": "run-s clean && pkg-utils build --strict && pkg-utils --strict",
-    "clean": "rimraf lib",
+    "clean": "rimraf dist",
     "commit": "git-cz",
     "compile": "tsc --noEmit",
     "format": "prettier src -w",
@@ -64,7 +64,7 @@
     ],
     "jobs": 2,
     "reporter": "spec",
-    "test-ignore": "^lib/.*|.*ignore.*|.*run-test-command.*|.*fixture.utils.*",
+    "test-ignore": "^dist/.*|.*ignore.*|.*run-test-command.*|.*fixture.utils.*",
     "timeout": 120,
     "ts": true
   },

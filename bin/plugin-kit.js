@@ -1,2 +1,2 @@
 #!/usr/bin/env node
-require('../lib/cli').cliEntry()
+require('../dist/cli').cliEntry()
