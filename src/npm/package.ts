@@ -402,6 +402,7 @@ export async function addBuildScripts(manifest: PackageJson, options: InjectOpti
   return addPackageJsonScripts(manifest, options, (scripts) => {
     scripts.build = addScript(expectedScripts.build, scripts.build)
     scripts.clean = addScript(`rimraf ${outDir}`, scripts.clean)
+    scripts.format = addScript(`prettier --write --cache --ignore-unknown .`, scripts.format)
     scripts['link-watch'] = addScript(expectedScripts['link-watch'], scripts['link-watch'])
     scripts.lint = addScript(`eslint .`, scripts.lint)
     scripts.prepublishOnly = addScript(expectedScripts.prepublishOnly, scripts.prepublishOnly)

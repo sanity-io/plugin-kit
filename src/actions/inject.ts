@@ -23,6 +23,7 @@ import {tsconfigTemplateDist, tsconfigTemplate, tsconfigTemplateSettings} from '
 import {pkgConfigTemplate} from '../configs/pkg-config'
 import {gitignoreTemplate} from '../configs/git'
 import {eslintignoreTemplate, eslintrcTemplate} from '../configs/eslint'
+import {prettierignoreTemplate} from '../configs/prettier'
 
 const bannedFields = ['login', 'description', 'projecturl', 'email']
 const preferredLicenses = ['MIT', 'ISC', 'BSD-3-Clause']
@@ -329,6 +330,7 @@ async function writeStaticAssets(options: InjectOptions) {
     flags.typescript && tsconfigTemplate({flags: options.flags}),
     flags.typescript && tsconfigTemplateDist({outDir, flags: options.flags}),
     flags.typescript && tsconfigTemplateSettings({flags: options.flags}),
+    flags.prettier && prettierignoreTemplate({outDir}),
     flags.prettier && {type: 'copy', from: 'prettierrc.json', to: '.prettierrc'},
   ]
     .map((f) => (f ? (f as Injectable) : undefined))
