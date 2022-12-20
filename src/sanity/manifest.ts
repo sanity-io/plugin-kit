@@ -233,7 +233,7 @@ async function validatePartFiles(
     return
   }
 
-  const [srcExists, libExists] = await Promise.all([
+  const [srcExists, outDirExists] = await Promise.all([
     hasSourceFile(part.path, paths),
     verifyCompiledParts && hasCompiledFile(part.path, paths),
   ])
@@ -246,7 +246,7 @@ async function validatePartFiles(
     )
   }
 
-  if (verifyCompiledParts && !libExists) {
+  if (verifyCompiledParts && !outDirExists) {
     throw new Error(
       `Invalid sanity.json: Part path references file ("${part.path}") that does not exist in compiled directory (${paths?.compiled}) (parts[${index}])`
     )

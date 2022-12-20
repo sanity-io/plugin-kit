@@ -20,20 +20,6 @@ export const expectedScripts = {
 }
 
 const expectedModulesFields = ['source', 'exports', 'main', 'module', 'files']
-const expectedCompilerOptions = {
-  jsx: 'preserve',
-  moduleResolution: 'node',
-  target: 'esnext',
-  module: 'esnext',
-  esModuleInterop: true,
-  skipLibCheck: true,
-  isolatedModules: true,
-  downlevelIteration: true,
-  declaration: true,
-  allowSyntheticDefaultImports: true,
-  rootDir: '.',
-  outDir: 'lib',
-}
 
 export function validateNodeEngine(packageJson: PackageJson) {
   const nodeVersionRange = '>=14'
@@ -52,7 +38,8 @@ export function validateNodeEngine(packageJson: PackageJson) {
   }
 }
 
-export function validateModule(packageJson: PackageJson): string[] {
+export function validateModule(packageJson: PackageJson, options: {outDir: string}): string[] {
+  const {outDir} = options
   const errors: string[] = []
 
   const missingFields = expectedModulesFields.filter((field) => !packageJson[field])
@@ -67,24 +54,24 @@ export function validateModule(packageJson: PackageJson): string[] {
         Example:
 
         Given a plugin with entry-point in src/index.ts, using default @sanity/pkg-utils build command,
-        package.json should contain the following entries to ensure that commonjs and esm outputs are built into lib:
+        package.json should contain the following entries to ensure that commonjs and esm outputs are built into ${outDir}:
 
         "source": "./src/index.ts",
         "exports": {
           ".": {
-            "types": "./lib/index.d.ts",
+            "types": "./${outDir}/index.d.ts",
             "source": "./src/index.ts",
-            "import": "./lib/index.esm.js",
-            "require": "./lib/index.js",
-            "default": "./lib/index.js"
+            "import": "./${outDir}/index.esm.js",
+            "require": "./${outDir}/index.js",
+            "default": "./${outDir}/index.js"
           }
         },
-        "main": "./lib/index.js",
-        "module": "./lib/index.esm.js",
-        "types": "./lib/index.d.ts",
+        "main": "./${outDir}/index.js",
+        "module": "./${outDir}/index.esm.js",
+        "types": "./${outDir}/index.d.ts",
         "files": [
-          "src",
-          "lib"
+          "${outDir}",
+          "src"
         ],
 
         Refer to @sanity/pkg-utils for more: https://github.com/sanity-io/pkg-utils#sanitypkg-utils
@@ -125,18 +112,38 @@ export function validateScripts(packageJson: PackageJson): string[] {
   return errors
 }
 
-export async function validateTsConfig(ts: ParsedCommandLine, options: {basePath: string}) {
+export async function validateTsConfig(
+  ts: ParsedCommandLine,
+  options: {basePath: string; outDir: string; tsconfig: string}
+) {
+  const {basePath, outDir, tsconfig} = options
+
   const errors: string[] = []
+
+  const expectedCompilerOptions = {
+    jsx: 'preserve',
+    moduleResolution: 'node',
+    target: 'esnext',
+    module: 'esnext',
+    esModuleInterop: true,
+    skipLibCheck: true,
+    isolatedModules: true,
+    downlevelIteration: true,
+    declaration: true,
+    allowSyntheticDefaultImports: true,
+    rootDir: '.',
+    outDir,
+  }
 
   const wrongEntries = Object.entries(expectedCompilerOptions).filter(([key, value]) => {
     let option: any = ts.options[key]
 
     if (key === 'rootDir' && typeof option === 'string') {
-      option = path.relative(options.basePath, option) || '.'
+      option = path.relative(basePath, option) || '.'
     }
 
     if (key === 'outDir' && typeof option === 'string') {
-      option = path.relative(options.basePath, option) || '.'
+      option = path.relative(basePath, option) || '.'
     }
 
     if (key === 'jsx' && option === 1) {
@@ -167,13 +174,13 @@ export async function validateTsConfig(ts: ParsedCommandLine, options: {basePath
 
     errors.push(
       outdent`
-        Recommended tsconfig.json compilerOptions missing:
+        Recommended ${tsconfig} compilerOptions missing:
 
         The following fields had unexpected values: [${wrongEntries.map(([key]) => key).join(', ')}]
         Expected to find these values:
         ${expectedOutput}
 
-        Please update your tsconfig.json accordingly.
+        Please update your ${tsconfig} accordingly.
       `.trimStart()
     )
   }

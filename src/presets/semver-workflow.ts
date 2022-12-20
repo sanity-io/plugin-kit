@@ -1,4 +1,4 @@
-import {FromTo, InjectOptions, writeAssets} from '../actions/inject'
+import {Injectable, InjectOptions, writeAssets} from '../actions/inject'
 import {resolveLatestVersions} from '../npm/resolveLatestVersions'
 import {Preset} from './presets'
 import {
@@ -148,19 +148,31 @@ function closeEnough(a: string, b: string) {
   return isCloseEnough
 }
 
-function semverWorkflowFiles(): FromTo[] {
-  return [
-    {from: ['.github', 'workflows', 'main.yml'], to: ['.github', 'workflows', 'main.yml']},
-    {from: ['.husky', 'commit-msg'], to: ['.husky', 'commit-msg']},
-    {from: ['.husky', 'pre-commit'], to: ['.husky', 'pre-commit']},
-    {from: ['.releaserc.json'], to: '.releaserc.json'},
-    {from: ['npmrc'], to: '.npmrc'},
-    {from: ['commitlint.template.js'], to: 'commitlint.config.js'},
-    {from: ['lint-staged.template.js'], to: 'lint-staged.config.js'},
-  ].map((fromTo) => ({
-    ...fromTo,
-    from: ['semver-workflow', ...fromTo.from],
-  }))
+function semverWorkflowFiles(): Injectable[] {
+  const base: Injectable[] = [
+    {
+      type: 'copy',
+      from: ['.github', 'workflows', 'main.yml'],
+      to: ['.github', 'workflows', 'main.yml'],
+    },
+    {type: 'copy', from: ['.husky', 'commit-msg'], to: ['.husky', 'commit-msg']},
+    {type: 'copy', from: ['.husky', 'pre-commit'], to: ['.husky', 'pre-commit']},
+    {type: 'copy', from: ['.releaserc.json'], to: '.releaserc.json'},
+    {type: 'copy', from: ['npmrc'], to: '.npmrc'},
+    {type: 'copy', from: ['commitlint.template.js'], to: 'commitlint.config.js'},
+    {type: 'copy', from: ['lint-staged.template.js'], to: 'lint-staged.config.js'},
+  ]
+
+  return base.map((fromTo) => {
+    if (fromTo.type === 'copy') {
+      return {
+        ...fromTo,
+        from: ['semver-workflow', ...fromTo.from],
+      }
+    }
+
+    return fromTo
+  })
 }
 
 async function semverWorkflowDependencies(): Promise<Record<string, string>> {

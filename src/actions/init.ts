@@ -5,6 +5,7 @@ import sharedFlags from '../sharedFlags'
 import {TypedFlags} from 'meow'
 import {getPackage} from '../npm/package'
 import {defaultSourceJs, defaultSourceTs} from '../configs/default-source'
+import {defaultOutDir} from '../constants'
 
 export const initFlags = {
   ...sharedFlags,
@@ -76,6 +77,7 @@ export async function init(options: InitOptions) {
 
   await inject({
     ...options,
+    outDir: defaultOutDir,
     requireUserConfirmation: !options.flags.force,
     dependencies,
     devDependencies,

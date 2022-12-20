@@ -8,5 +8,14 @@ export const renovatePreset: Preset = {
 }
 
 async function applyPreset(options: InjectOptions) {
-  await writeAssets([{from: ['renovatebot', 'renovate.json'], to: 'renovate.json'}], options)
+  await writeAssets(
+    [
+      {
+        type: 'copy',
+        from: ['renovatebot', 'renovate.json'],
+        to: 'renovate.json',
+      },
+    ],
+    options
+  )
 }

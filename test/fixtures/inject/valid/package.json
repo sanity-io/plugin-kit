@@ -27,10 +27,10 @@
   "source": "./src/index.ts",
   "types": "./lib/index.d.ts",
   "files": [
-    "src",
     "lib",
-    "v2-incompatible.js",
-    "sanity.json"
+    "sanity.json",
+    "src",
+    "v2-incompatible.js"
   ],
   "scripts": {
     "build": "run-s clean && plugin-kit verify-package --silent && pkg-utils build --strict && pkg-utils --strict",

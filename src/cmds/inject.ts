@@ -1,10 +1,11 @@
+import {loadConfig as loadPackageConfig} from '@sanity/pkg-utils'
 import path from 'path'
 import meow from 'meow'
 import log from '../util/log'
 import {inject} from '../actions/inject'
 import {findStudioV3Config} from '../sanity/manifest'
 import {initFlags} from '../actions/init'
-import {cliName} from '../constants'
+import {cliName, defaultOutDir} from '../constants'
 import {presetHelpList} from '../presets/presets'
 
 const description = `Inject configuration into a Sanity plugin`
@@ -51,6 +52,8 @@ Examples
 async function run({argv}: {argv: string[]}) {
   const cli = meow(help, {flags: initFlags, argv, description})
   const basePath = path.resolve(cli.input[0] || process.cwd())
+  const packageConfig = await loadPackageConfig({cwd: basePath})
+  const outDir = packageConfig?.dist ?? defaultOutDir
 
   const {v3ConfigFile} = await findStudioV3Config(basePath)
   if (v3ConfigFile) {
@@ -60,7 +63,7 @@ async function run({argv}: {argv: string[]}) {
   }
   log.info('Inject config into plugin in "%s"', basePath)
 
-  await inject({basePath, flags: cli.flags, validate: false})
+  await inject({basePath, outDir, flags: cli.flags, validate: false})
   log.info('Done!')
 }
 

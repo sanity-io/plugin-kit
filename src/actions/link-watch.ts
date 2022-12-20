@@ -26,6 +26,8 @@ import log from '../util/log'
 import {getPackage} from '../npm/package'
 import outdent from 'outdent'
 import {fileExists, mkdir} from '../util/files'
+import {loadConfig as loadPackageConfig} from '@sanity/pkg-utils'
+import {defaultOutDir} from '../constants'
 
 interface YalcWatchConfig {
   folder?: string
@@ -42,8 +44,10 @@ export async function linkWatch({basePath}: {basePath: string}) {
     fs.readFileSync(path.join(basePath, 'package.json'), 'utf8')
   )
 
+  const packageConfig = await loadPackageConfig({cwd: basePath})
+
   const watch: Required<YalcWatchConfig> = {
-    folder: 'lib',
+    folder: packageConfig?.dist ?? defaultOutDir,
     command: 'npm run watch',
     extensions: 'ts,js,png,svg,gif,jpeg,css',
     ...packageJson.sanityPlugin?.linkWatch,

@@ -4,9 +4,9 @@
   "description": "",
   "license": "MIT",
   "files": [
-    "src",
     "lib",
-    "sanity.json"
+    "sanity.json",
+    "src"
   ],
   "dependencies": {},
   "devDependencies": {

@@ -1,5 +1,5 @@
 import {Preset} from './presets'
-import {FromTo, InjectOptions, writeAssets} from '../actions/inject'
+import {Injectable, InjectOptions, writeAssets} from '../actions/inject'
 import {getPackage, sortKeys, writePackageJsonDirect} from '../npm/package'
 import log from '../util/log'
 import chalk from 'chalk'
@@ -32,16 +32,32 @@ async function applyPreset(options: InjectOptions) {
   )
 }
 
-function files(): FromTo[] {
-  return [
-    {from: ['workshop.config.ts'], to: ['workshop.config.ts']},
-    {from: ['src', 'CustomField.tsx'], to: ['src', 'CustomField.tsx']},
-    {from: ['src', '__workshop__', 'index.tsx'], to: ['src', '__workshop__', 'index.tsx']},
-    {from: ['src', '__workshop__', 'props.tsx'], to: ['src', '__workshop__', 'props.tsx']},
-  ].map((fromTo) => ({
-    ...fromTo,
-    from: ['ui-workshop', ...fromTo.from],
-  }))
+function files(): Injectable[] {
+  const base: Injectable[] = [
+    {type: 'copy', from: ['workshop.config.ts'], to: ['workshop.config.ts']},
+    {type: 'copy', from: ['src', 'CustomField.tsx'], to: ['src', 'CustomField.tsx']},
+    {
+      type: 'copy',
+      from: ['src', '__workshop__', 'index.tsx'],
+      to: ['src', '__workshop__', 'index.tsx'],
+    },
+    {
+      type: 'copy',
+      from: ['src', '__workshop__', 'props.tsx'],
+      to: ['src', '__workshop__', 'props.tsx'],
+    },
+  ]
+
+  return base.map((fromTo) => {
+    if (fromTo.type === 'copy') {
+      return {
+        ...fromTo,
+        from: ['ui-workshop', ...fromTo.from],
+      }
+    }
+
+    return fromTo
+  })
 }
 
 async function updateGitIgnore(options: InjectOptions) {

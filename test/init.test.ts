@@ -99,7 +99,7 @@ tap.test('plugin-kit init --force in empty directory', async (t) => {
           main: './lib/index.js',
           module: './lib/index.esm.js',
           types: './lib/index.d.ts',
-          files: ['src', 'lib', 'v2-incompatible.js', 'sanity.json'],
+          files: ['lib', 'sanity.json', 'src', 'v2-incompatible.js'],
           scripts: {
             clean: 'rimraf lib',
             lint: 'eslint .',

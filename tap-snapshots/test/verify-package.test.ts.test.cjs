@@ -92,8 +92,8 @@ package.json should contain the following entries to ensure that commonjs and es
 "module": "./lib/index.esm.js",
 "types": "./lib/index.d.ts",
 "files": [
-  "src",
-  "lib"
+  "lib",
+  "src"
 ],
 
 Refer to @sanity/pkg-utils for more: https://github.com/sanity-io/pkg-utils#sanitypkg-utils
