@@ -48,7 +48,7 @@
     "build": "run-s clean && pkg-utils build --strict && pkg-utils --strict",
     "clean": "rimraf dist",
     "commit": "git-cz",
-    "compile": "tsc --noEmit",
+    "compile": "tsc --build",
     "format": "prettier src -w",
     "lint": "eslint .",
     "prepare": "husky install",

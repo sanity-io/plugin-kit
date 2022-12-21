@@ -85,7 +85,7 @@ export function createValidator(
 export async function runTscMaybe(verifyConfig: VerifyPackageConfig, ts?: ParsedCommandLine) {
   if (ts && verifyConfig.tsc !== false) {
     log.info('All checks ok, running Typescript compiler.')
-    const {code} = await runCommand('tsc --noEmit')
+    const {code} = await runCommand('tsc --build')
     if (code !== 0) {
       throw new Error('Compilation failed. See output above.\n\n' + disableCheckText('tsc'))
     }

@@ -127,7 +127,7 @@ Verify that the plugin package is configured correctly by running:
 - Check for sanity imports that has changed in v3, using eslint
 - Check tsconfig.json settings
 - Check for [SPDX](https://spdx.org/licenses/) compatible license definition
-- If the package uses TypeScript, this will also run `tsc --noEmit` when all other checks have passed
+- If the package uses TypeScript, this will also run `tsc --build` when all other checks have passed
 
 Each check will explain why it is needed, steps to fix it and how it can be individually disabled.
 

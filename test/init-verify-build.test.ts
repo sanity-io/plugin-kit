@@ -24,11 +24,11 @@ tap.test('plugin-kit init -> verify-package -> tsc > pkg-utils build', async (t)
 
       start = new Date().getTime()
       const verify = await runCliCommand('verify-package', [outputDir])
-      console.error(`"plugin-kit verify-package" done in ${seconds()}.\nRunning "tcs --noEmit"...`)
+      console.error(`"plugin-kit verify-package" done in ${seconds()}.\nRunning "tsc --build"...`)
 
       start = new Date().getTime()
-      const tsc = await execa('tsc', ['--noEmit'], {cwd: outputDir})
-      console.error(`"tsc --noEmit" done in ${seconds()}.\nRunning "pkg-utils build"...`)
+      const tsc = await execa('tsc', ['--build'], {cwd: outputDir})
+      console.error(`"tsc --build" done in ${seconds()}.\nRunning "pkg-utils build"...`)
 
       start = new Date().getTime()
       const build = await execa('pkg-utils', ['build'], {cwd: outputDir})
