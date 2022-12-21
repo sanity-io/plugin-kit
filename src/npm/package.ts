@@ -421,7 +421,8 @@ export function sortKeys<T extends Record<string, unknown>>(unordered: T): T {
     }, {} as T)
 }
 
-function forceDependencyVersions(
+/** @internal */
+export function forceDependencyVersions(
   deps: Record<string, string>,
   versions = forcedPackageVersions
 ): Record<string, string> {
