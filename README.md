@@ -57,7 +57,7 @@ npx @sanity/plugin-kit init sanity-plugin-testing-it-out
 cd sanity-plugin-testing-it-out
 npm run link-watch
 
-# In another shell 
+# In another shell
 cd /path/to/my-studio
 # now link the plugin to your Sanity studio using the command indicated by link-watch output (see below)
 ```
@@ -71,7 +71,7 @@ yalc add --link sanity-plugin-testing-it-out && yarn install
 ```
 
 ```bash
-# studio uses npm 
+# studio uses npm
 cd /path/to/my-studio
 npx yalc add sanity-plugin-testing-it-out && npx yalc link sanity-plugin-testing-it-out && npm install
 ```
@@ -79,15 +79,13 @@ npx yalc add sanity-plugin-testing-it-out && npx yalc link sanity-plugin-testing
 Now, configure the plugin in `sanity.config.ts` (or .js) in Sanity Studio:
 
 ```ts
-  import {defineConfig} from 'sanity'
-  import {myPlugin} from 'sanity-plugin-testing-it-out'
+import {defineConfig} from 'sanity'
+import {myPlugin} from 'sanity-plugin-testing-it-out'
 
-  export default defineConfig({
-      //...
-      plugins: [
-          myPlugin({})
-      ]
-  })
+export default defineConfig({
+  //...
+  plugins: [myPlugin({})],
+})
 ```
 
 Start the Sanity Studio development server:
@@ -179,13 +177,15 @@ This will only output the first validation that fails. Useful when working throu
 ## Inject config into existing package
 
 ```
-npx @sanity/plugin-kit inject 
+npx @sanity/plugin-kit inject
 ```
+
 will inject recommended V3 plugin package boilerplate into an existing plugin.
 Be sure to commit any local changes before running this command, so you can easily revert anything
 you dont want.
 
 Consult the inject command CLI help:
+
 ```
 npx @sanity/plugin-kit inject --help
 ```
@@ -196,9 +196,9 @@ for up-to-date specifics.
 
 The inject command can do more work by adding presets. Consult the individual preset docs for details:
 
-* [semver-workflow](./docs/semver-workflow.md) - Add an opinionated Github workflow to automate NPM releases
-* [renovatebot](./docs/renovatebot.md) - Add opinionated Renovatebot config to make dependency management a breeze
-* [ui-workshop](./docs/ui-workshop.md) - Add  [@sanity/ui-workshop](https://github.com/sanity-io/ui-workshop) to make component testing a breeze
+- [semver-workflow](./docs/semver-workflow.md) - Add an opinionated Github workflow to automate NPM releases
+- [renovatebot](./docs/renovatebot.md) - Add opinionated Renovatebot config to make dependency management a breeze
+- [ui-workshop](./docs/ui-workshop.md) - Add [@sanity/ui-workshop](https://github.com/sanity-io/ui-workshop) to make component testing a breeze
 
 ## Testing a plugin in Sanity Studio
 
@@ -375,7 +375,7 @@ Usage
 
     init            Create a new Sanity plugin
     verify-package  Verify that a Sanity plugin follows plugin-kit conventions
-    inject          Inject plugin-kit complatible package config into an existing plugin directory
+    inject          Inject plugin-kit compatible package config into an existing plugin directory
     link-watch      Recompile plugin automatically on changes and push to yalc
     version         Show the version of ${cliName} currently installed
 
