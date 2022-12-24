@@ -12,6 +12,7 @@
   },
   "license": "MIT",
   "author": "Test Person <test.person@somewhere-on-the-internet.nowhere>",
+  "type": "commonjs",
   "exports": {
     ".": {
       "types": "./lib/src/index.d.ts",
@@ -44,7 +45,7 @@
     "@sanity/incompatible-plugin": "^0.0.1-studio-v3.1"
   },
   "devDependencies": {
-    "@sanity/pkg-utils": "^1.16.0",
+    "@sanity/pkg-utils": "^2.0.6",
     "@sanity/plugin-kit": "^0.0.1-studio-v3.1",
     "@typescript-eslint/eslint-plugin": "^5.27.1",
     "@typescript-eslint/parser": "^5.27.1",

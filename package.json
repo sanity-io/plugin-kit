@@ -21,6 +21,7 @@
   },
   "license": "MIT",
   "author": "Sanity.io <hello@sanity.io>",
+  "type": "commonjs",
   "main": "./lib/src/index.js",
   "source": "./src/index.ts",
   "types": "./lib/src/index.d.ts",
@@ -89,7 +90,7 @@
   "devDependencies": {
     "@commitlint/cli": "^17.2.0",
     "@commitlint/config-conventional": "^17.2.0",
-    "@sanity/pkg-utils": "^1.20.1",
+    "@sanity/pkg-utils": "^2.0.6",
     "@sanity/semantic-release-preset": "^2.0.2",
     "@sanity/ui-workshop": "^1.0.1",
     "@types/eslint": "^8.4.10",
