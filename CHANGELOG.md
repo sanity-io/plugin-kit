@@ -5,6 +5,41 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.0](https://github.com/sanity-io/plugin-kit/compare/v2.2.0...v3.0.0) (2023-01-02)
+
+### ⚠ BREAKING CHANGES
+
+- `emitDeclarationOnly` is now a required compiler option.
+  Run `plugin-kit verify-package` to get hints about how to apply required changes.
+- `rootDir` is now expected to be set to the root directory of the project.
+  Run `plugin-kit verify-package` to get hints about how to apply required changes.
+- `outDir` is now required in `tsconfig.json`. Run `plugin-kit verify-package` to
+  get hints about how to apply required changes.
+
+### Features
+
+- add a `ui` preset ([776950e](https://github.com/sanity-io/plugin-kit/commit/776950eae0a9a672d5d9a2217c5e841480e07e40))
+- initialize with `format` script ([9d753c2](https://github.com/sanity-io/plugin-kit/commit/9d753c21da5b1007b0f099ababa4b84589814953))
+- optional `outDir` directory ([13ef06e](https://github.com/sanity-io/plugin-kit/commit/13ef06ef0787d7cb9341924c346882410a69fa36))
+- run `pkg-utils` in strict mode ([4ec8613](https://github.com/sanity-io/plugin-kit/commit/4ec86135144d8a8299e2366cb1cb224a185fd593))
+- validate `emitDeclarationOnly` compiler option ([d60d46e](https://github.com/sanity-io/plugin-kit/commit/d60d46e65025ef7f735707613992c6e385390f7c))
+- validate presence of `outDir` in tsconfig ([89d0978](https://github.com/sanity-io/plugin-kit/commit/89d0978164c07da6c8ea82efd649558fa7667c8e))
+
+### Bug Fixes
+
+- correct typos and formatting ([6dc04be](https://github.com/sanity-io/plugin-kit/commit/6dc04be77c8f416ac9fa22cd7a87f5fb878246c6))
+- **deps:** install latest dependencies ([819efff](https://github.com/sanity-io/plugin-kit/commit/819efff8999e1cd41e38c41d0aa6011af5df3975))
+- **deps:** upgrade to `@sanity/pkg-utils@2` ([7d1d7e6](https://github.com/sanity-io/plugin-kit/commit/7d1d7e671008d54bbb66e9caf4abea9ec125920c))
+- final newline ([2109f76](https://github.com/sanity-io/plugin-kit/commit/2109f76eb0c697d5138a90f441e3dd0f09ba2be2))
+- format comment in .gitignore ([9dae13d](https://github.com/sanity-io/plugin-kit/commit/9dae13d3dbe89f1c452433389e8b87b2e55fb837))
+- format readmes and examples ([6d26a0c](https://github.com/sanity-io/plugin-kit/commit/6d26a0c7d5fc7c17bf7fe0f9fed66d5623232ac0))
+- install `styled-components` ([446bf14](https://github.com/sanity-io/plugin-kit/commit/446bf14d7d386078051f0f92910c4d0915af45cc))
+- remove `jsx` validation ([6617a04](https://github.com/sanity-io/plugin-kit/commit/6617a043ce952cd51ccc4022742f7e248b311711))
+
+### Code Refactoring
+
+- expect `rootDir` to be set to root directory ([41cd4ef](https://github.com/sanity-io/plugin-kit/commit/41cd4effe9b4bef89161c95a1468937f2610fb57))
+
 ## [2.2.0](https://github.com/sanity-io/plugin-kit/compare/v2.1.19...v2.2.0) (2022-12-07)
 
 ### Features
