@@ -121,7 +121,6 @@ export async function validateTsConfig(
   const errors: string[] = []
 
   const expectedCompilerOptions = {
-    jsx: 'preserve',
     moduleResolution: 'node',
     target: 'esnext',
     module: 'esnext',
@@ -145,10 +144,6 @@ export async function validateTsConfig(
 
     if (key === 'outDir' && typeof option === 'string') {
       option = path.relative(basePath, option) || '.'
-    }
-
-    if (key === 'jsx' && option === 1) {
-      option = 'preserve'
     }
 
     if (key === 'moduleResolution' && option === 2) {

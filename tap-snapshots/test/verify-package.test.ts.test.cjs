@@ -125,9 +125,8 @@ To skip this validation add the following to your package.json:
 [error] 
 Recommended tsconfig.json compilerOptions missing:
 
-The following fields had unexpected values: [jsx, moduleResolution, target, module, emitDeclarationOnly, esModuleInterop, skipLibCheck, isolatedModules, downlevelIteration, declaration, allowSyntheticDefaultImports, rootDir, outDir]
+The following fields had unexpected values: [moduleResolution, target, module, emitDeclarationOnly, esModuleInterop, skipLibCheck, isolatedModules, downlevelIteration, declaration, allowSyntheticDefaultImports, rootDir, outDir]
 Expected to find these values:
-"jsx": "preserve",
 "moduleResolution": "node",
 "target": "esnext",
 "module": "esnext",
