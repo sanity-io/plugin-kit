@@ -92,6 +92,6 @@ async function devDependencies(): Promise<Record<string, string>> {
     '@sanity/ui',
     'react',
     'react-dom',
-    'styled-component',
+    'styled-components',
   ])
 }
