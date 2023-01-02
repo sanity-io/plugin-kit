@@ -1,21 +1,28 @@
 # @sanity/plugin-kit
 
-> **NOTE**
->
-> This is a developer preview package meant for **Sanity Studio v3** plugin development.
->
-> For a v2 alternative, consider using [Sanipack](https://github.com/rexxars/sanipack).
-
 ## What is it?
 
-`@sanity/plugin-kit` is an opinionated, enhanced [Sanity.io](https://www.sanity.io/) v3 plugin development experience.
+`@sanity/plugin-kit` is an opinionated, enhanced [Sanity](https://www.sanity.io/) plugin development experience.
 
-It provides a set of CLI commands for initializing, verifying and testing a Sanity plugin for Sanity Studio v3.
-The verify-package command can be used when upgrading V2 plugins to Studio V3 versions.
+It provides a set of CLI commands for initializing, verifying and testing a Sanity plugin for Sanity Studio.
 
-@sanity/plugin-kit also comes with a verify-studio command that can be used to recommend upgrade steps in existing Sanity Studio v2 studio.
+```sh
+# Initialize a new Sanity plugin project
+npx @sanity/plugin-kit init my-sanity-plugin
+```
 
-This package assumes and recommends [@sanity/pkg-utils](https://github.com/sanity-io/pkg-utils#sanitypkg-utils) for building,
+```sh
+# Verify your plugin package.
+# This command can also be used when upgrading plugins from Sanity Studio v2 → v3.
+npx @sanity/plugin-kit verify-package
+```
+
+```sh
+# Get help upgrading from Sanity Studio v2 → v3.
+npx @sanity/plugin-kit verify-studio
+```
+
+`@sanity/plugin-kit` assumes and recommends [`@sanity/pkg-utils`](https://github.com/sanity-io/pkg-utils#sanitypkg-utils) for building,
 and [Yalc](https://github.com/wclr/yalc) with watch for testing the plugin in Sanity Studio.
 Check the [FAQ](#faq) fro more on these.
 
@@ -39,7 +46,7 @@ Check the [FAQ](#faq) fro more on these.
 
 ### Install build tool
 
-@sanity/plugin-kit assumes the plugin will use [@sanity/pkg-utils](https://github.com/sanity-io/pkg-utils#sanitypkg-utils) for build and watch:
+`@sanity/plugin-kit` assumes the plugin will use [@sanity/pkg-utils](https://github.com/sanity-io/pkg-utils#sanitypkg-utils) for build and watch:
 
 > npm install --save-dev @sanity/plugin-kit
 
@@ -252,14 +259,14 @@ This command can be configured using `sanityPlugin.linkWatch` in package.json:
 
 ```json5
 {
-  "sanityPlugin": {
-    "linkWatch": {
+  sanityPlugin: {
+    linkWatch: {
       // command to run when content in linkWatch.folder changes
-      "command": "npm run watch",
+      command: 'npm run watch',
       // file extensions to watch for changes in the linkWatch.folder
-      "extensions": "js,png,svg,gif,jpeg,css"
-    }
-  }
+      extensions: 'js,png,svg,gif,jpeg,css',
+    },
+  },
 }
 ```
 
