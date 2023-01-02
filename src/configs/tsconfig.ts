@@ -15,7 +15,7 @@ export function tsconfigTemplate(options: {flags: InitFlags}): InjectTemplate {
         "include": ["./src", "./package.config.ts"],
         "compilerOptions": {
           "rootDir": ".",
-          "jsx": "preserve",
+          "jsx": "react-jsx",
           "noEmit": true
         }
       }
@@ -43,7 +43,7 @@ export function tsconfigTemplateDist(options: {outDir: string; flags: InitFlags}
         "compilerOptions": {
           "rootDir": ".",
           "outDir": "./${outDir}",
-          "jsx": "preserve",
+          "jsx": "react-jsx",
           "emitDeclarationOnly": true
         }
       }

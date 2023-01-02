@@ -16,6 +16,7 @@ export function eslintrcTemplate(options: {flags: InitFlags}): InjectTemplate {
       'sanity/react',
       'plugin:react-hooks/recommended',
       flags.prettier && 'plugin:prettier/recommended',
+      'plugin:react/jsx-runtime',
     ].filter(Boolean),
   }
 
