@@ -364,6 +364,16 @@ Your plugin may have other needs.
 You are also free to not use @sanity/pkg-utils at all; simply change your package.json build script, and disable any verification-steps
 you don't care for with `sanityPlugin.verifyPackage`.
 
+#### Q: Why multiple `tsconfig*.json` files?
+
+After running `plugin-kit init` you will get these tsconfig files:
+
+- `tsconfig.json` used by the IDE (this typically includes test files)
+- `tsconfig.dist.json` used by the build system, and ignores test files
+- `tsconfig.settings.json` with shared settings between tsconfig.json and tsconfig.dist.json
+
+This configuration allows for type-checking you scripts and tests, and not only the distribution files. When building the scripts and test files will not be included in the npm package distribution.
+
 ## CLI Help
 
 ```sh
