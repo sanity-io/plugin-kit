@@ -5,6 +5,12 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.1.0](https://github.com/sanity-io/plugin-kit/compare/v3.0.0...v3.1.0) (2023-01-04)
+
+### Features
+
+- verify that no duplicate prettier or eslint config exits ([78eb114](https://github.com/sanity-io/plugin-kit/commit/78eb1146620e8e46c099c6574175170d64485d70))
+
 ## [3.0.0](https://github.com/sanity-io/plugin-kit/compare/v2.2.0...v3.0.0) (2023-01-02)
 
 ### ⚠ BREAKING CHANGES
