@@ -14,6 +14,7 @@ export function pkgConfigTemplate(options: {outDir: string; flags: InitFlags}): 
 
       export default defineConfig({
         legacyExports: true,
+        dist: '${outDir}',
         tsconfig: 'tsconfig.${outDir}.json',
 
         // Remove this block to enable strict export validation
