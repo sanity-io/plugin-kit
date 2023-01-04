@@ -536,6 +536,7 @@ export async function disallowDuplicatePrettierConfig(basePath: string, pkgJson:
     files: [
       '.prettierrc',
       '.prettierrc.json5',
+      '.prettierrc.json',
       '.prettierrc.yaml',
       '.prettierrc.yml',
       '.prettierrc.js',
