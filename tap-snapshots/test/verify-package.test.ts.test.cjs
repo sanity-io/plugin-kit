@@ -123,6 +123,31 @@ To skip this validation add the following to your package.json:
 }
 ----------------------------------------------------------
 [error] 
+Found multiple config files that serve the same purpose: [.eslintrc, .eslintrc.json].
+
+There should be at most one of these files. Delete the rest.
+
+To skip this validation add the following to your package.json:
+"sanityPlugin": {
+   "verifyPackage": {
+      "duplicateConfig": false
+   }
+}
+----------------------------------------------------------
+[error] 
+package.json contains prettier, but there also exists a config file that serves the same purpose.
+Config file: .prettierrc]
+
+Either delete the file or remove prettier entry from package.json.
+
+To skip this validation add the following to your package.json:
+"sanityPlugin": {
+   "verifyPackage": {
+      "duplicateConfig": false
+   }
+}
+----------------------------------------------------------
+[error] 
 Recommended tsconfig.json compilerOptions missing:
 
 The following fields had unexpected values: [moduleResolution, target, module, emitDeclarationOnly, esModuleInterop, skipLibCheck, isolatedModules, downlevelIteration, declaration, allowSyntheticDefaultImports, rootDir, outDir]
