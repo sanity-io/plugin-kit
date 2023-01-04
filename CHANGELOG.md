@@ -5,6 +5,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.1.1](https://github.com/sanity-io/plugin-kit/compare/v3.1.0...v3.1.1) (2023-01-04)
+
+### Bug Fixes
+
+- check for .prettierrc.json ([5669a52](https://github.com/sanity-io/plugin-kit/commit/5669a52bdffd6010d078d901831c4943f879e685))
+- inject dist in pkg-config.ts so it works for packages with lib outDir ([b94700c](https://github.com/sanity-io/plugin-kit/commit/b94700cc47503f818801b1b58a794f4ca2c24af6))
+
 ## [3.1.0](https://github.com/sanity-io/plugin-kit/compare/v3.0.0...v3.1.0) (2023-01-04)
 
 ### Features
