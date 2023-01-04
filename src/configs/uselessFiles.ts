@@ -10,7 +10,7 @@ export const uselessFiles = [
   '.gitignore',
   '.github',
   '.nyc_output',
-  '.prettierrc.json',
+  '.prettierrc',
   '.stylelintignore',
   '.stylelintrc.json',
   '.stylelintrc',

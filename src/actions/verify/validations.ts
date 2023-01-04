@@ -469,3 +469,80 @@ export async function validateSrcIndexFile(basePath: string) {
 
   return []
 }
+
+export async function disallowDuplicateConfig({
+  basePath,
+  pkgJson,
+  configKey,
+  files,
+}: {
+  basePath: string
+  pkgJson: PackageJson
+  configKey: string
+  files: string[]
+}) {
+  const found: string[] = []
+  for (const file of files) {
+    const filePath = path.join(basePath, file)
+    const exits = await fileExists(filePath)
+    if (exits) {
+      found.push(file)
+    }
+  }
+  if (found.length > 1) {
+    return [
+      outdent`
+      Found multiple config files that serve the same purpose: [${found.join(', ')}].
+
+      There should be at most one of these files. Delete the rest.
+      `,
+    ]
+  }
+  if (found.length && pkgJson[configKey]) {
+    return [
+      outdent`
+      package.json contains ${configKey}, but there also exists a config file that serves the same purpose.
+      Config file: ${found.join('')}]
+
+      Either delete the file or remove ${configKey} entry from package.json.
+      `,
+    ]
+  }
+
+  return []
+}
+
+export async function disallowDuplicateEslintConfig(basePath: string, pkgJson: PackageJson) {
+  return disallowDuplicateConfig({
+    basePath,
+    pkgJson,
+    configKey: 'eslint',
+    files: [
+      '.eslintrc',
+      '.eslintrc.js',
+      '.eslintrc.cjs',
+      '.eslintrc.yaml',
+      '.eslintrc.yml',
+      '.eslintrc.json',
+    ],
+  })
+}
+
+export async function disallowDuplicatePrettierConfig(basePath: string, pkgJson: PackageJson) {
+  return disallowDuplicateConfig({
+    basePath,
+    pkgJson,
+    configKey: 'prettier',
+    files: [
+      '.prettierrc',
+      '.prettierrc.json5',
+      '.prettierrc.yaml',
+      '.prettierrc.yml',
+      '.prettierrc.js',
+      '.prettierrc.cjs',
+      '.prettier.config,js',
+      '.prettier.config.cjs',
+      '.prettierrc.toml',
+    ],
+  })
+}

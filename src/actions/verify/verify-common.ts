@@ -25,6 +25,7 @@ export const verifyPackageConfigDefaults = {
   nodeEngine: true,
   studioConfig: true,
   srcIndex: true,
+  duplicateConfig: true,
 } as const
 
 export type VerifyPackageConfig = Partial<Record<keyof typeof verifyPackageConfigDefaults, boolean>>

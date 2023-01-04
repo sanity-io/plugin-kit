@@ -22,6 +22,8 @@ import {
   validateTsConfig,
   validateSanityDependencies,
   validateSrcIndexFile,
+  disallowDuplicateEslintConfig,
+  disallowDuplicatePrettierConfig,
 } from './verify/validations'
 import {PackageJson} from './verify/types'
 import chalk from 'chalk'
@@ -46,6 +48,12 @@ export async function verifyPackage({basePath, flags}: {basePath: string; flags:
   await validation('scripts', async () => validateScripts(packageJson))
   await validation('module', async () => validateModule(packageJson, {outDir}))
   await validation('nodeEngine', async () => validateNodeEngine(packageJson))
+  await validation('duplicateConfig', async () =>
+    disallowDuplicateEslintConfig(basePath, packageJson)
+  )
+  await validation('duplicateConfig', async () =>
+    disallowDuplicatePrettierConfig(basePath, packageJson)
+  )
 
   if (ts) {
     await validation('tsconfig', async () => validateTsConfig(ts, {basePath, outDir, tsconfig}))
