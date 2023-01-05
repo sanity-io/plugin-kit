@@ -195,10 +195,10 @@ To skip this validation add the following to your package.json:
 }
 ----------------------------------------------------------
 [error] 
-Found babel-config file: root/babel.config.js. When using default @sanity/plugin-kit build command,
+Found babel-config file: [babel.config.js]. When using default @sanity/plugin-kit build command,
 this is probably not needed.
 
-Delete the root/babel.config.js file, or disable this check.
+Delete the file, or disable this check.
 
 To skip this validation add the following to your package.json:
 "sanityPlugin": {
