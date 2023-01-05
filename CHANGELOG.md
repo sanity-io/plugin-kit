@@ -5,6 +5,12 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.1.2](https://github.com/sanity-io/plugin-kit/compare/v3.1.1...v3.1.2) (2023-01-05)
+
+### Bug Fixes
+
+- no longer depends on find-babel-config ([838fe42](https://github.com/sanity-io/plugin-kit/commit/838fe42f5cbf846d31e1ce58a630992c35c3ab0b))
+
 ## [3.1.1](https://github.com/sanity-io/plugin-kit/compare/v3.1.0...v3.1.1) (2023-01-04)
 
 ### Bug Fixes
