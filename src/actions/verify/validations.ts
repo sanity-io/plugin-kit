@@ -1,8 +1,6 @@
 import outdent from 'outdent'
 // @ts-expect-error missing types
 import validateNpmPackageName from 'validate-npm-package-name'
-// @ts-expect-error missing types
-import findBabelConfig from 'find-babel-config'
 import {incompatiblePluginPackage, urls} from '../../constants'
 import {deprecatedDevDeps, mergedPackages} from '../../configs/banned-packages'
 import path from 'path'
@@ -20,6 +18,10 @@ export const expectedScripts = {
 }
 
 const expectedModulesFields = ['source', 'exports', 'main', 'module', 'files']
+
+function filesWithSuffixes(fileBases: string[], suffixes: string[]): string[] {
+  return fileBases.flatMap((file) => suffixes.map((suffix) => `${file}.${suffix}`))
+}
 
 export function validateNodeEngine(packageJson: PackageJson) {
   const nodeVersionRange = '>=14'
@@ -241,15 +243,27 @@ export function validateDeprecatedDependencies(packageJson: PackageJson): string
 }
 
 export async function validateBabelConfig({basePath}: {basePath: string}) {
-  const babelConfig: {file?: string} = await findBabelConfig(basePath)
+  const suffixes = ['json', 'js', 'cjs', 'mjs']
+  const babelFileNames = ['.babelrc', 'babel.config']
+  const filenames = ['.babelrc', ...filesWithSuffixes(babelFileNames, suffixes)]
 
-  if (babelConfig.file) {
+  const babelFiles: string[] = []
+  for (const filename of filenames) {
+    const filepath = path.normalize(path.join(basePath, filename))
+    if (await fileExists(filepath)) {
+      babelFiles.push(filename)
+    }
+  }
+
+  if (babelFiles.length) {
     return [
       outdent`
-        Found babel-config file: ${babelConfig.file}. When using default @sanity/plugin-kit build command,
+        Found babel-config file: [${babelFiles.join(
+          ', '
+        )}]. When using default @sanity/plugin-kit build command,
         this is probably not needed.
 
-        Delete the ${babelConfig.file} file, or disable this check.
+        Delete the file, or disable this check.
       `.trimStart(),
     ]
   }
@@ -258,10 +272,8 @@ export async function validateBabelConfig({basePath}: {basePath: string}) {
 
 export async function validateStudioConfig({basePath}: {basePath: string}): Promise<string[]> {
   const suffixes = ['ts', 'js', 'tsx', 'jsx']
-  const withSuffix = (fileBases: string[]): string[] =>
-    fileBases.flatMap((file) => suffixes.map((suffix) => `${file}.${suffix}`))
 
-  const filenames = withSuffix(['sanity.config', 'sanity.cli'])
+  const filenames = filesWithSuffixes(['sanity.config', 'sanity.cli'], suffixes)
 
   const files: Record<string, boolean | undefined> = {}
 
@@ -273,7 +285,7 @@ export async function validateStudioConfig({basePath}: {basePath: string}): Prom
   const sanityJson = await readJson5File<SanityStudioJson>({basePath, filename: 'sanity.json'})
 
   const hasConfigFile = (fileBase: string) =>
-    withSuffix([fileBase]).some((filename) => files[filename])
+    filesWithSuffixes([fileBase], suffixes).some((filename) => files[filename])
   const hasCliConfig = hasConfigFile('sanity.cli')
   const hasStudioConfig = hasConfigFile('sanity.config')
 
