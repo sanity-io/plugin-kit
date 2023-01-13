@@ -5,6 +5,12 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.1.3](https://github.com/sanity-io/plugin-kit/compare/v3.1.2...v3.1.3) (2023-01-13)
+
+### Bug Fixes
+
+- changed order of import and require ([2e341d2](https://github.com/sanity-io/plugin-kit/commit/2e341d2cb80c430de5511f22991ffe82fc94e6ad))
+
 ## [3.1.2](https://github.com/sanity-io/plugin-kit/compare/v3.1.1...v3.1.2) (2023-01-05)
 
 ### Bug Fixes
