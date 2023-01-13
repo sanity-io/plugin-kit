@@ -63,8 +63,8 @@ export function validateModule(packageJson: PackageJson, options: {outDir: strin
           ".": {
             "types": "./${outDir}/index.d.ts",
             "source": "./src/index.ts",
-            "import": "./${outDir}/index.esm.js",
             "require": "./${outDir}/index.js",
+            "import": "./${outDir}/index.esm.js",
             "default": "./${outDir}/index.js"
           }
         },

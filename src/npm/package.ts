@@ -296,8 +296,8 @@ export async function writePackageJson(data: PackageData, options: InjectOptions
       '.': {
         ...(flags.typescript ? {types: `./${outDir}/index.d.ts`} : {}),
         source,
-        import: `./${outDir}/index.esm.js`,
         require: `./${outDir}/index.js`,
+        import: `./${outDir}/index.esm.js`,
         default: `./${outDir}/index.esm.js`,
       },
       './package.json': './package.json',
