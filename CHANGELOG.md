@@ -5,6 +5,12 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.1.4](https://github.com/sanity-io/plugin-kit/compare/v3.1.3...v3.1.4) (2023-01-13)
+
+### Bug Fixes
+
+- removed incorrect eslint instructions when eslint fails with an unknown error ([932afd2](https://github.com/sanity-io/plugin-kit/commit/932afd2ae51d066dbd6752582effe5c40c9a5099))
+
 ## [3.1.3](https://github.com/sanity-io/plugin-kit/compare/v3.1.2...v3.1.3) (2023-01-13)
 
 ### Bug Fixes
