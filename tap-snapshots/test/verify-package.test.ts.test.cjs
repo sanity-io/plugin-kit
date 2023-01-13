@@ -298,15 +298,7 @@ Referenced from: root/.eslintrc
 }
 [error] 
 Failed to run ESLint. Is ESLint configured?
-It is recommended to install eslint-config-sanity and add 'sanity/upgrade-v2' to your eslint-extends config.
 
-Run:
-npm install --save-dev eslint-config-sanity
-
-In .eslintrc add:
-extends: ['sanity/upgrade-v2']
-
-This way, V2-imports can be identified directly in the IDE, or using eslint CLI.
 If the package does not use eslint, disable this check.
 
 To skip this validation add the following to your package.json:
