@@ -83,8 +83,8 @@ package.json should contain the following entries to ensure that commonjs and es
   ".": {
     "types": "./dist/index.d.ts",
     "source": "./src/index.ts",
-    "import": "./dist/index.esm.js",
     "require": "./dist/index.js",
+    "import": "./dist/index.esm.js",
     "default": "./dist/index.js"
   }
 },
