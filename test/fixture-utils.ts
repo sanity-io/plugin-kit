@@ -1,14 +1,12 @@
 import execa from 'execa'
 import path from 'path'
-import util from 'util'
-import fs from 'fs'
+import fs from 'fs/promises'
 import readdirp, {EntryInfo} from 'readdirp'
+import rimraf from 'rimraf'
 
-const rimraf = util.promisify(require('rimraf'))
 const baseFixturesDir = path.join(__dirname, 'fixtures')
 
-export const readFileRaw = util.promisify(fs.readFile)
-export const readFile = (file: string) => readFileRaw(file, 'utf8')
+export const readFile = (file: string) => fs.readFile(file, 'utf8')
 export const onlyPaths = (files: EntryInfo[]) => files.map((file) => file.path)
 export const contents = (dir: string) => readdirp.promise(dir).then(onlyPaths)
 export const normalize = (dirPath: string) => dirPath.replace(/\//g, path.sep)
