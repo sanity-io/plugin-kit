@@ -5,6 +5,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.1.6](https://github.com/sanity-io/plugin-kit/compare/v3.1.5...v3.1.6) (2023-02-14)
+
+### Bug Fixes
+
+- no longer log workflow inputs ([25f248c](https://github.com/sanity-io/plugin-kit/commit/25f248ce0235cbfe71cc00ae9c91f7c8bf6402ac))
+- update template to use tagged versions ([90b98b1](https://github.com/sanity-io/plugin-kit/commit/90b98b176c1829ff4d042cce73e21b250f86e4a0))
+
 ## [3.1.5](https://github.com/sanity-io/plugin-kit/compare/v3.1.4...v3.1.5) (2023-02-14)
 
 ### Bug Fixes
