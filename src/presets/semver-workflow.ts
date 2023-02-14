@@ -158,7 +158,6 @@ function semverWorkflowFiles(): Injectable[] {
     {type: 'copy', from: ['.husky', 'commit-msg'], to: ['.husky', 'commit-msg']},
     {type: 'copy', from: ['.husky', 'pre-commit'], to: ['.husky', 'pre-commit']},
     {type: 'copy', from: ['.releaserc.json'], to: '.releaserc.json'},
-    {type: 'copy', from: ['npmrc'], to: '.npmrc'},
     {type: 'copy', from: ['commitlint.template.js'], to: 'commitlint.config.js'},
     {type: 'copy', from: ['lint-staged.template.js'], to: 'lint-staged.config.js'},
   ]
