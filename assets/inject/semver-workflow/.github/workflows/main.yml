@@ -38,15 +38,6 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  log-the-inputs:
-    name: Log inputs
-    runs-on: ubuntu-latest
-    steps:
-      - run: |
-          echo "Inputs: $INPUTS"
-        env:
-          INPUTS: ${{ toJSON(inputs) }}
-
   build:
     runs-on: ubuntu-latest
     name: Lint & Build
