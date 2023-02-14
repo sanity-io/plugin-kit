@@ -5,6 +5,15 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.1.5](https://github.com/sanity-io/plugin-kit/compare/v3.1.4...v3.1.5) (2023-02-14)
+
+### Bug Fixes
+
+- **deps:** update dependencies (non-major) ([#50](https://github.com/sanity-io/plugin-kit/issues/50)) ([50bcd91](https://github.com/sanity-io/plugin-kit/commit/50bcd910f142a7c93efc90874dd7ac5e8e1b8f6e))
+- **deps:** update dependency get-it to v8 ([#62](https://github.com/sanity-io/plugin-kit/issues/62)) ([d4df7ee](https://github.com/sanity-io/plugin-kit/commit/d4df7ee95b3f8592ed294503eec2fe2bba2bdce0))
+- **deps:** update dependency get-latest-version to v5 ([#67](https://github.com/sanity-io/plugin-kit/issues/67)) ([ee37311](https://github.com/sanity-io/plugin-kit/commit/ee373117fba7201199a60e3c860bd77bef675b5f))
+- remove `.npmrc` and `legacy-peer-deps` ([#68](https://github.com/sanity-io/plugin-kit/issues/68)) ([f352624](https://github.com/sanity-io/plugin-kit/commit/f352624d2a033803861b57ffde97a9a96ff7604a))
+
 ## [3.1.4](https://github.com/sanity-io/plugin-kit/compare/v3.1.3...v3.1.4) (2023-01-13)
 
 ### Bug Fixes
