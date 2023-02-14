@@ -1,6 +1,4 @@
-// @ts-expect-error missing types
-import getIt from 'get-it'
-// @ts-expect-error missing types
+import {getIt} from 'get-it'
 import {jsonRequest, jsonResponse, httpErrors, headers, promise} from 'get-it/middleware'
 import pkg from '../../package.json'
 

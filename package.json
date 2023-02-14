@@ -75,7 +75,7 @@
     "discover-path": "^1.0.0",
     "email-validator": "^2.0.4",
     "execa": "^5.1.1",
-    "get-it": "^7.0.2",
+    "get-it": "^8.0.9",
     "get-latest-version": "^4.0.0",
     "git-remote-origin-url": "^3.1.0",
     "git-user-info": "^2.0.3",
