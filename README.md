@@ -8,18 +8,18 @@ It provides a set of CLI commands for initializing, verifying and testing a Sani
 
 ```sh
 # Initialize a new Sanity plugin project
-npx @sanity/plugin-kit init my-sanity-plugin
+npx @sanity/plugin-kit@latest init my-sanity-plugin
 ```
 
 ```sh
 # Verify your plugin package.
 # This command can also be used when upgrading plugins from Sanity Studio v2 → v3.
-npx @sanity/plugin-kit verify-package
+npx @sanity/plugin-kit@latest verify-package
 ```
 
 ```sh
 # Get help upgrading from Sanity Studio v2 → v3.
-npx @sanity/plugin-kit verify-studio
+npx @sanity/plugin-kit@latest verify-studio
 ```
 
 `@sanity/plugin-kit` assumes and recommends [`@sanity/pkg-utils`](https://github.com/sanity-io/pkg-utils#sanitypkg-utils) for building,
@@ -58,7 +58,7 @@ First, run the init command:
 
 ```bash
 # Initialize a new plugin (outside of your Sanity studio folder)
-npx @sanity/plugin-kit init sanity-plugin-testing-it-out
+npx @sanity/plugin-kit@latest init sanity-plugin-testing-it-out
 
 # Make your plugin linkable, and compile an initial version
 cd sanity-plugin-testing-it-out
@@ -109,7 +109,7 @@ Since the plugin is running in watch mode, any changes you make to the plugin co
 The init commands has several config flags, run
 
 ```
-npx @sanity/plugin-kit init --help
+npx @sanity/plugin-kit@latest init --help
 ```
 
 for up-to-date specifics.
@@ -118,7 +118,7 @@ for up-to-date specifics.
 
 Verify that the plugin package is configured correctly by running:
 
-> npx @sanity/plugin-kit verify-package
+> npx @sanity/plugin-kit@latest verify-package
 
 ### What does it do?
 
@@ -142,7 +142,7 @@ Each check will explain why it is needed, steps to fix it and how it can be indi
 
 `verify-package` is _not_ a codemod tool. It will only check files and recommended settings: it will not change any files.
 
-Consider using `npx @sanity/plugin-kit inject` if you want to add recommended V3 plugin configuration automatically.
+Consider using `npx @sanity/plugin-kit@latest inject` if you want to add recommended V3 plugin configuration automatically.
 See the [Inject docs](#inject-config-into-existing-package) for more on this.
 
 ### Upgrading a v2 plugin
@@ -151,7 +151,7 @@ Simply use the `verify-package` command in a v2 plugin package, and it will noti
 plugin to v3.
 
 ```sh
-npx @sanity/plugin-kit verify-package
+npx @sanity/plugin-kit@latest verify-package
 ```
 
 ## Upgrade help in V2 Studio
@@ -160,7 +160,7 @@ You can use the `verify-studio` command in a v2 Sanity Studio to get some of the
 to v3.
 
 ```sh
-npx @sanity/plugin-kit verify-studio
+npx @sanity/plugin-kit@latest verify-studio
 ```
 
 This will:
@@ -173,10 +173,10 @@ This will:
 
 ```sh
 ## for plugins
-npx @sanity/plugin-kit verify-package --single
+npx @sanity/plugin-kit@latest verify-package --single
 
 ## for studio
-npx @sanity/plugin-kit verify-package --studio --single
+npx @sanity/plugin-kit@latest verify-package --studio --single
 ```
 
 This will only output the first validation that fails. Useful when working through the list of issues by fixing and rerunning the command.
@@ -184,7 +184,7 @@ This will only output the first validation that fails. Useful when working throu
 ## Inject config into existing package
 
 ```
-npx @sanity/plugin-kit inject
+npx @sanity/plugin-kit@latest inject
 ```
 
 will inject recommended V3 plugin package boilerplate into an existing plugin.
@@ -194,7 +194,7 @@ you dont want.
 Consult the inject command CLI help:
 
 ```
-npx @sanity/plugin-kit inject --help
+npx @sanity/plugin-kit@latest inject --help
 ```
 
 for up-to-date specifics.
@@ -299,7 +299,7 @@ For an opinionated template for publication based on semantic-release, see [semv
 To upgrade a plugin that already uses `@sanity/plugin-kit` 1.x:
 
 - Update `@sanity/plugin-kit` to version to 2.x in `package.json`
-- Run: `npx @sanity/plugin-kit inject`
+- Run: `npx @sanity/plugin-kit@latest inject`
   - This will update package.json with new defaults
   - Feel free to answer no to any file-overwrite prompts
 - Inspect git diff to see what was changed
@@ -384,7 +384,7 @@ This configuration allows for type-checking you scripts and tests, and not only 
 ## CLI Help
 
 ```sh
-$ npx @sanity/plugin-kit --help
+$ npx @sanity/plugin-kit@latest --help
 
 Usage
   $ plugin-kit [--help] [--debug] <command> [<args>]
@@ -465,7 +465,7 @@ npm link @sanity/plugin-kit
 Now you can run commands:
 
 ```
-npx @sanity/plugin-kit verify-package
+npx @sanity/plugin-kit@latest verify-package
 ```
 
 or use them in package.json scripts:

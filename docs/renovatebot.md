@@ -3,10 +3,10 @@
 ## Usage
 
 ### Inject into existing package
-`npx @sanity/plugin-kit inject --preset-only --preset renovatebot`
+`npx @sanity/plugin-kit@latest inject --preset-only --preset renovatebot`
 
 ### Use to init plugin
-`npx @sanity/plugin-kit init --preset renovatebot <new-plugin-name>`
+`npx @sanity/plugin-kit@latest init --preset renovatebot <new-plugin-name>`
 
 ## What does it do?
 

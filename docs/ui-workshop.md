@@ -3,10 +3,10 @@
 ## Usage
 
 ### Inject into existing package
-`npx @sanity/plugin-kit inject --preset-only --preset ui-workshop`
+`npx @sanity/plugin-kit@latest inject --preset-only --preset ui-workshop`
 
 ### Use to init plugin
-`npx @sanity/plugin-kit init --preset ui-workshop <new-plugin-name>`
+`npx @sanity/plugin-kit@latest init --preset ui-workshop <new-plugin-name>`
 
 ## What does it do?
 

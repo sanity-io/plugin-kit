@@ -4,11 +4,11 @@
 
 ### Inject into existing package
 
-`npx @sanity/plugin-kit inject --preset-only --preset ui`
+`npx @sanity/plugin-kit@latest inject --preset-only --preset ui`
 
 ### Use to init plugin
 
-`npx @sanity/plugin-kit init --preset ui <new-plugin-name>`
+`npx @sanity/plugin-kit@latest init --preset ui <new-plugin-name>`
 
 ## What does it do?
 

@@ -3,10 +3,10 @@
 ## Usage
 
 ### Inject into existing package
-`npx @sanity/plugin-kit inject --preset-only --preset semver-workflow`
+`npx @sanity/plugin-kit@latest inject --preset-only --preset semver-workflow`
 
 ### Use to init plugin
-`npx @sanity/plugin-kit init --preset semver-workflow <new-plugin-name>`
+`npx @sanity/plugin-kit@latest init --preset semver-workflow <new-plugin-name>`
 
 ## What does it do?
 
