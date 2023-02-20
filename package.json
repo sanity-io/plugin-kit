@@ -1,6 +1,6 @@
 {
   "name": "@sanity/plugin-kit",
-  "version": "3.1.6",
+  "version": "3.1.7",
   "description": "Enhanced Sanity.io plugin development experience",
   "keywords": [
     "sanity-io",

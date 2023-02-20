@@ -5,6 +5,12 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.1.7](https://github.com/sanity-io/plugin-kit/compare/v3.1.6...v3.1.7) (2023-02-20)
+
+### Bug Fixes
+
+- **docs:** added [@latest](https://github.com/latest) to all npx command examples ([9c74678](https://github.com/sanity-io/plugin-kit/commit/9c74678447644edbc5f5b5a51529ad650e40b336))
+
 ## [3.1.6](https://github.com/sanity-io/plugin-kit/compare/v3.1.5...v3.1.6) (2023-02-14)
 
 ### Bug Fixes
