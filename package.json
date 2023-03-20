@@ -123,7 +123,7 @@
     "prettier-plugin-packagejson": "^2.4.3",
     "readdirp": "^3.6.0",
     "rimraf": "^4.4.0",
-    "sanity": "^3.3.1",
+    "sanity": "^3.7.0",
     "sinon": "^15.0.2",
     "tap": "^16.3.4",
     "ts-node": "^10.9.1",
