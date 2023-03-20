@@ -97,8 +97,8 @@
     "yalc": "^1.0.0-pre.53"
   },
   "devDependencies": {
-    "@commitlint/cli": "^17.4.3",
-    "@commitlint/config-conventional": "^17.4.3",
+    "@commitlint/cli": "^17.4.4",
+    "@commitlint/config-conventional": "^17.4.4",
     "@sanity/semantic-release-preset": "^4.0.0",
     "@sanity/ui-workshop": "^1.2.0",
     "@types/eslint": "^8.21.1",
