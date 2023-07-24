@@ -43,7 +43,7 @@ export async function cliEntry(argv = process.argv, autoExit = true) {
       autoHelp: false,
       flags: sharedFlags,
       argv: argv.slice(2),
-    }
+    },
   )
 
   const commandName = cli.input[0]

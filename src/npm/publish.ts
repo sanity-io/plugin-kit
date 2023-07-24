@@ -4,6 +4,6 @@ import npmPacklist from 'npm-packlist'
 
 export function getPublishableFiles(basePath: string) {
   return npmPacklist({basePath}).then((files: string[]) =>
-    files.map((file) => path.normalize(file))
+    files.map((file) => path.normalize(file)),
   )
 }

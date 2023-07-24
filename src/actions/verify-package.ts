@@ -49,10 +49,10 @@ export async function verifyPackage({basePath, flags}: {basePath: string; flags:
   await validation('module', async () => validateModule(packageJson, {outDir}))
   await validation('nodeEngine', async () => validateNodeEngine(packageJson))
   await validation('duplicateConfig', async () =>
-    disallowDuplicateEslintConfig(basePath, packageJson)
+    disallowDuplicateEslintConfig(basePath, packageJson),
   )
   await validation('duplicateConfig', async () =>
-    disallowDuplicatePrettierConfig(basePath, packageJson)
+    disallowDuplicatePrettierConfig(basePath, packageJson),
   )
 
   if (ts) {
@@ -65,7 +65,7 @@ export async function verifyPackage({basePath, flags}: {basePath: string; flags:
 
   await validation('dependencies', async () => validateSanityDependencies(packageJson))
   await validation('deprecatedDependencies', async () =>
-    validateDeprecatedDependencies(packageJson)
+    validateDeprecatedDependencies(packageJson),
   )
   await validation('eslintImports', async () => validateImports({basePath}))
 
@@ -84,9 +84,9 @@ export async function verifyPackage({basePath, flags}: {basePath: string; flags:
         - Reference documentation: ${urls.refDocs}
 
         ${chalk.grey(
-          `To fail-fast on first detected issue run:\nnpx ${cliName} verify-package' --single`
+          `To fail-fast on first detected issue run:\nnpx ${cliName} verify-package' --single`,
         )}
-      `.trimStart()
+      `.trimStart(),
     )
   }
 
@@ -100,6 +100,6 @@ export async function verifyPackage({basePath, flags}: {basePath: string; flags:
       - Use plugin-kit to build and develop the plugin according to ${urls.pluginReadme}.
       - Build the plugin and fix any compilation errors
       - Test the plugin using the link-watch command
-  `.trim()
+  `.trim(),
   )
 }

@@ -15,7 +15,7 @@ export interface User {
 
 export async function getUserInfo(
   {requireUserConfirmation, flags}: InjectOptions,
-  pkg?: PackageJson
+  pkg?: PackageJson,
 ): Promise<User | undefined> {
   const userInfo =
     getPackageUserInfo({author: flags.author ?? pkg?.author}) ||
@@ -73,7 +73,7 @@ async function promptForInfo(defValue?: User) {
 async function getSanityUserInfo(): Promise<User | undefined> {
   try {
     const data = await readJsonFile<{authToken?: string}>(
-      path.join(xdgBasedir.config ?? '', 'sanity', 'config.json')
+      path.join(xdgBasedir.config ?? '', 'sanity', 'config.json'),
     )
     const token = data?.authToken
 

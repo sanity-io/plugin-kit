@@ -40,7 +40,7 @@ tap.test('plugin-kit inject --preset renovatebot into existing plugin directory'
 
       await fileContains(
         path.join('renovate.json'),
-        '"github>sanity-io/renovate-presets//ecosystem/auto"'
+        '"github>sanity-io/renovate-presets//ecosystem/auto"',
       )
     },
   })

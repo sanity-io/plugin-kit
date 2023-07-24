@@ -54,7 +54,7 @@ export async function getPackage(opts: ManifestOptions): Promise<PackageJson> {
   } catch (err: any) {
     if (err.code === 'ENOENT') {
       throw new Error(
-        `No package.json found. package.json is required to publish to npm. Use \`${cliName} init\` for a new plugin, or \`npm init\` for an existing one`
+        `No package.json found. package.json is required to publish to npm. Use \`${cliName} init\` for a new plugin, or \`npm init\` for an existing one`,
       )
     }
 
@@ -113,7 +113,7 @@ function validatePackageName(manifest: PackageJson) {
   }
 
   const valid: {validForNewPackages?: boolean; errors: string[]} = validateNpmPackageName(
-    manifest.name
+    manifest.name,
   )
   if (!valid.validForNewPackages) {
     throw new Error(`Invalid package.json: "name" is invalid: ${valid.errors.join(', ')}`)
@@ -122,7 +122,7 @@ function validatePackageName(manifest: PackageJson) {
   const isScoped = manifest.name[0] === '@'
   if (!isScoped && !manifest.name.startsWith('sanity-plugin-')) {
     throw new Error(
-      `Invalid package.json: "name" should be prefixed with "sanity-plugin-" (or scoped - @your-company/plugin-name)`
+      `Invalid package.json: "name" should be prefixed with "sanity-plugin-" (or scoped - @your-company/plugin-name)`,
     )
   }
 }
@@ -157,7 +157,7 @@ async function validatePaths(manifest: PackageJson, options: ManifestOptions) {
     // instead we want to target `./dist/MyComponent.js` which is the location it'll be compiled to
     if (!options?.flags?.allowSourceTarget && paths && withinSourceDir(manifestValue)) {
       throw new Error(
-        `Invalid package.json: "${key}" points to file within source (uncompiled) directory. Use --allow-source-target if you really want to do this.`
+        `Invalid package.json: "${key}" points to file within source (uncompiled) directory. Use --allow-source-target if you really want to do this.`,
       )
     }
 
@@ -171,7 +171,7 @@ async function validatePaths(manifest: PackageJson, options: ManifestOptions) {
       !(await willExist(manifestValue))
     ) {
       throw new Error(
-        `Invalid package.json: "${key}" points to file that will not exist after compiling`
+        `Invalid package.json: "${key}" points to file that will not exist after compiling`,
       )
     }
 
@@ -185,7 +185,7 @@ async function validatePaths(manifest: PackageJson, options: ManifestOptions) {
       throw new Error(
         inOutDir
           ? `Invalid package.json: "${key}" points to file that does not exist, and "paths" is not configured to compile to this location`
-          : `Invalid package.json: "${key}" points to file that does not exist, and no equivalent is found in source directory`
+          : `Invalid package.json: "${key}" points to file that does not exist, and no equivalent is found in source directory`,
       )
     }
   }
@@ -237,7 +237,7 @@ export async function writePackageJson(data: PackageData, options: InjectOptions
       'eslint',
       'eslint-config-sanity',
       'eslint-plugin-react',
-      'eslint-plugin-react-hooks'
+      'eslint-plugin-react-hooks',
     )
 
     if (usePrettier) {
@@ -256,7 +256,7 @@ export async function writePackageJson(data: PackageData, options: InjectOptions
       ...(addDeps || {}),
       ...(await resolveLatestVersions(defaultDependencies)),
     },
-    forcedPackageVersions
+    forcedPackageVersions,
   )
   const devDependencies = forceDependencyVersions(
     {
@@ -264,7 +264,7 @@ export async function writePackageJson(data: PackageData, options: InjectOptions
       ...(prev.devDependencies || {}),
       ...(await resolveLatestVersions([...newDevDependencies, ...defaultDevDependencies])),
     },
-    forcedDevPackageVersions
+    forcedDevPackageVersions,
   )
   const peerDependencies = forceDependencyVersions(
     {
@@ -272,7 +272,7 @@ export async function writePackageJson(data: PackageData, options: InjectOptions
       ...(addPeers || {}),
       ...(await resolveLatestVersions(defaultPeerDependencies)),
     },
-    forcedPeerPackageVersions
+    forcedPeerPackageVersions,
   )
 
   const source = flags.typescript ? './src/index.ts' : './src/index.js'
@@ -375,7 +375,7 @@ export function addScript(cmd: string, existing: string) {
 export async function addPackageJsonScripts(
   manifest: PackageJson,
   options: InjectOptions,
-  updateScripts: (currentScripts: Record<string, string>) => Record<string, string>
+  updateScripts: (currentScripts: Record<string, string>) => Record<string, string>,
 ) {
   const originalScripts = manifest.scripts || {}
   const scripts = updateScripts({...originalScripts})
@@ -424,7 +424,7 @@ export function sortKeys<T extends Record<string, unknown>>(unordered: T): T {
 /** @internal */
 export function forceDependencyVersions(
   deps: Record<string, string>,
-  versions = forcedPackageVersions
+  versions = forcedPackageVersions,
 ): Record<string, string> {
   const entries = Object.entries(deps).map((entry) => {
     const [pkg] = entry

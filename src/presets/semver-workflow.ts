@@ -67,8 +67,8 @@ async function addDevDependencies(options: InjectOptions) {
         Please confer
         https://github.com/sanity-io/plugin-kit/blob/main/docs/semver-workflow.md#manual-steps-after-inject
         to finalize configuration for this preset.
-  `.trim()
-    )
+  `.trim(),
+    ),
   )
 }
 
@@ -79,7 +79,7 @@ async function updateReadme(options: InjectOptions) {
   const readme = (await readFile(readmePath, 'utf8').catch(errorToUndefined)) ?? ''
 
   const {v3Banner, install, usage, developTest, license, releaseSnippet} = await readmeSnippets(
-    options
+    options,
   )
 
   const prependSections = missingSections(readme, [v3Banner, install, usage])

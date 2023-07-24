@@ -38,8 +38,8 @@ function presetsFromInput(inputPresets: string[] | undefined): Preset[] {
   if (unknownPresets.length) {
     throw new Error(
       `Unknown --preset(s): [${unknownPresets.join(', ')}]. Must be one of: [${presetNames.join(
-        ', '
-      )}]`
+        ', ',
+      )}]`,
     )
   }
 

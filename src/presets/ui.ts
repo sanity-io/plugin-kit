@@ -27,8 +27,8 @@ async function addDependencies(options: InjectOptions) {
         ...pkg.dependencies,
         ...(await resolveDependencyList()),
       },
-      forcedPackageVersions
-    )
+      forcedPackageVersions,
+    ),
   )
   const newPkg = {...pkg}
   newPkg.dependencies = newDeps
@@ -44,8 +44,8 @@ async function addDevDependencies(options: InjectOptions) {
         ...pkg.devDependencies,
         ...(await resolveDevDependencyList()),
       },
-      forcedDevPackageVersions
-    )
+      forcedDevPackageVersions,
+    ),
   )
   const newPkg = {...pkg}
   newPkg.devDependencies = newDeps

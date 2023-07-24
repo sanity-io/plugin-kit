@@ -42,9 +42,9 @@ export async function verifyStudio({basePath, flags}: {basePath: string; flags: 
         - Reference documentation: ${urls.refDocs}
 
         ${chalk.grey(
-          `To fail-fast on first detected issue run:\nnpx ${cliName} verify-studio --single`
+          `To fail-fast on first detected issue run:\nnpx ${cliName} verify-studio --single`,
         )}
-      `.trimStart()
+      `.trimStart(),
     )
   }
 
@@ -53,6 +53,6 @@ export async function verifyStudio({basePath, flags}: {basePath: string; flags: 
   log.success(
     outdent`
     No outstanding upgrade issues detected. Studio is V3 ready!
-  `.trim()
+  `.trim(),
   )
 }

@@ -50,7 +50,7 @@ export function validateModule(packageJson: PackageJson, options: {outDir: strin
     errors.push(
       outdent`
         Expected source, exports, main, module and files entries in package.json, but ${missingFields.join(
-          ', '
+          ', ',
         )} where missing.
 
         Example:
@@ -77,7 +77,7 @@ export function validateModule(packageJson: PackageJson, options: {outDir: strin
         ],
 
         Refer to @sanity/pkg-utils for more: https://github.com/sanity-io/pkg-utils#sanitypkg-utils
-  `.trimStart()
+  `.trimStart(),
     )
   }
 
@@ -108,7 +108,7 @@ export function validateScripts(packageJson: PackageJson): string[] {
       Please add the following to your package.json "scripts":
 
       ${divergentScripts.map(([key, value]) => `"${key}": "${value}"`).join(',\n')}
-  `.trimStart()
+  `.trimStart(),
     )
   }
   return errors
@@ -116,7 +116,7 @@ export function validateScripts(packageJson: PackageJson): string[] {
 
 export async function validateTsConfig(
   ts: ParsedCommandLine,
-  options: {basePath: string; outDir: string; tsconfig: string}
+  options: {basePath: string; outDir: string; tsconfig: string},
 ) {
   const {basePath, outDir, tsconfig} = options
 
@@ -179,7 +179,7 @@ export async function validateTsConfig(
         ${expectedOutput}
 
         Please update your ${tsconfig} accordingly.
-      `.trimStart()
+      `.trimStart(),
     )
   }
 
@@ -259,7 +259,7 @@ export async function validateBabelConfig({basePath}: {basePath: string}) {
     return [
       outdent`
         Found babel-config file: [${babelFiles.join(
-          ', '
+          ', ',
         )}]. When using default @sanity/plugin-kit build command,
         this is probably not needed.
 
@@ -314,7 +314,7 @@ export async function validateStudioConfig({basePath}: {basePath: string}): Prom
     errors.push(
       outdent`
         sanity.cli.(${suffixes.join(
-          ' | '
+          ' | ',
         )}) missing. Please create a file named sanity.cli.ts with the following content:
 
         ${chalk.green(
@@ -326,13 +326,13 @@ export async function validateStudioConfig({basePath}: {basePath: string}): Prom
             projectId: '${sanityJson?.api?.projectId ?? 'project-id'}',
             dataset: '${sanityJson?.api?.dataset ?? 'dataset'}',
           }
-        })`
+        })`,
         )}
 
         Make sure to replace the projectId and dataset fields with your own.
 
         For more, see ${urls.migrationGuideStudio}
-    `.trimStart()
+    `.trimStart(),
     )
   }
 
@@ -340,7 +340,7 @@ export async function validateStudioConfig({basePath}: {basePath: string}): Prom
     errors.push(
       outdent`
         sanity.config.(${suffixes.join(
-          ' | '
+          ' | ',
         )}) missing. At a minimum sanity.config.ts should contain:
 
         ${chalk
@@ -364,14 +364,14 @@ export async function validateStudioConfig({basePath}: {basePath: string}): Prom
                   /* put your v2 schema-types here */
                 ],
               },
-            })`
+            })`,
           )
           .trimStart()}
 
         Make sure to replace the projectId and dataset fields with your own.
 
         For more, see ${urls.migrationGuideStudio}
-    `.trimStart()
+    `.trimStart(),
     )
   }
 
@@ -446,7 +446,7 @@ export async function validatePluginSanityJson({
 
 export function validatePackageName(packageJson: PackageJson) {
   const valid: {validForNewPackages?: boolean; errors: string[]} = validateNpmPackageName(
-    packageJson.name
+    packageJson.name,
   )
   if (!valid.validForNewPackages) {
     return [`Invalid package.json: "name" is invalid: ${valid.errors.join(', ')}`]

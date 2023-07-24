@@ -39,7 +39,7 @@ export interface SanityV2Json {
     {
       implements?: string
       path?: 'string'
-    }
+    },
   ]
 }
 

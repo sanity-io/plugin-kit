@@ -40,7 +40,7 @@ interface PackageJson {
 
 export async function linkWatch({basePath}: {basePath: string}) {
   const packageJson: PackageJson = JSON.parse(
-    fs.readFileSync(path.join(basePath, 'package.json'), 'utf8')
+    fs.readFileSync(path.join(basePath, 'package.json'), 'utf8'),
   )
 
   const packageConfig = await loadPackageConfig({cwd: basePath})
@@ -85,7 +85,7 @@ export async function linkWatch({basePath}: {basePath: string}) {
 
         ## npm
         ${chalk.greenBright(`npx yalc add ${pkg.name} && npx yalc link ${pkg.name} && npm install`)}
-      `.trimStart()
+      `.trimStart(),
       )
     })
     .on('quit', function () {

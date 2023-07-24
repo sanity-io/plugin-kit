@@ -57,7 +57,7 @@ tap.test('plugin-kit init --force in empty directory', async (t) => {
         'sanity/typescript',
         'sanity/react',
         'plugin:react-hooks/recommended',
-        'plugin:prettier/recommended'
+        'plugin:prettier/recommended',
       )
       await fileContains(
         '.eslintignore',
@@ -65,7 +65,7 @@ tap.test('plugin-kit init --force in empty directory', async (t) => {
         'commitlint.config.js',
         'dist',
         'lint-staged.config.js',
-        '*.js'
+        '*.js',
       )
       await fileContains('.prettierrc', '"semi": false')
       await fileContains('sanity.json', '"path": "./v2-incompatible.js"')
@@ -121,24 +121,24 @@ tap.test('plugin-kit init --force in empty directory', async (t) => {
           },
           homepage: 'https://github.com/sanity-io/sanity#readme',
         },
-        'package.json has expected content'
+        'package.json has expected content',
       )
 
       t.strictSame(
         Object.keys(pkg.dependencies ?? {}),
         [incompatiblePluginPackage],
-        'should have empty dependencies'
+        'should have empty dependencies',
       )
       t.strictSame(
         Object.keys(pkg.peerDependencies ?? {}),
         ['react', 'sanity'],
-        'should have expected peerDependencies'
+        'should have expected peerDependencies',
       )
 
       t.strictSame(
         Object.keys(pkg.devDependencies ?? {}),
         defaultDevDependencies,
-        'should have expected devDependencies'
+        'should have expected devDependencies',
       )
     },
   })
@@ -184,12 +184,12 @@ tap.test('plugin-kit init --force with all the opt-outs in empty directory', asy
       t.strictSame(
         Object.keys(pkg.dependencies ?? {}),
         [incompatiblePluginPackage],
-        'should have empty dependencies'
+        'should have empty dependencies',
       )
       t.strictSame(
         Object.keys(pkg.peerDependencies ?? {}),
         ['react', 'sanity'],
-        'should have expected peerDependencies'
+        'should have expected peerDependencies',
       )
       t.strictSame(
         Object.keys(pkg.devDependencies ?? {}),
@@ -204,7 +204,7 @@ tap.test('plugin-kit init --force with all the opt-outs in empty directory', asy
           'sanity',
           'styled-components',
         ],
-        'should have expected devDependencies'
+        'should have expected devDependencies',
       )
     },
   })
@@ -239,7 +239,7 @@ tap.test('plugin-kit init --force --preset semver-workflow in empty directory', 
           'husky',
           'lint-staged',
         ].sort(),
-        'should have expected devDependencies'
+        'should have expected devDependencies',
       )
 
       t.strictSame(pkg.scripts?.prepare, 'husky install')

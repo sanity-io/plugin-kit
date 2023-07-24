@@ -3,9 +3,11 @@
 ## Usage
 
 ### Inject into existing package
+
 `npx @sanity/plugin-kit@latest inject --preset-only --preset semver-workflow`
 
 ### Use to init plugin
+
 `npx @sanity/plugin-kit@latest init --preset semver-workflow <new-plugin-name>`
 
 ## What does it do?
@@ -21,15 +23,15 @@ This preset:
   - all commits follow [conventional-commits](https://www.conventionalcommits.org/en/v1.0.0/#summary) format
   - all files in a commit pass eslint
 - [semantic-release](https://semantic-release.gitbook.io/semantic-release/) automation for npm publish
-  - automates Github releases 
+  - automates Github releases
   - updates package version based on conventional-commits
   - updates CHANGELOG.md
-- [GitHub workflow](https://docs.github.com/en/actions/using-workflows) (Action) that 
-  - does continuous integration 
+- [GitHub workflow](https://docs.github.com/en/actions/using-workflows) (Action) that
+  - does continuous integration
   - has publish-on-demand support which delegates to semantic-release
 - updates README.md with some standard texts, if missing
 
-Keep in mind that this setup is tailored to the needs of the Ecosystem team at Sanity. 
+Keep in mind that this setup is tailored to the needs of the Ecosystem team at Sanity.
 Feel free to modify any and all files injected by the preset, or use it as a basis for creating your own workflow.
 
 ## Manual steps after inject
@@ -114,6 +116,7 @@ This will run semantic-release in dry-run mode (no git push or npm publish) and 
 go into a release.
 
 #### Note on "notable commits"
+
 As configured, semantic-release will not consider commits starting with `docs:` or `chore:` as notable.
 If you only have non-notable commits since the last release, semantic-release will not create a new version.
 

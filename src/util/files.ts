@@ -20,7 +20,7 @@ export const writeFile = util.promisify(fs.writeFile)
 export function hasSourceEquivalent(compiledFile: string, paths: ManifestPaths) {
   if (!paths.source) {
     return fileExists(
-      path.isAbsolute(compiledFile) ? compiledFile : path.resolve(paths.basePath, compiledFile)
+      path.isAbsolute(compiledFile) ? compiledFile : path.resolve(paths.basePath, compiledFile),
     )
   }
 
@@ -47,7 +47,7 @@ export function hasSourceEquivalent(compiledFile: string, paths: ManifestPaths) 
 export async function hasSourceFile(filePath: string, paths?: ManifestPaths) {
   if (!paths?.source) {
     return fileExists(
-      path.isAbsolute(filePath) ? filePath : path.resolve(paths?.basePath ?? '', filePath)
+      path.isAbsolute(filePath) ? filePath : path.resolve(paths?.basePath ?? '', filePath),
     )
   }
 
@@ -67,7 +67,7 @@ export async function hasSourceFile(filePath: string, paths?: ManifestPaths) {
 export function hasCompiledFile(filePath: string, paths?: ManifestPaths) {
   if (!paths?.compiled) {
     return fileExists(
-      path.isAbsolute(filePath) ? filePath : path.resolve(paths?.basePath ?? '', filePath)
+      path.isAbsolute(filePath) ? filePath : path.resolve(paths?.basePath ?? '', filePath),
     )
   }
 
@@ -113,7 +113,7 @@ export function writeJsonFile(filePath: string, content: Record<string, unknown>
 export async function writeFileWithOverwritePrompt(
   filePath: string,
   content: string,
-  options: {default?: any; force?: boolean} & fs.ObjectEncodingOptions
+  options: {default?: any; force?: boolean} & fs.ObjectEncodingOptions,
 ) {
   const {default: defaultVal, force = false, ...writeOptions} = options
   const withinCwd = filePath.startsWith(process.cwd())

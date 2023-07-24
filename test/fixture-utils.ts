@@ -50,7 +50,7 @@ export async function testFixture({
 
 export function fileContainsValidator(
   t: any /* tap types cannot be imported? :shrug: */,
-  outputDir: string
+  outputDir: string,
 ) {
   return async (file: string, ...contains: string[]) => {
     const fileString = await readFile(path.join(outputDir, normalize(file)))

@@ -156,7 +156,7 @@ async function writeReadme(data: PackageData, options: InjectOptions) {
 async function writeLicense(
   {license}: PackageData,
   options: InjectOptions,
-  licenseChanged: boolean
+  licenseChanged: boolean,
 ) {
   const {basePath, flags} = options
 
@@ -184,7 +184,7 @@ async function getLicense(
     pluginName,
     pkg,
     requireUserConfirmation,
-  }: PackageData & {requireUserConfirmation?: boolean}
+  }: PackageData & {requireUserConfirmation?: boolean},
 ) {
   const license = await getLicenseIdentifier(flags, pkg, requireUserConfirmation)
   if (!license) {
@@ -202,7 +202,7 @@ async function getLicense(
 async function getLicenseIdentifier(
   flags: InitFlags,
   pkg: PackageJson | undefined,
-  requireUserConfirmation = false
+  requireUserConfirmation = false,
 ) {
   // --no-license
   if ((flags.license as unknown) === false) {
@@ -245,7 +245,7 @@ async function getLicenseIdentifier(
 async function getProjectDescription(
   basePath: string,
   pkg: PackageJson | undefined,
-  requireUserConfirmation = false
+  requireUserConfirmation = false,
 ) {
   let description = await resolveProjectDescription(basePath, pkg)
   if (requireUserConfirmation) {

@@ -27,8 +27,8 @@ async function applyPreset(options: InjectOptions) {
         Please confer
         https://github.com/sanity-io/plugin-kit/blob/main/docs/ui-workshop.md#manual-steps-after-inject
         to finalize configuration for this preset.
-  `.trim()
-    )
+  `.trim(),
+    ),
   )
 }
 

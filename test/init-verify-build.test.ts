@@ -11,7 +11,7 @@ tap.test('plugin-kit init -> verify-package -> tsc > pkg-utils build', async (t)
     command: async ({outputDir}) => {
       // using console.error: we want these logged continuously to not surprise devs on the runtime
       console.error(
-        'Integration testing init -> verify-package -> tsc -> build.\nThis may take a while...'
+        'Integration testing init -> verify-package -> tsc -> build.\nThis may take a while...',
       )
       let start = new Date().getTime()
       function seconds() {
@@ -19,7 +19,7 @@ tap.test('plugin-kit init -> verify-package -> tsc > pkg-utils build', async (t)
       }
       const init = await runCliCommand('init', [outputDir, ...initTestArgs])
       console.error(
-        `"plugin-kit init" done in ${seconds()}.\nRunning "plugin-kit verify-package"...`
+        `"plugin-kit init" done in ${seconds()}.\nRunning "plugin-kit verify-package"...`,
       )
 
       start = new Date().getTime()
@@ -61,9 +61,9 @@ tap.test('plugin-kit init -> verify-package -> tsc > pkg-utils build', async (t)
       t.strictSame(
         await contents(path.join(outputDir, 'dist')),
         ['index.d.ts', 'index.esm.js', 'index.esm.js.map', 'index.js', 'index.js.map'].map(
-          normalize
+          normalize,
         ),
-        'should output expected files to dist'
+        'should output expected files to dist',
       )
     },
   })

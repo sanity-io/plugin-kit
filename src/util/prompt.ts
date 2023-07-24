@@ -15,7 +15,7 @@ export async function prompt(
     default?: any
     filter?: (val: any) => any
     validate?: (val: any) => boolean | string
-  }
+  },
 ) {
   const type = options.choices ? 'list' : options.type
   const result = await inquirer.prompt([{...options, type, message, name: 'single'}])

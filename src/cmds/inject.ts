@@ -58,7 +58,7 @@ async function run({argv}: {argv: string[]}) {
   const {v3ConfigFile} = await findStudioV3Config(basePath)
   if (v3ConfigFile) {
     throw new Error(
-      `${v3ConfigFile} exists - are you trying to INJECT into a studio instead of a plugin?`
+      `${v3ConfigFile} exists - are you trying to INJECT into a studio instead of a plugin?`,
     )
   }
   log.info('Inject config into plugin in "%s"', basePath)

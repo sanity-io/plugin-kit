@@ -10,7 +10,7 @@ tap.test('plugin-kit verify-package in package with all checks failing', async (
     assert: async ({result: {stderr}}) => {
       const redactFilePaths = cleanupOutput(
         stderr,
-        /[\S]+verify-package\/every-failure-possible\//g
+        /[\S]+verify-package\/every-failure-possible\//g,
       )
 
       // to regenerate the snapshot, in root dir run:

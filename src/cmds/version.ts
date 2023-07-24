@@ -56,7 +56,7 @@ function run({argv}: {argv: string[]}) {
 
   if (numVersionFlags > 1) {
     throw new Error(
-      `--major, --minor and --patch are mutually exclusive - only one can be used at a time`
+      `--major, --minor and --patch are mutually exclusive - only one can be used at a time`,
     )
   }
 

@@ -70,7 +70,7 @@ export async function readManifest(options: ManifestOptions) {
   } catch (err: any) {
     if (err.code === 'ENOENT') {
       throw new Error(
-        `No sanity.json found. sanity.json is required for plugins to function. Use \`${pkg.binname} init\` for a new plugin, or create an empty \`sanity.json\` with an empty object (\`{}\`) for existing ones.`
+        `No sanity.json found. sanity.json is required for plugins to function. Use \`${pkg.binname} init\` for a new plugin, or create an empty \`sanity.json\` with an empty object (\`{}\`) for existing ones.`,
       )
     }
 
@@ -122,7 +122,7 @@ function validateProjectManifest(manifest: SanityV2Manifest) {
 
 export async function validatePluginManifest(
   manifest: SanityV2Manifest,
-  options: {basePath: string}
+  options: {basePath: string},
 ) {
   const disallowed = Object.keys(manifest)
     .filter((key) => disallowedPluginProps.includes(key))
@@ -134,7 +134,7 @@ export async function validatePluginManifest(
     throw new Error(
       `Invalid sanity.json: Key${plural} ${joined} ${
         plural ? 'are' : 'is'
-      } not allowed in a plugin manifest`
+      } not allowed in a plugin manifest`,
     )
   }
 
@@ -156,13 +156,13 @@ export async function validatePaths(manifest: SanityV2Manifest, options: {basePa
 
   if (typeof manifest.paths.compiled !== 'string') {
     throw new Error(
-      `Invalid sanity.json: "paths" must have a (string) "compiled" property if declared`
+      `Invalid sanity.json: "paths" must have a (string) "compiled" property if declared`,
     )
   }
 
   if (typeof manifest.paths.source !== 'string') {
     throw new Error(
-      `Invalid sanity.json: "paths" must have a (string) "source" property if declared`
+      `Invalid sanity.json: "paths" must have a (string) "source" property if declared`,
     )
   }
 
@@ -178,7 +178,7 @@ export async function validatePaths(manifest: SanityV2Manifest, options: {basePa
 
   if (!srcStats?.isDirectory()) {
     throw new Error(
-      `sanity.json references "source" path which is not a directory: "${sourcePath}"`
+      `sanity.json references "source" path which is not a directory: "${sourcePath}"`,
     )
   }
 }
@@ -213,7 +213,7 @@ async function validatePart(part: Record<string, any>, index: number, options: M
 async function validatePartFiles(
   part: {path?: string} | undefined,
   index: number,
-  options: ManifestOptions
+  options: ManifestOptions,
 ) {
   const {verifyCompiledParts, verifySourceParts, paths} = options
   if (!part?.path) {
@@ -224,8 +224,8 @@ async function validatePartFiles(
   if (paths?.source && ext && ext !== '.js' && buildExtensions.includes(ext)) {
     throw new Error(
       `Invalid sanity.json: Part path has extension which is not applicable after compiling. ${ext} becomes .js after compiling. Specify filename without extension (${path.basename(
-        part.path
-      )}) (parts[${index}])`
+        part.path,
+      )}) (parts[${index}])`,
     )
   }
 
@@ -242,13 +242,13 @@ async function validatePartFiles(
     throw new Error(
       `Invalid sanity.json: Part path references file that does not exist in source directory (${
         paths?.source || paths?.basePath
-      }) (parts[${index}])`
+      }) (parts[${index}])`,
     )
   }
 
   if (verifyCompiledParts && !outDirExists) {
     throw new Error(
-      `Invalid sanity.json: Part path references file ("${part.path}") that does not exist in compiled directory (${paths?.compiled}) (parts[${index}])`
+      `Invalid sanity.json: Part path references file ("${part.path}") that does not exist in compiled directory (${paths?.compiled}) (parts[${index}])`,
     )
   }
 }
@@ -256,18 +256,18 @@ async function validatePartFiles(
 function validatePartNames(
   part: {name?: string; implements?: string} | undefined,
   index: number,
-  options: ManifestOptions
+  options: ManifestOptions,
 ) {
   const pluginName = options.pluginName ? options.pluginName.replace(/^sanity-plugin-/, '') : ''
   if (!part?.name || !part?.name?.startsWith(`part:${pluginName}/`)) {
     throw new Error(
-      `Invalid sanity.json: "name" must be prefixed with "part:${pluginName}/" - got "${part?.name}" (parts[${index}])`
+      `Invalid sanity.json: "name" must be prefixed with "part:${pluginName}/" - got "${part?.name}" (parts[${index}])`,
     )
   }
 
   if (!part?.implements?.startsWith('part:')) {
     throw new Error(
-      `Invalid sanity.json: "implements" must be prefixed with "part:" - got "${part?.implements}" (parts[${index}])`
+      `Invalid sanity.json: "implements" must be prefixed with "part:" - got "${part?.implements}" (parts[${index}])`,
     )
   }
 }
@@ -283,7 +283,7 @@ function validateAllowedPartKeys(part: Record<string, any>, index: number) {
     throw new Error(
       `Invalid sanity.json: Key${plural} ${joined} ${
         plural ? 'are' : 'is'
-      } not allowed in a part declaration (parts[${index}])`
+      } not allowed in a part declaration (parts[${index}])`,
     )
   }
 }
@@ -297,7 +297,7 @@ function validatePartStringValues(part: Record<string, any>, index: number) {
     const plural = nonStrings.length > 1 ? 's' : ''
     const joined = nonStrings.join(', ')
     throw new Error(
-      `Invalid sanity.json: Key${plural} ${joined} should be of type string (parts[${index}])`
+      `Invalid sanity.json: Key${plural} ${joined} should be of type string (parts[${index}])`,
     )
   }
 }
@@ -317,13 +317,13 @@ export function getReferencesPartPaths(manifest: SanityV2Manifest, basePath: str
     .map((partPath) =>
       path.isAbsolute(partPath)
         ? partPath // Not sure if this ever happens, but :shrugs:
-        : path.resolve(compiledPath, partPath)
+        : path.resolve(compiledPath, partPath),
     )
 }
 
 export async function hasSanityJson(basePath: string) {
   const file = await readJsonFile<{root?: boolean}>(path.join(basePath, 'sanity.json')).catch(
-    errorToUndefined
+    errorToUndefined,
   )
   return {exists: Boolean(file), isRoot: Boolean(file && file.root)}
 }

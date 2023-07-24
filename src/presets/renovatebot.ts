@@ -16,6 +16,6 @@ async function applyPreset(options: InjectOptions) {
         to: 'renovate.json',
       },
     ],
-    options
+    options,
   )
 }

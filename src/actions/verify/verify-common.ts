@@ -49,18 +49,18 @@ export function disableCheckText(checkKey: string) {
                     "${checkKey}": false
                  }
               }
-          `.trimStart()
+          `.trimStart(),
   )
 }
 
 export function createValidator(
   verifyConfig: VerifyPackageConfig,
   flags: VerifyFlags,
-  errors: string[]
+  errors: string[],
 ) {
   return async function validation(
     checkKey: keyof VerifyPackageConfig,
-    task: () => Promise<string[] | undefined>
+    task: () => Promise<string[] | undefined>,
   ) {
     if (verifyConfig[checkKey] !== false) {
       const result = await task()
@@ -77,7 +77,7 @@ export function createValidator(
         outdent`Detected outstanding upgrade issues.
 
         Fail-fast (--single) mode enabled, stopping validation here.
-        `
+        `,
       )
     }
   }

@@ -19,7 +19,7 @@ export function resolveLatestVersions(packages: string[]) {
       }
       return rangeify(version)
     },
-    {concurrency: 8}
+    {concurrency: 8},
   )
 }
 
