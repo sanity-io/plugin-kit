@@ -82,7 +82,7 @@
     "github-url-to-object": "^4.0.6",
     "inquirer": "^8.2.5",
     "meow": "^9.0.0",
-    "nodemon": "^2.0.21",
+    "nodemon": "^3.0.0",
     "npm-packlist": "^7.0.4",
     "npm-run-path": "^4.0.1",
     "outdent": "^0.8.0",
