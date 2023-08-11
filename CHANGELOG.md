@@ -5,6 +5,14 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.1.8](https://github.com/sanity-io/plugin-kit/compare/v3.1.7...v3.1.8) (2023-08-11)
+
+### Bug Fixes
+
+- add npm provenance support ([adb4b09](https://github.com/sanity-io/plugin-kit/commit/adb4b09c62e927bfb6813557078aee2f7c52df60))
+- **deps:** update dependencies (non-major) ([#77](https://github.com/sanity-io/plugin-kit/issues/77)) ([7ab69eb](https://github.com/sanity-io/plugin-kit/commit/7ab69eb41deb09857164375de1be0bc3fab928d8))
+- **deps:** update dependency concurrently to v8 ([#87](https://github.com/sanity-io/plugin-kit/issues/87)) ([ccb1668](https://github.com/sanity-io/plugin-kit/commit/ccb16689139b6a485f69ff6c0aa2a5a6d48e5b67))
+
 ## [3.1.7](https://github.com/sanity-io/plugin-kit/compare/v3.1.6...v3.1.7) (2023-02-20)
 
 ### Bug Fixes
