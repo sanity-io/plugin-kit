@@ -2,7 +2,9 @@ import pProps from 'p-props'
 import getLatestVersion from 'get-latest-version'
 
 // We may want to lock certain dependencies to specific versions
-const lockedDependencies: Record<string, string> = {}
+const lockedDependencies: Record<string, string> = {
+  'styled-components': '^5.2',
+}
 
 export function resolveLatestVersions(packages: string[]) {
   const versions: Record<string, string> = {}
