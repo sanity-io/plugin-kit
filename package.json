@@ -100,7 +100,7 @@
     "@commitlint/cli": "^17.4.4",
     "@commitlint/config-conventional": "^17.4.4",
     "@sanity/semantic-release-preset": "^4.0.0",
-    "@sanity/ui-workshop": "^1.2.1",
+    "@sanity/ui-workshop": "^1.2.9",
     "@types/eslint": "^8.21.1",
     "@types/fs-extra": "^11.0.1",
     "@types/inquirer": "^9.0.3",
