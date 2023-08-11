@@ -5,6 +5,12 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.1.10](https://github.com/sanity-io/plugin-kit/compare/v3.1.9...v3.1.10) (2023-08-11)
+
+### Bug Fixes
+
+- **deps:** bump non-major ([03a25d0](https://github.com/sanity-io/plugin-kit/commit/03a25d0000485d49346ab8f81b128b272cbb42dc))
+
 ## [3.1.9](https://github.com/sanity-io/plugin-kit/compare/v3.1.8...v3.1.9) (2023-08-11)
 
 ### Bug Fixes
