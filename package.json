@@ -117,7 +117,7 @@
     "fs-extra": "^11.1.1",
     "husky": "^8.0.3",
     "json5": "^2.2.3",
-    "lint-staged": "^13.2.3",
+    "lint-staged": "^13.3.0",
     "npm-run-all": "^4.1.5",
     "prettier": "^3.0.0",
     "prettier-plugin-packagejson": "^2.4.5",
