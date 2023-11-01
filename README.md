@@ -48,7 +48,7 @@ Check the [FAQ](#faq) fro more on these.
 
 `@sanity/plugin-kit` assumes the plugin will use [@sanity/pkg-utils](https://github.com/sanity-io/pkg-utils#sanitypkg-utils) for build and watch:
 
-> npm install --save-dev @sanity/plugin-kit
+> npm install --save-dev @sanity/pkg-utils
 
 ## Initialize a new plugin
 
