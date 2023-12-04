@@ -75,9 +75,10 @@ jobs:
           - os: ubuntu-latest
             # Test the oldest LTS release of Node that's still receiving bugfixes and security patches, versions older than that have reached End-of-Life
             node: lts/-1
-          - os: ubuntu-latest
-            # Test the actively developed version that will become the latest LTS release next October
-            node: current
+          # disabled for now, waiting for pkg-utils fix
+          # Test the actively developed version that will become the latest LTS release
+          # - os: ubuntu-latest
+          #   node: current
     steps:
       # It's only necessary to do this for windows, as mac and ubuntu are sane OS's that already use LF
       - name: Set git to use LF
