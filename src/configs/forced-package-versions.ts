@@ -1,4 +1,6 @@
-export const forcedPackageVersions = {}
+export const forcedPackageVersions = {
+  '@sanity/pkg-utils': '5.1.0',
+}
 
 export const forcedDevPackageVersions = forcedPackageVersions
 
@@ -10,4 +12,5 @@ export const forcedPeerPackageVersions = {
   '@types/react-dom': '^18',
   sanity: '^3',
   'styled-components': '^5.2',
+  '@sanity/pkg-utils': '5.1.0',
 }

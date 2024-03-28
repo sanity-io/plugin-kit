@@ -4,6 +4,7 @@ import getLatestVersion from 'get-latest-version'
 // We may want to lock certain dependencies to specific versions
 const lockedDependencies: Record<string, string> = {
   'styled-components': '^5.2',
+  '@sanity/pkg-utils': '5.1.0',
 }
 
 export function resolveLatestVersions(packages: string[]) {
