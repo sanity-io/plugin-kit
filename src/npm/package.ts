@@ -33,7 +33,7 @@ const defaultPeerDependencies = ['react', 'sanity']
 
 const readFile = util.promisify(fs.readFile)
 
-const pathKeys: (keyof PackageJson)[] = ['main', 'module', 'browser', 'types', 'typings']
+const pathKeys: (keyof PackageJson)[] = ['main', 'module', 'browser', 'types']
 
 export async function getPackage(opts: ManifestOptions): Promise<PackageJson> {
   const options = {flags: {}, ...opts}
@@ -317,9 +317,6 @@ export async function writePackageJson(data: PackageData, options: InjectOptions
     ...forcedOrder,
   }
 
-  // we use types, not typings
-  delete manifest.typings
-
   const differs = JSON.stringify(prev) !== JSON.stringify(manifest)
   log.debug('Does manifest differ? %s', differs ? 'yes' : 'no')
   if (differs) {
@@ -394,7 +391,6 @@ export async function addBuildScripts(manifest: PackageJson, options: InjectOpti
   }
   return addPackageJsonScripts(manifest, options, (scripts) => {
     scripts.build = addScript(expectedScripts.build, scripts.build)
-    scripts.clean = addScript(`rimraf ${outDir}`, scripts.clean)
     scripts.format = addScript(`prettier --write --cache --ignore-unknown .`, scripts.format)
     scripts['link-watch'] = addScript(expectedScripts['link-watch'], scripts['link-watch'])
     scripts.lint = addScript(`eslint .`, scripts.lint)

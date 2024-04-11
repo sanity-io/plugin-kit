@@ -17,7 +17,6 @@ export interface PackageJson {
   main?: string
   module?: string
   types?: string
-  typings?: string
   browser?: string
   files?: string[]
   scripts?: Record<string, string>

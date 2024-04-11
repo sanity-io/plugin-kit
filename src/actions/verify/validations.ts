@@ -77,9 +77,6 @@ export function validateModule(packageJson: PackageJson, options: {outDir: strin
     )
   }
 
-  if (packageJson.typings) {
-    errors.push(outdent`Found typings field in package.json. Use types instead.`)
-  }
   return errors
 }
 

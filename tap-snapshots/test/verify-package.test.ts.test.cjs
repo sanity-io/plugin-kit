@@ -6,16 +6,11 @@
  */
 'use strict'
 exports[`test/verify-package.test.ts TAP plugin-kit verify-package in ok package > stdout should match snapshot 1`] = `
-[success] No outstanding upgrade issues detected.
 
-Suggested next steps:
-  - Use plugin-kit to build and develop the plugin according to https://github.com/sanity-io/plugin-kit.
-  - Build the plugin and fix any compilation errors
-  - Test the plugin using the link-watch command
 `
 
 exports[`test/verify-package.test.ts TAP plugin-kit verify-package in package with all checks failing > stderr should match snapshot 1`] = `
-[error]
+[error] 
 Invalid package.json: "name" should be prefixed with "sanity-plugin-" (or scoped - @your-company/plugin-name)
 
 To skip this validation add the following to your package.json:
@@ -25,7 +20,7 @@ To skip this validation add the following to your package.json:
    }
 }
 ----------------------------------------------------------
-[error]
+[error] 
 package.json does not list @sanity/pkg-utils as a devDependency.
 @sanity/pkg-utils replaced parcel as the recommended build tool in @sanity/plugin-kit 2.0.0
 
@@ -38,7 +33,7 @@ To skip this validation add the following to your package.json:
    }
 }
 ----------------------------------------------------------
-[error]
+[error] 
 Expected one of [src/index.js, src/index.ts] to exist.
 
 @sanity/pkg-utils expects a non-jsx file to be the source entry-point for the plugin.
@@ -51,17 +46,17 @@ To skip this validation add the following to your package.json:
    }
 }
 ----------------------------------------------------------
-[error]
+[error] 
 The following script commands did not contain expected defaults: build, watch, link-watch, prepublishOnly
 
 This checks for that the commands-strings includes these terms.
 
 Please add the following to your package.json "scripts":
 
-"build": "run-s clean && plugin-kit verify-package --silent && pkg-utils build --strict && pkg-utils --strict",
+"build": "plugin-kit verify-package --silent && pkg-utils build --strict --check --clean",
 "watch": "pkg-utils watch --strict",
 "link-watch": "plugin-kit link-watch",
-"prepublishOnly": "run-s build"
+"prepublishOnly": "npm run build"
 
 To skip this validation add the following to your package.json:
 "sanityPlugin": {
@@ -70,8 +65,8 @@ To skip this validation add the following to your package.json:
    }
 }
 ----------------------------------------------------------
-[error]
-Expected source, exports, main, module and files entries in package.json, but source, exports, main, module where missing.
+[error] 
+Expected source, exports, main, module and files entries in package.json, but exports, main where missing.
 
 Example:
 
@@ -81,15 +76,12 @@ package.json should contain the following entries to ensure that commonjs and es
 "source": "./src/index.ts",
 "exports": {
   ".": {
-    "types": "./dist/index.d.ts",
     "source": "./src/index.ts",
-    "require": "./dist/index.js",
-    "import": "./dist/index.esm.js",
+    "require": "./dist/index.cjs",
     "default": "./dist/index.js"
   }
 },
-"main": "./dist/index.js",
-"module": "./dist/index.esm.js",
+"main": "./dist/index.cjs",
 "types": "./dist/index.d.ts",
 "files": [
   "dist",
@@ -105,14 +97,14 @@ To skip this validation add the following to your package.json:
    }
 }
 ----------------------------------------------------------
-[error]
+[error] 
 Expected package.json to contain engines.node: ">=14" to ensure Studio compatible builds,
 but it was: undefined
 
 Please add the following to package.json:
 
 "engines": {
-  "node": ">=18"
+  "node": ">=14"
 }
 
 To skip this validation add the following to your package.json:
@@ -122,7 +114,7 @@ To skip this validation add the following to your package.json:
    }
 }
 ----------------------------------------------------------
-[error]
+[error] 
 Found multiple config files that serve the same purpose: [.eslintrc, .eslintrc.json].
 
 There should be at most one of these files. Delete the rest.
@@ -134,7 +126,7 @@ To skip this validation add the following to your package.json:
    }
 }
 ----------------------------------------------------------
-[error]
+[error] 
 package.json contains prettier, but there also exists a config file that serves the same purpose.
 Config file: .prettierrc]
 
@@ -147,23 +139,25 @@ To skip this validation add the following to your package.json:
    }
 }
 ----------------------------------------------------------
-[error]
+[error] 
 Recommended tsconfig.json compilerOptions missing:
 
-The following fields had unexpected values: [moduleResolution, target, module, emitDeclarationOnly, esModuleInterop, skipLibCheck, isolatedModules, downlevelIteration, declaration, allowSyntheticDefaultImports, rootDir, outDir]
+The following fields had unexpected values: [target, jsx, module, moduleResolution, esModuleInterop, resolveJsonModule, moduleDetection, skipLibCheck, isolatedModules, allowSyntheticDefaultImports, forceConsistentCasingInFileNames, rootDir, outDir, noEmit]
 Expected to find these values:
-"moduleResolution": "node",
 "target": "esnext",
-"module": "esnext",
-"emitDeclarationOnly": true,
+"jsx": "preserve",
+"module": "preserve",
+"moduleResolution": "bundler",
 "esModuleInterop": true,
+"resolveJsonModule": true,
+"moduleDetection": "force",
 "skipLibCheck": true,
 "isolatedModules": true,
-"downlevelIteration": true,
-"declaration": true,
 "allowSyntheticDefaultImports": true,
+"forceConsistentCasingInFileNames": true,
 "rootDir": ".",
 "outDir": "dist",
+"noEmit": true,
 
 Please update your tsconfig.json accordingly.
 
@@ -174,7 +168,7 @@ To skip this validation add the following to your package.json:
    }
 }
 ----------------------------------------------------------
-[error]
+[error] 
 Invalid sanity.json. It is used for compatibility checking in V2 studios:
 
 - The part should implement part:@sanity/base/sanity-root, but did not.
@@ -194,7 +188,7 @@ To skip this validation add the following to your package.json:
    }
 }
 ----------------------------------------------------------
-[error]
+[error] 
 Found babel-config file: [babel.config.js]. When using default @sanity/plugin-kit build command,
 this is probably not needed.
 
@@ -207,7 +201,7 @@ To skip this validation add the following to your package.json:
    }
 }
 ----------------------------------------------------------
-[error]
+[error] 
 package.json depends on "@sanity/*" packages that have moved into "sanity" package.
 
 The following dependencies should be replaced with "sanity":
@@ -223,7 +217,7 @@ To skip this validation add the following to your package.json:
    }
 }
 ----------------------------------------------------------
-[error]
+[error] 
 package.json contains deprecated dependencies that should be removed:
 - parcel
 
@@ -234,7 +228,7 @@ To skip this validation add the following to your package.json:
    }
 }
 ----------------------------------------------------------
-[error]
+[error] 
 
 root/src/index.tsx
   1:1  error  '@sanity/base' import is restricted from being used by a pattern. Use sanity instead of @sanity/base                  no-restricted-imports
@@ -296,7 +290,7 @@ Referenced from: root/.eslintrc
     importerName: root/.eslintrc'
   }
 }
-[error]
+[error] 
 Failed to run ESLint. Is ESLint configured?
 
 If the package does not use eslint, disable this check.
@@ -324,7 +318,7 @@ npx @sanity/plugin-kit verify-package' --single
 `
 
 exports[`test/verify-package.test.ts TAP plugin-kit verify-studio in fresh v2 studio > stderr should match snapshot 1`] = `
-[error]
+[error] 
 Found sanity.json. This file is not used by Sanity Studio V3.
 
 Please consult the Studio V3 migration guide:
@@ -386,7 +380,7 @@ To skip this validation add the following to your package.json:
    }
 }
 ----------------------------------------------------------
-[error]
+[error] 
 package.json depends on "@sanity/*" packages that have moved into "sanity" package.
 
 The following dependencies should be replaced with "sanity":
@@ -406,7 +400,7 @@ To skip this validation add the following to your package.json:
    }
 }
 ----------------------------------------------------------
-[error]
+[error] 
 
 root/schemas/schema.js
   2:1  error  'part:@sanity/base/schema-creator' import is restricted from being used by a pattern. part: imports where removed in Sanity v3. Please refer to the migration guide: https://beta.sanity.io/docs/platform/v2-to-v3, or new API-reference docs: https://beta.sanity.io/docs/reference       no-restricted-imports
