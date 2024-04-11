@@ -4,6 +4,7 @@
     "outDir": "./dist",
 
     "target": "ESNext",
+    "jsx": "preserve",
     "module": "Preserve",
     "moduleResolution": "Bundler",
     "esModuleInterop": true,
@@ -12,6 +13,8 @@
     "strict": true,
     "allowSyntheticDefaultImports": true,
     "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "isolatedModules": true,
 
     // Don't emit by default, pkg-utils will ignore this when generating .d.ts files
     "noEmit": true

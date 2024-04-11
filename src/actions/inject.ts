@@ -329,7 +329,7 @@ async function writeStaticAssets(options: InjectOptions) {
     flags.gitignore && gitignoreTemplate(),
     flags.typescript && tsconfigTemplate({flags: options.flags}),
     flags.typescript && tsconfigTemplateDist({outDir, flags: options.flags}),
-    flags.typescript && tsconfigTemplateSettings({flags: options.flags}),
+    flags.typescript && tsconfigTemplateSettings({outDir, flags: options.flags}),
     flags.prettier && prettierignoreTemplate({outDir}),
     flags.prettier && {type: 'copy', from: 'prettierrc.json', to: '.prettierrc'},
   ]
