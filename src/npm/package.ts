@@ -21,24 +21,19 @@ import {
 const defaultDependencies = [incompatiblePluginPackage]
 
 const defaultDevDependencies = [
-  'npm-run-all',
-  'rimraf',
   'sanity',
 
   // peer dependencies of `sanity`
   'react',
   'react-dom',
   'styled-components',
-
-  // peer dependencies of `styled-components`
-  'react-is',
 ]
 
 const defaultPeerDependencies = ['react', 'sanity']
 
 const readFile = util.promisify(fs.readFile)
 
-const pathKeys: (keyof PackageJson)[] = ['main', 'module', 'browser', 'types', 'typings']
+const pathKeys: (keyof PackageJson)[] = ['main', 'module', 'browser', 'types']
 
 export async function getPackage(opts: ManifestOptions): Promise<PackageJson> {
   const options = {flags: {}, ...opts}
@@ -292,19 +287,17 @@ export async function writePackageJson(data: PackageData, options: InjectOptions
     ...repoFromOrigin(gitOrigin),
     license: license ? license.id : 'UNLICENSED',
     author: user?.email ? `${user.name} <${user.email}>` : user?.name,
+    sideEffects: false,
+    type: 'commonjs',
     exports: {
       '.': {
-        ...(flags.typescript ? {types: `./${outDir}/index.d.ts`} : {}),
         source,
-        import: `./${outDir}/index.esm.js`,
-        require: `./${outDir}/index.js`,
-        default: `./${outDir}/index.esm.js`,
+        import: `./${outDir}/index.mjs`,
+        default: `./${outDir}/index.js`,
       },
       './package.json': './package.json',
     },
     main: `./${outDir}/index.js`,
-    module: `./${outDir}/index.esm.js`,
-    source,
     ...(flags.typescript ? {types: `./${outDir}/index.d.ts`} : {}),
     files,
     scripts: {...prev.scripts},
@@ -312,7 +305,7 @@ export async function writePackageJson(data: PackageData, options: InjectOptions
     devDependencies: sortKeys(devDependencies),
     peerDependencies: sortKeys(peerDependencies),
     engines: {
-      node: '>=14',
+      node: '>=18',
     },
   }
 
@@ -323,9 +316,6 @@ export async function writePackageJson(data: PackageData, options: InjectOptions
     // We're de-declaring properties because of key order in package.json
     ...forcedOrder,
   }
-
-  // we use types, not typings
-  delete manifest.typings
 
   const differs = JSON.stringify(prev) !== JSON.stringify(manifest)
   log.debug('Does manifest differ? %s', differs ? 'yes' : 'no')
@@ -401,7 +391,6 @@ export async function addBuildScripts(manifest: PackageJson, options: InjectOpti
   }
   return addPackageJsonScripts(manifest, options, (scripts) => {
     scripts.build = addScript(expectedScripts.build, scripts.build)
-    scripts.clean = addScript(`rimraf ${outDir}`, scripts.clean)
     scripts.format = addScript(`prettier --write --cache --ignore-unknown .`, scripts.format)
     scripts['link-watch'] = addScript(expectedScripts['link-watch'], scripts['link-watch'])
     scripts.lint = addScript(`eslint .`, scripts.lint)

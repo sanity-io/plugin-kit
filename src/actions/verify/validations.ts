@@ -10,25 +10,24 @@ import {PackageJson, SanityStudioJson, SanityV2Json} from './types'
 import {ParsedCommandLine} from 'typescript'
 
 export const expectedScripts = {
-  build:
-    'run-s clean && plugin-kit verify-package --silent && pkg-utils build --strict && pkg-utils --strict',
+  build: 'plugin-kit verify-package --silent && pkg-utils build --strict --check --clean',
   watch: 'pkg-utils watch --strict',
   'link-watch': 'plugin-kit link-watch',
-  prepublishOnly: 'run-s build',
+  prepublishOnly: 'npm run build',
 }
 
-const expectedModulesFields = ['source', 'exports', 'main', 'module', 'files']
+const expectedModulesFields = ['exports', 'main', 'files']
 
 function filesWithSuffixes(fileBases: string[], suffixes: string[]): string[] {
   return fileBases.flatMap((file) => suffixes.map((suffix) => `${file}.${suffix}`))
 }
 
 export function validateNodeEngine(packageJson: PackageJson) {
-  const nodeVersionRange = '>=14'
+  const nodeVersionRange = '>=18'
   if (!packageJson.engines?.node?.startsWith(nodeVersionRange)) {
     return [
       outdent`
-        Expected package.json to contain engines.node: ">=14" to ensure Studio compatible builds,
+        Expected package.json to contain engines.node: ">=18" to ensure Studio compatible builds,
         but it was: ${packageJson.engines?.node}
 
         Please add the following to package.json:
@@ -49,7 +48,7 @@ export function validateModule(packageJson: PackageJson, options: {outDir: strin
   if (missingFields.length) {
     errors.push(
       outdent`
-        Expected source, exports, main, module and files entries in package.json, but ${missingFields.join(
+        Expected exports, main, files entries in package.json, but ${missingFields.join(
           ', ',
         )} where missing.
 
@@ -58,18 +57,14 @@ export function validateModule(packageJson: PackageJson, options: {outDir: strin
         Given a plugin with entry-point in src/index.ts, using default @sanity/pkg-utils build command,
         package.json should contain the following entries to ensure that commonjs and esm outputs are built into ${outDir}:
 
-        "source": "./src/index.ts",
         "exports": {
           ".": {
-            "types": "./${outDir}/index.d.ts",
             "source": "./src/index.ts",
-            "require": "./${outDir}/index.js",
-            "import": "./${outDir}/index.esm.js",
+            "import": "./${outDir}/index.mjs",
             "default": "./${outDir}/index.js"
           }
         },
         "main": "./${outDir}/index.js",
-        "module": "./${outDir}/index.esm.js",
         "types": "./${outDir}/index.d.ts",
         "files": [
           "${outDir}",
@@ -81,9 +76,6 @@ export function validateModule(packageJson: PackageJson, options: {outDir: strin
     )
   }
 
-  if (packageJson.typings) {
-    errors.push(outdent`Found typings field in package.json. Use types instead.`)
-  }
   return errors
 }
 
@@ -123,18 +115,12 @@ export async function validateTsConfig(
   const errors: string[] = []
 
   const expectedCompilerOptions = {
-    moduleResolution: 'node',
     target: 'esnext',
-    module: 'esnext',
-    emitDeclarationOnly: true,
-    esModuleInterop: true,
-    skipLibCheck: true,
-    isolatedModules: true,
-    downlevelIteration: true,
-    declaration: true,
-    allowSyntheticDefaultImports: true,
+    jsx: 'preserve',
+    module: 'preserve',
     rootDir: '.',
     outDir,
+    noEmit: true,
   }
 
   const wrongEntries = Object.entries(expectedCompilerOptions).filter(([key, value]) => {
@@ -148,16 +134,16 @@ export async function validateTsConfig(
       option = path.relative(basePath, option) || '.'
     }
 
-    if (key === 'moduleResolution' && option === 2) {
-      option = 'node'
-    }
-
     if (key === 'target' && option === 99) {
       option = 'esnext'
     }
 
-    if (key === 'module' && option === 99) {
-      option = 'esnext'
+    if (key === 'module' && option === 200) {
+      option = 'preserve'
+    }
+
+    if (key === 'jsx' && option === 1) {
+      option = 'preserve'
     }
 
     return typeof value === 'string' && typeof option === 'string'

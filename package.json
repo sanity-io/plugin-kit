@@ -21,9 +21,10 @@
   "license": "MIT",
   "author": "Sanity.io <hello@sanity.io>",
   "type": "commonjs",
+  "sideEffects": false,
+  "browserslist": "extends @sanity/browserslist-config",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
       "source": "./src/index.ts",
       "require": "./dist/index.js",
       "default": "./dist/index.js"
@@ -31,7 +32,6 @@
     "./package.json": "./package.json"
   },
   "main": "./dist/index.js",
-  "source": "./src/index.ts",
   "types": "./dist/index.d.ts",
   "bin": {
     "plugin-kit": "./bin/plugin-kit.js"
@@ -44,15 +44,15 @@
     "v2-incompatible.js"
   ],
   "scripts": {
-    "build": "run-s clean && pkg-utils build --strict && pkg-utils --strict",
-    "clean": "rimraf dist",
+    "build": "pkg-utils build --strict --check --clean",
     "commit": "git-cz",
+    "prepublishOnly": "npm run build",
     "compile": "tsc --build",
-    "format": "prettier src -w",
+    "format": "prettier src package.json -w",
     "lint": "eslint .",
     "prepare": "husky install",
-    "prepublishOnly": "run-s build",
     "test": "tap",
+    "test:update-snapshots": "tap --snapshot",
     "watch": "pkg-utils watch --strict"
   },
   "tap": {
@@ -69,7 +69,7 @@
   },
   "dependencies": {
     "@rexxars/choosealicense-list": "1.1.2",
-    "@sanity/pkg-utils": "3.3.8",
+    "@sanity/pkg-utils": "6.4.1",
     "chalk": "4.1.2",
     "concurrently": "8.2.0",
     "discover-path": "1.0.0",
@@ -89,7 +89,6 @@
     "p-any": "3.0.0",
     "p-props": "4.0.0",
     "postcss": "8.4.38",
-    "rimraf": "4.4.1",
     "semver": "7.5.4",
     "spdx-license-ids": "3.0.17",
     "validate-npm-package-name": "5.0.0",
@@ -100,6 +99,7 @@
     "@commitlint/cli": "19.2.1",
     "@commitlint/config-conventional": "19.1.0",
     "@sanity/semantic-release-preset": "4.1.7",
+    "rimraf": "^4.4.1",
     "@sanity/ui-workshop": "^1.2.11",
     "@types/eslint": "^8.56.8",
     "@types/fs-extra": "^11.0.4",
@@ -118,11 +118,9 @@
     "husky": "^8.0.3",
     "json5": "2.2.3",
     "lint-staged": "^13.3.0",
-    "npm-run-all2": "^5.0.0",
     "prettier": "^3.2.5",
     "prettier-plugin-packagejson": "^2.4.14",
     "readdirp": "^3.6.0",
-    "rimraf": "^4.4.1",
     "sanity": "3.20.2",
     "sinon": "^17.0.1",
     "tap": "^16.3.10",

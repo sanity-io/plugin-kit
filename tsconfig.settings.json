@@ -1,14 +1,22 @@
 {
   "compilerOptions": {
-    "target": "ESNext",
-    "module": "ESNext",
-    "lib": ["es2015", "es2016", "es2017"],
-    "moduleResolution": "node",
+    "rootDir": ".",
+    "outDir": "./dist",
+
+    "target": "esnext",
+    "jsx": "preserve",
+    "module": "preserve",
+    "moduleResolution": "bundler",
     "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "moduleDetection": "force",
     "strict": true,
-    "sourceMap": true,
-    "declaration": true,
     "allowSyntheticDefaultImports": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "isolatedModules": true,
+
+    // Don't emit by default, pkg-utils will ignore this when generating .d.ts files
+    "noEmit": true
   }
 }

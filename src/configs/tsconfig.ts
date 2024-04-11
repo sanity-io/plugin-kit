@@ -12,12 +12,7 @@ export function tsconfigTemplate(options: {flags: InitFlags}): InjectTemplate {
     value: outdent`
       {
         "extends": "./tsconfig.settings",
-        "include": ["./src", "./package.config.ts"],
-        "compilerOptions": {
-          "rootDir": ".",
-          "jsx": "react-jsx",
-          "noEmit": true
-        }
+        "include": ["./src", "./package.config.ts"]
       }
     `,
   }
@@ -39,20 +34,17 @@ export function tsconfigTemplateDist(options: {outDir: string; flags: InitFlags}
           "./src/**/__mocks__",
           "./src/**/*.test.ts",
           "./src/**/*.test.tsx"
-        ],
-        "compilerOptions": {
-          "rootDir": ".",
-          "outDir": "./${outDir}",
-          "jsx": "react-jsx",
-          "emitDeclarationOnly": true
-        }
+        ]
       }
     `,
   }
 }
 
-export function tsconfigTemplateSettings(options: {flags: InitFlags}): InjectTemplate {
-  const {flags} = options
+export function tsconfigTemplateSettings(options: {
+  outDir: string
+  flags: InitFlags
+}): InjectTemplate {
+  const {flags, outDir} = options
 
   return {
     type: 'template',
@@ -61,17 +53,24 @@ export function tsconfigTemplateSettings(options: {flags: InitFlags}): InjectTem
     value: outdent`
       {
         "compilerOptions": {
-          "moduleResolution": "node",
+          "rootDir": ".",
+          "outDir": "./${outDir}",
+
           "target": "esnext",
-          "module": "esnext",
-          "lib": ["DOM", "DOM.Iterable", "ESNext"],
+          "jsx": "preserve",
+          "module": "preserve",
+          "moduleResolution": "bundler",
           "esModuleInterop": true,
+          "resolveJsonModule": true,
+          "moduleDetection": "force",
           "strict": true,
-          "downlevelIteration": true,
-          "declaration": true,
           "allowSyntheticDefaultImports": true,
           "skipLibCheck": true,
-          "isolatedModules": true
+          "forceConsistentCasingInFileNames": true,
+          "isolatedModules": true,
+
+          // Don't emit by default, pkg-utils will ignore this when generating .d.ts files
+          "noEmit": true
         }
       }
     `,

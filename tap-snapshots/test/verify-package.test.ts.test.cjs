@@ -58,10 +58,10 @@ This checks for that the commands-strings includes these terms.
 
 Please add the following to your package.json "scripts":
 
-"build": "run-s clean && plugin-kit verify-package --silent && pkg-utils build --strict && pkg-utils --strict",
+"build": "plugin-kit verify-package --silent && pkg-utils build --strict --check --clean",
 "watch": "pkg-utils watch --strict",
 "link-watch": "plugin-kit link-watch",
-"prepublishOnly": "run-s build"
+"prepublishOnly": "npm run build"
 
 To skip this validation add the following to your package.json:
 "sanityPlugin": {
@@ -71,25 +71,21 @@ To skip this validation add the following to your package.json:
 }
 ----------------------------------------------------------
 [error] 
-Expected source, exports, main, module and files entries in package.json, but source, exports, main, module where missing.
+Expected exports, main, files entries in package.json, but exports, main where missing.
 
 Example:
 
 Given a plugin with entry-point in src/index.ts, using default @sanity/pkg-utils build command,
 package.json should contain the following entries to ensure that commonjs and esm outputs are built into dist:
 
-"source": "./src/index.ts",
 "exports": {
   ".": {
-    "types": "./dist/index.d.ts",
     "source": "./src/index.ts",
-    "require": "./dist/index.js",
-    "import": "./dist/index.esm.js",
+    "import": "./dist/index.mjs",
     "default": "./dist/index.js"
   }
 },
 "main": "./dist/index.js",
-"module": "./dist/index.esm.js",
 "types": "./dist/index.d.ts",
 "files": [
   "dist",
@@ -106,13 +102,13 @@ To skip this validation add the following to your package.json:
 }
 ----------------------------------------------------------
 [error] 
-Expected package.json to contain engines.node: ">=14" to ensure Studio compatible builds,
+Expected package.json to contain engines.node: ">=18" to ensure Studio compatible builds,
 but it was: undefined
 
 Please add the following to package.json:
 
 "engines": {
-  "node": ">=14"
+  "node": ">=18"
 }
 
 To skip this validation add the following to your package.json:
@@ -150,20 +146,14 @@ To skip this validation add the following to your package.json:
 [error] 
 Recommended tsconfig.json compilerOptions missing:
 
-The following fields had unexpected values: [moduleResolution, target, module, emitDeclarationOnly, esModuleInterop, skipLibCheck, isolatedModules, downlevelIteration, declaration, allowSyntheticDefaultImports, rootDir, outDir]
+The following fields had unexpected values: [target, jsx, module, rootDir, outDir, noEmit]
 Expected to find these values:
-"moduleResolution": "node",
 "target": "esnext",
-"module": "esnext",
-"emitDeclarationOnly": true,
-"esModuleInterop": true,
-"skipLibCheck": true,
-"isolatedModules": true,
-"downlevelIteration": true,
-"declaration": true,
-"allowSyntheticDefaultImports": true,
+"jsx": "preserve",
+"module": "preserve",
 "rootDir": ".",
 "outDir": "dist",
+"noEmit": true,
 
 Please update your tsconfig.json accordingly.
 

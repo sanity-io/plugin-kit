@@ -12,15 +12,15 @@
   },
   "license": "MIT",
   "author": "Test Person <test.person@somewhere-on-the-internet.nowhere>",
+  "type": "commonjs",
   "exports": {
     ".": {
-      "require": "./dist/index.js",
-      "default": "./dist/index.esm.js"
+      "source": "./src/index.ts",
+      "import": "./dist/index.mjs",
+      "default": "./dist/index.js"
     }
   },
   "main": "./dist/index.js",
-  "module": "./dist/index.esm.js",
-  "source": "./src/index.ts",
   "types": "./dist/index.d.ts",
   "files": [
     "src",
@@ -29,18 +29,17 @@
     "sanity.json"
   ],
   "scripts": {
-    "build": "run-s clean && plugin-kit verify-package --silent && pkg-utils build --strict && pkg-utils --strict",
-    "clean": "rimraf dist",
+    "build": "plugin-kit verify-package --silent && pkg-utils build --strict --check --clean",
     "link-watch": "plugin-kit link-watch",
     "lint": "eslint .",
-    "prepublishOnly": "run-s build",
+    "prepublishOnly": "npm run build",
     "watch": "pkg-utils watch --strict"
   },
   "dependencies": {
     "@sanity/incompatible-plugin": "^0.0.1-studio-v3.1"
   },
   "devDependencies": {
-    "@sanity/pkg-utils": "^2.0.6",
+    "@sanity/pkg-utils": "^6.4.1",
     "@sanity/plugin-kit": "^0.0.1-studio-v3.1",
     "@typescript-eslint/eslint-plugin": "^5.27.1",
     "@typescript-eslint/parser": "^5.27.1",
@@ -50,20 +49,18 @@
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.30.0",
     "eslint-plugin-react-hooks": "^4.5.0",
-    "npm-run-all": "^4.1.5",
     "prettier": "^2.6.2",
     "prettier-plugin-packagejson": "^2.3.0",
     "react": "^18.2.0",
-    "rimraf": "^4.1.2",
     "sanity": "^3.0.0",
-    "typescript": "^4.7.3"
+    "typescript": "^5.4.5"
   },
   "peerDependencies": {
     "react": "^18",
     "sanity": "^3.0.0"
   },
   "engines": {
-    "node": ">=14"
+    "node": ">=18"
   },
   "sanityPlugin": {
     "verifyPackage": {

@@ -60,7 +60,7 @@ tap.test('plugin-kit init -> verify-package -> tsc > pkg-utils build', async (t)
 
       t.strictSame(
         await contents(path.join(outputDir, 'dist')),
-        ['index.d.ts', 'index.esm.js', 'index.esm.js.map', 'index.js', 'index.js.map'].map(
+        ['index.d.mts', 'index.d.ts', 'index.js', 'index.js.map', 'index.mjs', 'index.mjs.map'].map(
           normalize,
         ),
         'should output expected files to dist',
