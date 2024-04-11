@@ -5,6 +5,28 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.0.0](https://github.com/sanity-io/plugin-kit/compare/v3.1.12...v4.0.0) (2024-04-11)
+
+### ⚠ BREAKING CHANGES
+
+- **deps:** Update dependency @sanity/pkg-utils to v6.6.0 (#168)
+- pkg-utils validates if `exports` are missing (#167)
+
+### Bug Fixes
+
+- **deps:** Update dependency @sanity/pkg-utils to v3.3.8 ([#152](https://github.com/sanity-io/plugin-kit/issues/152)) ([0fb9424](https://github.com/sanity-io/plugin-kit/commit/0fb94249a2e68e30a7f8fd96504b457132de1265))
+- **deps:** Update dependency @sanity/pkg-utils to v6 ([#161](https://github.com/sanity-io/plugin-kit/issues/161)) ([7ae5bd3](https://github.com/sanity-io/plugin-kit/commit/7ae5bd35ed8e0c492ebc2d9e6cab5e663052aaef))
+- **deps:** Update dependency @sanity/pkg-utils to v6.6.0 ([#168](https://github.com/sanity-io/plugin-kit/issues/168)) ([b3d525b](https://github.com/sanity-io/plugin-kit/commit/b3d525b3125c4c02c60eefe56120ba12e952b754))
+- **deps:** Update dependency get-it to v8.4.19 ([#149](https://github.com/sanity-io/plugin-kit/issues/149)) ([4a06208](https://github.com/sanity-io/plugin-kit/commit/4a06208b37bd78872d3bd135ee5e37cd33641005))
+- **deps:** Update dependency get-it to v8.4.20 ([#163](https://github.com/sanity-io/plugin-kit/issues/163)) ([9535972](https://github.com/sanity-io/plugin-kit/commit/9535972e216cf8c5077a914a273aecd05bf78a3b))
+- **deps:** Update dependency get-it to v8.4.21 ([#164](https://github.com/sanity-io/plugin-kit/issues/164)) ([d3ee8a3](https://github.com/sanity-io/plugin-kit/commit/d3ee8a3d12ff1235582368f4814d428c87a985c8))
+- **deps:** Update dependency nodemon to v3.1.0 ([#153](https://github.com/sanity-io/plugin-kit/issues/153)) ([34fb024](https://github.com/sanity-io/plugin-kit/commit/34fb024b63b7985274114f32885cef3df638c75a))
+- **deps:** Update dependency npm-packlist to v8 ([#127](https://github.com/sanity-io/plugin-kit/issues/127)) ([1c09909](https://github.com/sanity-io/plugin-kit/commit/1c0990927e4f454b13ca0f060c409149cab97940))
+- **deps:** Update dependency postcss to v8.4.38 ([#150](https://github.com/sanity-io/plugin-kit/issues/150)) ([289a700](https://github.com/sanity-io/plugin-kit/commit/289a70022bc888a2592a3432c0bf27301209cd16))
+- **deps:** Update dependency spdx-license-ids to v3.0.17 ([#151](https://github.com/sanity-io/plugin-kit/issues/151)) ([af392af](https://github.com/sanity-io/plugin-kit/commit/af392af4531a7d752069e61f761d23de259f569e))
+- pin dependencies ([#141](https://github.com/sanity-io/plugin-kit/issues/141)) ([167f801](https://github.com/sanity-io/plugin-kit/commit/167f8012d0c96e036eb416a16a5fd155d559a0e2))
+- pkg-utils validates if `exports` are missing ([#167](https://github.com/sanity-io/plugin-kit/issues/167)) ([3daaa3d](https://github.com/sanity-io/plugin-kit/commit/3daaa3dbdf948ecd1da3b7dca419bf50e93eb8da))
+
 ## [3.1.12](https://github.com/sanity-io/plugin-kit/compare/v3.1.11...v3.1.12) (2024-04-11)
 
 ### Bug Fixes

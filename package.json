@@ -1,6 +1,6 @@
 {
   "name": "@sanity/plugin-kit",
-  "version": "3.1.13-canary.0",
+  "version": "4.0.0",
   "description": "Enhanced Sanity.io plugin development experience",
   "keywords": [
     "sanity-io",
