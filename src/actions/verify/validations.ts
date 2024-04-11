@@ -10,11 +10,10 @@ import {PackageJson, SanityStudioJson, SanityV2Json} from './types'
 import {ParsedCommandLine} from 'typescript'
 
 export const expectedScripts = {
-  build:
-    'run-s clean && plugin-kit verify-package --silent && pkg-utils build --strict && pkg-utils --strict',
+  build: 'plugin-kit verify-package --silent && pkg-utils build --strict --check --clean',
   watch: 'pkg-utils watch --strict',
   'link-watch': 'plugin-kit link-watch',
-  prepublishOnly: 'run-s build',
+  prepublishOnly: 'npm run build',
 }
 
 const expectedModulesFields = ['source', 'exports', 'main', 'module', 'files']

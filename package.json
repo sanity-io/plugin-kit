@@ -46,7 +46,7 @@
   "scripts": {
     "build": "pkg-utils build --strict --check --clean",
     "commit": "git-cz",
-    "prepublishOnly": "run-s build",
+    "prepublishOnly": "npm run build",
     "compile": "tsc --build",
     "format": "prettier src package.json -w",
     "lint": "eslint .",
@@ -117,7 +117,6 @@
     "husky": "^8.0.3",
     "json5": "2.2.3",
     "lint-staged": "^13.3.0",
-    "npm-run-all2": "^5.0.0",
     "prettier": "^3.2.5",
     "prettier-plugin-packagejson": "^2.4.14",
     "readdirp": "^3.6.0",

@@ -114,7 +114,7 @@ tap.test('plugin-kit init --force in empty directory', async (t) => {
             url: 'https://github.com/sanity-io/sanity',
           },
           engines: {
-            node: '>=14',
+            node: '>=18',
           },
           bugs: {
             url: 'https://github.com/sanity-io/sanity/issues',

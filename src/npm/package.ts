@@ -21,17 +21,12 @@ import {
 const defaultDependencies = [incompatiblePluginPackage]
 
 const defaultDevDependencies = [
-  'npm-run-all',
-  'rimraf',
   'sanity',
 
   // peer dependencies of `sanity`
   'react',
   'react-dom',
   'styled-components',
-
-  // peer dependencies of `styled-components`
-  'react-is',
 ]
 
 const defaultPeerDependencies = ['react', 'sanity']
@@ -292,19 +287,17 @@ export async function writePackageJson(data: PackageData, options: InjectOptions
     ...repoFromOrigin(gitOrigin),
     license: license ? license.id : 'UNLICENSED',
     author: user?.email ? `${user.name} <${user.email}>` : user?.name,
+    sideEffects: false,
+    type: 'module',
     exports: {
       '.': {
-        ...(flags.typescript ? {types: `./${outDir}/index.d.ts`} : {}),
         source,
-        import: `./${outDir}/index.esm.js`,
-        require: `./${outDir}/index.js`,
-        default: `./${outDir}/index.esm.js`,
+        require: `./${outDir}/index.cjs`,
+        default: `./${outDir}/index.js`,
       },
       './package.json': './package.json',
     },
-    main: `./${outDir}/index.js`,
-    module: `./${outDir}/index.esm.js`,
-    source,
+    main: `./${outDir}/index.cjs`,
     ...(flags.typescript ? {types: `./${outDir}/index.d.ts`} : {}),
     files,
     scripts: {...prev.scripts},
@@ -312,7 +305,7 @@ export async function writePackageJson(data: PackageData, options: InjectOptions
     devDependencies: sortKeys(devDependencies),
     peerDependencies: sortKeys(peerDependencies),
     engines: {
-      node: '>=14',
+      node: '>=16.14',
     },
   }
 
