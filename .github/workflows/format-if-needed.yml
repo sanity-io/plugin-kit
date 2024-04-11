@@ -18,7 +18,7 @@ jobs:
     name: Can the code be formatted? 🤔
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: actions/setup-node@v3
         with:
           cache: npm
@@ -40,7 +40,7 @@ jobs:
           author: github-actions <41898282+github-actions[bot]@users.noreply.github.com>
           body: I ran `npm run format` 🧑‍💻
           branch: actions/format
-          commit-message: "chore(format): 🤖 ✨"
+          commit-message: 'chore(format): 🤖 ✨'
           labels: 🤖 bot
-          title: "chore(format): 🤖 ✨"
+          title: 'chore(format): 🤖 ✨'
           token: ${{ steps.generate-token.outputs.token }}
