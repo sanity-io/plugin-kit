@@ -23,11 +23,11 @@ function filesWithSuffixes(fileBases: string[], suffixes: string[]): string[] {
 }
 
 export function validateNodeEngine(packageJson: PackageJson) {
-  const nodeVersionRange = '>=14'
+  const nodeVersionRange = '>=18'
   if (!packageJson.engines?.node?.startsWith(nodeVersionRange)) {
     return [
       outdent`
-        Expected package.json to contain engines.node: ">=14" to ensure Studio compatible builds,
+        Expected package.json to contain engines.node: ">=18" to ensure Studio compatible builds,
         but it was: ${packageJson.engines?.node}
 
         Please add the following to package.json:
@@ -48,7 +48,7 @@ export function validateModule(packageJson: PackageJson, options: {outDir: strin
   if (missingFields.length) {
     errors.push(
       outdent`
-        Expected source, exports, main, module and files entries in package.json, but ${missingFields.join(
+        Expected exports, main, files entries in package.json, but ${missingFields.join(
           ', ',
         )} where missing.
 
@@ -57,7 +57,6 @@ export function validateModule(packageJson: PackageJson, options: {outDir: strin
         Given a plugin with entry-point in src/index.ts, using default @sanity/pkg-utils build command,
         package.json should contain the following entries to ensure that commonjs and esm outputs are built into ${outDir}:
 
-        "source": "./src/index.ts",
         "exports": {
           ".": {
             "source": "./src/index.ts",

@@ -17,14 +17,11 @@
     ".": {
       "types": "./dist/index.d.ts",
       "source": "./src/index.ts",
-      "import": "./dist/index.esm.js",
       "require": "./dist/index.js",
       "default": "./dist/index.js"
     }
   },
   "main": "./dist/index.js",
-  "module": "./dist/index.esm.js",
-  "source": "./src/index.ts",
   "types": "./dist/index.d.ts",
   "files": [
     "dist",

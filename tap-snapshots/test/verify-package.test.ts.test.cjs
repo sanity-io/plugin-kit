@@ -66,14 +66,13 @@ To skip this validation add the following to your package.json:
 }
 ----------------------------------------------------------
 [error] 
-Expected source, exports, main, module and files entries in package.json, but exports, main where missing.
+Expected exports, main, files entries in package.json, but exports, main where missing.
 
 Example:
 
 Given a plugin with entry-point in src/index.ts, using default @sanity/pkg-utils build command,
 package.json should contain the following entries to ensure that commonjs and esm outputs are built into dist:
 
-"source": "./src/index.ts",
 "exports": {
   ".": {
     "source": "./src/index.ts",
@@ -98,13 +97,13 @@ To skip this validation add the following to your package.json:
 }
 ----------------------------------------------------------
 [error] 
-Expected package.json to contain engines.node: ">=14" to ensure Studio compatible builds,
+Expected package.json to contain engines.node: ">=18" to ensure Studio compatible builds,
 but it was: undefined
 
 Please add the following to package.json:
 
 "engines": {
-  "node": ">=14"
+  "node": ">=18"
 }
 
 To skip this validation add the following to your package.json:
