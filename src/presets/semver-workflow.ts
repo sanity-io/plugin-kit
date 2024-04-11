@@ -78,9 +78,8 @@ async function updateReadme(options: InjectOptions) {
   const readmePath = path.join(basePath, 'README.md')
   const readme = (await readFile(readmePath, 'utf8').catch(errorToUndefined)) ?? ''
 
-  const {v3Banner, install, usage, developTest, license, releaseSnippet} = await readmeSnippets(
-    options,
-  )
+  const {v3Banner, install, usage, developTest, license, releaseSnippet} =
+    await readmeSnippets(options)
 
   const prependSections = missingSections(readme, [v3Banner, install, usage])
   const appendSections = missingSections(readme, [license, developTest, releaseSnippet])
