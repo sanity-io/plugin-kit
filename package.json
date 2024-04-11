@@ -91,7 +91,7 @@
     "postcss": "8.4.32",
     "rimraf": "4.4.1",
     "semver": "7.5.4",
-    "spdx-license-ids": "3.0.13",
+    "spdx-license-ids": "3.0.17",
     "validate-npm-package-name": "5.0.0",
     "xdg-basedir": "4.0.0",
     "yalc": "1.0.0-pre.53"
