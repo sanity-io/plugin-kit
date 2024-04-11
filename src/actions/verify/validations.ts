@@ -16,7 +16,7 @@ export const expectedScripts = {
   prepublishOnly: 'npm run build',
 }
 
-const expectedModulesFields = ['source', 'exports', 'main', 'module', 'files']
+const expectedModulesFields = ['exports', 'main', 'files']
 
 function filesWithSuffixes(fileBases: string[], suffixes: string[]): string[] {
   return fileBases.flatMap((file) => suffixes.map((suffix) => `${file}.${suffix}`))
@@ -60,15 +60,12 @@ export function validateModule(packageJson: PackageJson, options: {outDir: strin
         "source": "./src/index.ts",
         "exports": {
           ".": {
-            "types": "./${outDir}/index.d.ts",
             "source": "./src/index.ts",
-            "require": "./${outDir}/index.js",
-            "import": "./${outDir}/index.esm.js",
+            "require": "./${outDir}/index.cjs",
             "default": "./${outDir}/index.js"
           }
         },
-        "main": "./${outDir}/index.js",
-        "module": "./${outDir}/index.esm.js",
+        "main": "./${outDir}/index.cjs",
         "types": "./${outDir}/index.d.ts",
         "files": [
           "${outDir}",
@@ -122,18 +119,20 @@ export async function validateTsConfig(
   const errors: string[] = []
 
   const expectedCompilerOptions = {
-    moduleResolution: 'node',
     target: 'esnext',
-    module: 'esnext',
-    emitDeclarationOnly: true,
+    jsx: 'preserve',
+    module: 'preserve',
+    moduleResolution: 'bundler',
     esModuleInterop: true,
+    resolveJsonModule: true,
+    moduleDetection: 'force',
     skipLibCheck: true,
     isolatedModules: true,
-    downlevelIteration: true,
-    declaration: true,
     allowSyntheticDefaultImports: true,
+    forceConsistentCasingInFileNames: true,
     rootDir: '.',
     outDir,
+    noEmit: true,
   }
 
   const wrongEntries = Object.entries(expectedCompilerOptions).filter(([key, value]) => {

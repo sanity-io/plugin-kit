@@ -13,7 +13,6 @@ export function pkgConfigTemplate(options: {outDir: string; flags: InitFlags}): 
       import {defineConfig} from '@sanity/pkg-utils'
 
       export default defineConfig({
-        legacyExports: true,
         dist: '${outDir}',
         tsconfig: 'tsconfig.${outDir}.json',
 
