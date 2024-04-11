@@ -1,12 +1,5 @@
 {
   "extends": "./tsconfig.settings.json",
   "include": ["./src", "./test", "./package.config.ts"],
-  "exclude": ["./test/fixtures", "./test/ignore"],
-  "compilerOptions": {
-    "noEmit": true,
-    "resolveJsonModule": true,
-
-    // For `tap`
-    "module": "CommonJS"
-  }
+  "exclude": ["./test/fixtures", "./test/ignore"]
 }
