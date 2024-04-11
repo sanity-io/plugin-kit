@@ -60,11 +60,11 @@ export function validateModule(packageJson: PackageJson, options: {outDir: strin
         "exports": {
           ".": {
             "source": "./src/index.ts",
-            "require": "./${outDir}/index.cjs",
+            "import": "./${outDir}/index.mjs",
             "default": "./${outDir}/index.js"
           }
         },
-        "main": "./${outDir}/index.cjs",
+        "main": "./${outDir}/index.js",
         "types": "./${outDir}/index.d.ts",
         "files": [
           "${outDir}",
@@ -118,14 +118,6 @@ export async function validateTsConfig(
     target: 'esnext',
     jsx: 'preserve',
     module: 'preserve',
-    moduleResolution: 'bundler',
-    esModuleInterop: true,
-    resolveJsonModule: true,
-    moduleDetection: 'force',
-    skipLibCheck: true,
-    isolatedModules: true,
-    allowSyntheticDefaultImports: true,
-    forceConsistentCasingInFileNames: true,
     rootDir: '.',
     outDir,
     noEmit: true,
@@ -142,16 +134,16 @@ export async function validateTsConfig(
       option = path.relative(basePath, option) || '.'
     }
 
-    if (key === 'moduleResolution' && option === 2) {
-      option = 'node'
-    }
-
     if (key === 'target' && option === 99) {
       option = 'esnext'
     }
 
-    if (key === 'module' && option === 99) {
-      option = 'esnext'
+    if (key === 'module' && option === 200) {
+      option = 'preserve'
+    }
+
+    if (key === 'jsx' && option === 1) {
+      option = 'preserve'
     }
 
     return typeof value === 'string' && typeof option === 'string'

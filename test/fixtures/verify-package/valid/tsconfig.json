@@ -5,6 +5,9 @@
     "target": "esnext",
     "module": "preserve",
     "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "moduleDetection": "force",
+    "forceConsistentCasingInFileNames": true,
     "lib": ["es2015", "es2016", "es2017", "dom"],
     "strict": true,
     "sourceMap": false,
@@ -18,8 +21,8 @@
     "skipLibCheck": true,
     "isolatedModules": true,
     "checkJs": false,
-    "rootDir": ".",
-    "emitDeclarationOnly": true
+    "noEmit": true,
+    "rootDir": "."
   },
   "include": ["src/**/*"]
 }

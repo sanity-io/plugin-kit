@@ -6,7 +6,12 @@
  */
 'use strict'
 exports[`test/verify-package.test.ts TAP plugin-kit verify-package in ok package > stdout should match snapshot 1`] = `
+[success] No outstanding upgrade issues detected.
 
+Suggested next steps:
+  - Use plugin-kit to build and develop the plugin according to https://github.com/sanity-io/plugin-kit.
+  - Build the plugin and fix any compilation errors
+  - Test the plugin using the link-watch command
 `
 
 exports[`test/verify-package.test.ts TAP plugin-kit verify-package in package with all checks failing > stderr should match snapshot 1`] = `
@@ -76,11 +81,11 @@ package.json should contain the following entries to ensure that commonjs and es
 "exports": {
   ".": {
     "source": "./src/index.ts",
-    "require": "./dist/index.cjs",
+    "import": "./dist/index.mjs",
     "default": "./dist/index.js"
   }
 },
-"main": "./dist/index.cjs",
+"main": "./dist/index.js",
 "types": "./dist/index.d.ts",
 "files": [
   "dist",
@@ -141,19 +146,11 @@ To skip this validation add the following to your package.json:
 [error] 
 Recommended tsconfig.json compilerOptions missing:
 
-The following fields had unexpected values: [target, jsx, module, moduleResolution, esModuleInterop, resolveJsonModule, moduleDetection, skipLibCheck, isolatedModules, allowSyntheticDefaultImports, forceConsistentCasingInFileNames, rootDir, outDir, noEmit]
+The following fields had unexpected values: [target, jsx, module, rootDir, outDir, noEmit]
 Expected to find these values:
 "target": "esnext",
 "jsx": "preserve",
 "module": "preserve",
-"moduleResolution": "bundler",
-"esModuleInterop": true,
-"resolveJsonModule": true,
-"moduleDetection": "force",
-"skipLibCheck": true,
-"isolatedModules": true,
-"allowSyntheticDefaultImports": true,
-"forceConsistentCasingInFileNames": true,
 "rootDir": ".",
 "outDir": "dist",
 "noEmit": true,

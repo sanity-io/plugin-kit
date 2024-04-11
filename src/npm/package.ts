@@ -288,16 +288,16 @@ export async function writePackageJson(data: PackageData, options: InjectOptions
     license: license ? license.id : 'UNLICENSED',
     author: user?.email ? `${user.name} <${user.email}>` : user?.name,
     sideEffects: false,
-    type: 'module',
+    type: 'commonjs',
     exports: {
       '.': {
         source,
-        require: `./${outDir}/index.cjs`,
+        import: `./${outDir}/index.mjs`,
         default: `./${outDir}/index.js`,
       },
       './package.json': './package.json',
     },
-    main: `./${outDir}/index.cjs`,
+    main: `./${outDir}/index.js`,
     ...(flags.typescript ? {types: `./${outDir}/index.d.ts`} : {}),
     files,
     scripts: {...prev.scripts},
@@ -305,7 +305,7 @@ export async function writePackageJson(data: PackageData, options: InjectOptions
     devDependencies: sortKeys(devDependencies),
     peerDependencies: sortKeys(peerDependencies),
     engines: {
-      node: '>=16.14',
+      node: '>=18',
     },
   }
 

@@ -12,15 +12,15 @@
   },
   "license": "MIT",
   "author": "Test Person <test.person@somewhere-on-the-internet.nowhere>",
-  "type": "module",
+  "type": "commonjs",
   "exports": {
     ".": {
       "source": "./src/index.ts",
-      "require": "./dist/index.cjs",
+      "import": "./dist/index.mjs",
       "default": "./dist/index.js"
     }
   },
-  "main": "./dist/index.cjs",
+  "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [
     "src",
@@ -53,7 +53,7 @@
     "prettier-plugin-packagejson": "^2.3.0",
     "react": "^18.2.0",
     "sanity": "^3.0.0",
-    "typescript": "^4.7.3"
+    "typescript": "^5.4.5"
   },
   "peerDependencies": {
     "react": "^18",

@@ -62,7 +62,6 @@ async function resolveDevDependencyList(): Promise<Record<string, string>> {
     // install the peer dependencies of `@sanity/ui` as dev dependencies
     'react',
     'react-dom',
-    'react-is',
     'styled-components',
   ])
 }
