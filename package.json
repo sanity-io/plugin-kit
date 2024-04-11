@@ -20,9 +20,8 @@
   },
   "license": "MIT",
   "author": "Sanity.io <hello@sanity.io>",
-  "type": "commonjs",
   "sideEffects": false,
-  "browserslist": "extends @sanity/browserslist-config",
+  "type": "commonjs",
   "exports": {
     ".": {
       "source": "./src/index.ts",
@@ -46,15 +45,16 @@
   "scripts": {
     "build": "pkg-utils build --strict --check --clean",
     "commit": "git-cz",
-    "prepublishOnly": "npm run build",
     "compile": "tsc --build",
     "format": "prettier src package.json -w",
     "lint": "eslint .",
     "prepare": "husky install",
+    "prepublishOnly": "npm run build",
     "test": "tap",
     "test:update-snapshots": "tap --snapshot",
     "watch": "pkg-utils watch --strict"
   },
+  "browserslist": "extends @sanity/browserslist-config",
   "tap": {
     "browser": false,
     "check-coverage": false,
@@ -99,7 +99,6 @@
     "@commitlint/cli": "19.2.1",
     "@commitlint/config-conventional": "19.1.0",
     "@sanity/semantic-release-preset": "4.1.7",
-    "rimraf": "^4.4.1",
     "@sanity/ui-workshop": "^1.2.11",
     "@types/eslint": "^8.56.8",
     "@types/fs-extra": "^11.0.4",
@@ -121,6 +120,7 @@
     "prettier": "^3.2.5",
     "prettier-plugin-packagejson": "^2.4.14",
     "readdirp": "^3.6.0",
+    "rimraf": "^4.4.1",
     "sanity": "3.20.2",
     "sinon": "^17.0.1",
     "tap": "^16.3.10",
