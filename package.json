@@ -136,8 +136,7 @@
     "node": ">=14"
   },
   "publishConfig": {
-    "access": "public",
-    "provenance": true
+    "access": "public"
   },
   "binname": "sanity-plugin"
 }
