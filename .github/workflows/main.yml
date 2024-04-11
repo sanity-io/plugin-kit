@@ -4,11 +4,8 @@ name: CI & Release
 # Workflow name based on selected inputs. Fallback to default Github naming when expression evaluates to empty string
 run-name: >-
   ${{
-    inputs.release && inputs.test && 'Build ➤ Test ➤ Publish to NPM' ||
-    inputs.release && !inputs.test && 'Build ➤ Skip Tests ➤ Publish to NPM' ||
-    github.event_name == 'workflow_dispatch' && inputs.test && 'Build ➤ Test' ||
-    github.event_name == 'workflow_dispatch' && !inputs.test && 'Build ➤ Skip Tests' ||
-    ''
+    inputs.release && 'Test ➤ Publish to NPM' ||
+    'Test'
   }}
 
 on:
@@ -17,14 +14,11 @@ on:
   # Build on commits pushed to branches without a PR if it's in the allowlist
   push:
     branches: [main]
+  # Also run as part of merge queues
+  merge_group:
   # https://docs.github.com/en/actions/managing-workflow-runs/manually-running-a-workflow
   workflow_dispatch:
     inputs:
-      test:
-        description: Run tests
-        required: true
-        default: true
-        type: boolean
       release:
         description: Release new version
         required: true
@@ -45,22 +39,19 @@ jobs:
     runs-on: ubuntu-latest
     name: Lint & Build
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           cache: npm
           node-version: lts/*
       - run: npm clean-install
-        # Linting can be skipped
       - run: npm run lint
-        if: github.event.inputs.test != 'false'
         # But not the build script, as semantic-release will crash if this command fails so it makes sense to test it early
       - run: npm run prepublishOnly
 
   test:
     needs: build
     # The test matrix can be skipped, in case a new release needs to be fast-tracked and tests are already passing on main
-    if: github.event.inputs.test != 'false'
     runs-on: ${{ matrix.os }}
     name: Node.js ${{ matrix.node }} / ${{ matrix.os }}
     strategy:
@@ -86,8 +77,8 @@ jobs:
         run: |
           git config --global core.autocrlf false
           git config --global core.eol lf
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           cache: npm
           node-version: ${{ matrix.node }}
@@ -96,9 +87,6 @@ jobs:
 
   release:
     permissions:
-      contents: write # to be able to publish a GitHub release
-      issues: write # to be able to comment on released issues
-      pull-requests: write # to be able to comment on released pull requests
       id-token: write # to enable use of OIDC for npm provenance
     needs: [build, test]
     # only run if opt-in during workflow_dispatch
@@ -106,12 +94,21 @@ jobs:
     runs-on: ubuntu-latest
     name: Semantic release
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/create-github-app-token@v1
+        id: app-token
+        with:
+          app-id: ${{ secrets.ECOSPARK_APP_ID }}
+          private-key: ${{ secrets.ECOSPARK_APP_PRIVATE_KEY }}
+      - uses: actions/checkout@v4
         with:
           # Need to fetch entire commit history to
           # analyze every commit since last release
           fetch-depth: 0
-      - uses: actions/setup-node@v3
+          # Uses generated token to allow pushing commits back when strict branch rules are used
+          token: ${{ steps.app-token.outputs.token }}
+          # Make sure the value of GITHUB_TOKEN will not be persisted in repo's config
+          persist-credentials: false
+      - uses: actions/setup-node@v4
         with:
           cache: npm
           node-version: lts/*
@@ -124,5 +121,5 @@ jobs:
         if: always()
         env:
           NPM_CONFIG_PROVENANCE: true
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
           NPM_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
