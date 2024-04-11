@@ -1,5 +1,10 @@
 {
   "extends": "./tsconfig.settings.json",
   "include": ["./src", "./test", "./package.config.ts"],
-  "exclude": ["./test/fixtures", "./test/ignore"]
+  "exclude": ["./test/fixtures", "./test/ignore"],
+  "ts-node": {
+    "compilerOptions": {
+      "module": "CommonJS"
+    }
+  }
 }
