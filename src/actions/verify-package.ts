@@ -12,7 +12,6 @@ import {
 } from './verify/verify-common'
 import {
   validateBabelConfig,
-  validateModule,
   validateNodeEngine,
   validatePackageName,
   validatePkgUtilsDependency,
@@ -46,7 +45,6 @@ export async function verifyPackage({basePath, flags}: {basePath: string; flags:
   await validation('pkg-utils', async () => validatePkgUtilsDependency(packageJson))
   await validation('srcIndex', async () => validateSrcIndexFile(basePath))
   await validation('scripts', async () => validateScripts(packageJson))
-  await validation('module', async () => validateModule(packageJson, {outDir}))
   await validation('nodeEngine', async () => validateNodeEngine(packageJson))
   await validation('duplicateConfig', async () =>
     disallowDuplicateEslintConfig(basePath, packageJson),
