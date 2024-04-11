@@ -412,7 +412,8 @@ root/schemas/schema.js
   2:1  error  'part:@sanity/base/schema-creator' import is restricted from being used by a pattern. part: imports where removed in Sanity v3. Please refer to the migration guide: https://beta.sanity.io/docs/platform/v2-to-v3, or new API-reference docs: https://beta.sanity.io/docs/reference       no-restricted-imports
   4:1  error  'all:part:@sanity/base/schema-type' import is restricted from being used by a pattern. all:part: imports where removed in Sanity v3. Please refer to the migration guide: https://beta.sanity.io/docs/platform/v2-to-v3, or new API-reference docs: https://beta.sanity.io/docs/reference  no-restricted-imports
 
-✖ 2 problems (2 errors, 0 warnings)
+✖ 3 problems (2 errors, 1 warning)
+  0 errors and 1 warning potentially fixable with the \`--fix\` option.
 ESLint detected Studio V2 imports that are no longer available.
 It is recommended configure @sanity/eslint-config-no-v2-imports for ESLint.
 
