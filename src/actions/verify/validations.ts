@@ -16,8 +16,6 @@ export const expectedScripts = {
   prepublishOnly: 'npm run build',
 }
 
-const expectedModulesFields = ['main', 'files']
-
 function filesWithSuffixes(fileBases: string[], suffixes: string[]): string[] {
   return fileBases.flatMap((file) => suffixes.map((suffix) => `${file}.${suffix}`))
 }
@@ -37,37 +35,6 @@ export function validateNodeEngine(packageJson: PackageJson) {
         }`.trimStart(),
     ]
   }
-}
-
-export function validateModule(packageJson: PackageJson, options: {outDir: string}): string[] {
-  const {outDir} = options
-  const errors: string[] = []
-
-  const missingFields = expectedModulesFields.filter((field) => !packageJson[field])
-
-  if (missingFields.length) {
-    errors.push(
-      outdent`
-        Expected main, files entries in package.json, but ${missingFields.join(', ')} where missing.
-
-        Example:
-
-        Given a plugin with entry-point in src/index.ts, using a default @sanity/pkg-utils build command,
-        the package.json should contain the following entries to ensure that commonjs and esm outputs are built into ${outDir}:
-
-        "main": "./${outDir}/index.ts",
-        "types": "./${outDir}/index.d.ts",
-        "files": [
-          "${outDir}",
-          "src"
-        ],
-
-        Refer to @sanity/pkg-utils for more: https://github.com/sanity-io/pkg-utils#sanitypkg-utils
-  `.trimStart(),
-    )
-  }
-
-  return errors
 }
 
 export function validateScripts(packageJson: PackageJson): string[] {

@@ -71,30 +71,6 @@ To skip this validation add the following to your package.json:
 }
 ----------------------------------------------------------
 [error] 
-Expected main, files entries in package.json, but main where missing.
-
-Example:
-
-Given a plugin with entry-point in src/index.ts, using a default @sanity/pkg-utils build command,
-the package.json should contain the following entries to ensure that commonjs and esm outputs are built into dist:
-
-"main": "./dist/index.ts",
-"types": "./dist/index.d.ts",
-"files": [
-  "dist",
-  "src"
-],
-
-Refer to @sanity/pkg-utils for more: https://github.com/sanity-io/pkg-utils#sanitypkg-utils
-
-To skip this validation add the following to your package.json:
-"sanityPlugin": {
-   "verifyPackage": {
-      "module": false
-   }
-}
-----------------------------------------------------------
-[error] 
 Expected package.json to contain engines.node: ">=18" to ensure Studio compatible builds,
 but it was: undefined
 
