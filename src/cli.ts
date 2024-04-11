@@ -4,6 +4,7 @@ import commands from './cmds'
 import sharedFlags from './sharedFlags'
 import {cliName} from './constants'
 
+/** @public */
 export async function cliEntry(argv = process.argv, autoExit = true) {
   const cli = meow(
     `

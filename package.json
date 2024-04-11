@@ -21,9 +21,10 @@
   "license": "MIT",
   "author": "Sanity.io <hello@sanity.io>",
   "type": "commonjs",
+  "sideEffects": false,
+  "browserslist": "extends @sanity/browserslist-config",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
       "source": "./src/index.ts",
       "require": "./dist/index.js",
       "default": "./dist/index.js"
@@ -31,7 +32,6 @@
     "./package.json": "./package.json"
   },
   "main": "./dist/index.js",
-  "source": "./src/index.ts",
   "types": "./dist/index.d.ts",
   "bin": {
     "plugin-kit": "./bin/plugin-kit.js"
@@ -44,14 +44,13 @@
     "v2-incompatible.js"
   ],
   "scripts": {
-    "build": "run-s clean && pkg-utils build --strict && pkg-utils --strict",
-    "clean": "rimraf dist",
+    "build": "pkg-utils build --strict --check --clean",
     "commit": "git-cz",
+    "prepublishOnly": "run-s build",
     "compile": "tsc --build",
-    "format": "prettier src -w",
+    "format": "prettier src package.json -w",
     "lint": "eslint .",
     "prepare": "husky install",
-    "prepublishOnly": "run-s build",
     "test": "tap",
     "watch": "pkg-utils watch --strict"
   },
