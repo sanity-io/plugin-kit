@@ -71,21 +71,14 @@ To skip this validation add the following to your package.json:
 }
 ----------------------------------------------------------
 [error] 
-Expected exports, main, files entries in package.json, but exports, main where missing.
+Expected main, files entries in package.json, but main where missing.
 
 Example:
 
-Given a plugin with entry-point in src/index.ts, using default @sanity/pkg-utils build command,
-package.json should contain the following entries to ensure that commonjs and esm outputs are built into dist:
+Given a plugin with entry-point in src/index.ts, using a default @sanity/pkg-utils build command,
+the package.json should contain the following entries to ensure that commonjs and esm outputs are built into dist:
 
-"exports": {
-  ".": {
-    "source": "./src/index.ts",
-    "import": "./dist/index.mjs",
-    "default": "./dist/index.js"
-  }
-},
-"main": "./dist/index.js",
+"main": "./dist/index.ts",
 "types": "./dist/index.d.ts",
 "files": [
   "dist",
