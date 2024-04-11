@@ -5,6 +5,14 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.1.11](https://github.com/sanity-io/plugin-kit/compare/v3.1.10...v3.1.11) (2024-04-11)
+
+### Bug Fixes
+
+- change ordering for `import` and `require` ([88bf94f](https://github.com/sanity-io/plugin-kit/commit/88bf94f2dd507abaf4673448670a203e08070589))
+- **docs:** fix command to install build tool ([cf131ba](https://github.com/sanity-io/plugin-kit/commit/cf131ba7e9320240fa7bdd5b8a971c2a474df478))
+- enable provenance on the CI ([d7d69cb](https://github.com/sanity-io/plugin-kit/commit/d7d69cbbc230a409d9767d087eac85663e4ddcd6))
+
 ## [3.1.10](https://github.com/sanity-io/plugin-kit/compare/v3.1.9...v3.1.10) (2023-08-11)
 
 ### Bug Fixes
