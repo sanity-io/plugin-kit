@@ -52,7 +52,7 @@
     "lint": "eslint .",
     "prepare": "husky install",
     "test": "tap",
-    "test:update-snapshot": "tap --snapshot",
+    "test:update-snapshots": "tap --snapshot",
     "watch": "pkg-utils watch --strict"
   },
   "tap": {

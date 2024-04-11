@@ -56,10 +56,10 @@ export function tsconfigTemplateSettings(options: {
           "rootDir": ".",
           "outDir": "./${outDir}",
 
-          "target": "ESNext",
+          "target": "esnext",
           "jsx": "preserve",
-          "module": "Preserve",
-          "moduleResolution": "Bundler",
+          "module": "preserve",
+          "moduleResolution": "bundler",
           "esModuleInterop": true,
           "resolveJsonModule": true,
           "moduleDetection": "force",

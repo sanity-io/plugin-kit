@@ -3,10 +3,10 @@
     "rootDir": ".",
     "outDir": "./dist",
 
-    "target": "ESNext",
+    "target": "esnext",
     "jsx": "preserve",
-    "module": "Preserve",
-    "moduleResolution": "Bundler",
+    "module": "preserve",
+    "moduleResolution": "bundler",
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "moduleDetection": "force",
