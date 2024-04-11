@@ -5,6 +5,12 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.1.12](https://github.com/sanity-io/plugin-kit/compare/v3.1.11...v3.1.12) (2024-04-11)
+
+### Bug Fixes
+
+- use a more secure release pipeline ([f5569c0](https://github.com/sanity-io/plugin-kit/commit/f5569c073b90937ba11628222d9118376bde5db9))
+
 ## [3.1.11](https://github.com/sanity-io/plugin-kit/compare/v3.1.10...v3.1.11) (2024-04-11)
 
 ### Bug Fixes
