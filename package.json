@@ -100,7 +100,7 @@
     "@commitlint/config-conventional": "19.1.0",
     "@sanity/semantic-release-preset": "4.1.7",
     "@sanity/ui-workshop": "^2.0.12",
-    "@types/eslint": "^8.56.8",
+    "@types/eslint": "^8.56.9",
     "@types/fs-extra": "^11.0.4",
     "@types/inquirer": "^9.0.3",
     "@types/node": "^18.17.4",
