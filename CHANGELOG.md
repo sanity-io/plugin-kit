@@ -5,6 +5,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.0.10](https://github.com/sanity-io/plugin-kit/compare/v4.0.9...v4.0.10) (2024-05-05)
+
+### Bug Fixes
+
+- **deps:** Update dependency @sanity/pkg-utils to v6.8.11 ([#206](https://github.com/sanity-io/plugin-kit/issues/206)) ([f0770d5](https://github.com/sanity-io/plugin-kit/commit/f0770d5be1f70cb3a8adaa85769d7dc88cb457a2))
+- **deps:** Update dependency get-it to v8.4.28 ([#207](https://github.com/sanity-io/plugin-kit/issues/207)) ([753d533](https://github.com/sanity-io/plugin-kit/commit/753d5337b600a7123228b2de027860428576c573))
+
 ## [4.0.9](https://github.com/sanity-io/plugin-kit/compare/v4.0.8...v4.0.9) (2024-05-02)
 
 ### Bug Fixes
