@@ -5,6 +5,14 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.0.16](https://github.com/sanity-io/plugin-kit/compare/v4.0.15...v4.0.16) (2024-05-24)
+
+### Bug Fixes
+
+- **deps:** Update dependency concurrently to v8.2.2 ([#224](https://github.com/sanity-io/plugin-kit/issues/224)) ([4826b88](https://github.com/sanity-io/plugin-kit/commit/4826b882ae4e31050e091294717c49d61b3ae197))
+- **deps:** Update dependency get-it to v8.5.0 ([#226](https://github.com/sanity-io/plugin-kit/issues/226)) ([12fcb23](https://github.com/sanity-io/plugin-kit/commit/12fcb23638a6444c9e2ef5a6ce122d6699a242a5))
+- **deps:** Update dependency spdx-license-ids to v3.0.18 ([#225](https://github.com/sanity-io/plugin-kit/issues/225)) ([39d0fb6](https://github.com/sanity-io/plugin-kit/commit/39d0fb62374937b714f2b390ccdd7be310e122a8))
+
 ## [4.0.15](https://github.com/sanity-io/plugin-kit/compare/v4.0.14...v4.0.15) (2024-05-23)
 
 ### Bug Fixes
