@@ -71,7 +71,7 @@
     "@rexxars/choosealicense-list": "1.1.2",
     "@sanity/pkg-utils": "6.8.18",
     "chalk": "4.1.2",
-    "concurrently": "8.2.0",
+    "concurrently": "8.2.2",
     "discover-path": "1.0.0",
     "email-validator": "2.0.4",
     "execa": "5.1.1",
