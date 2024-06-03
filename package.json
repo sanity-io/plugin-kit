@@ -98,7 +98,7 @@
   "devDependencies": {
     "@commitlint/cli": "19.3.0",
     "@commitlint/config-conventional": "19.2.2",
-    "@sanity/semantic-release-preset": "4.1.7",
+    "@sanity/semantic-release-preset": "4.1.8",
     "@sanity/ui-workshop": "^2.0.15",
     "@types/eslint": "^8.56.10",
     "@types/fs-extra": "^11.0.4",
