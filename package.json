@@ -69,7 +69,7 @@
   },
   "dependencies": {
     "@rexxars/choosealicense-list": "1.1.2",
-    "@sanity/pkg-utils": "6.8.19",
+    "@sanity/pkg-utils": "6.9.0",
     "chalk": "4.1.2",
     "concurrently": "8.2.2",
     "discover-path": "1.0.0",
