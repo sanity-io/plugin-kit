@@ -230,7 +230,7 @@ tap.test('plugin-kit init --force --preset semver-workflow in empty directory', 
         'should have expected devDependencies',
       )
 
-      t.strictSame(pkg.scripts?.prepare, 'husky install')
+      t.strictSame(pkg.scripts?.prepare, 'husky')
     },
   })
 })

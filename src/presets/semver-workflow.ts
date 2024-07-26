@@ -42,7 +42,7 @@ async function applyPreset(options: InjectOptions) {
 async function addPrepareScript(options: InjectOptions) {
   const pkg = await getPackage(options)
   const didWrite = await addPackageJsonScripts(pkg, options, (scripts) => {
-    scripts.prepare = addScript(`husky install`, scripts.prepare)
+    scripts.prepare = addScript(`husky`, scripts.prepare)
     return scripts
   })
   info(didWrite, 'Added prepare script to package.json')
