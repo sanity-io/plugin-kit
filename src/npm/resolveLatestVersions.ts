@@ -3,7 +3,7 @@ import getLatestVersion from 'get-latest-version'
 
 // We may want to lock certain dependencies to specific versions
 const lockedDependencies: Record<string, string> = {
-  'styled-components': '^5.2',
+  'styled-components': '^6.1',
   eslint: '^8.57.0',
 }
 
