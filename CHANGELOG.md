@@ -5,6 +5,25 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.0.18-fix-semantic-release.1](https://github.com/sanity-io/plugin-kit/compare/v4.0.17...v4.0.18-fix-semantic-release.1) (2024-08-01)
+
+### Bug Fixes
+
+- adjust locked `styled-components` version ([06cd611](https://github.com/sanity-io/plugin-kit/commit/06cd6115b366bdd4b7e9e090c2cec42a80fec99f))
+- **deps:** Update dependency @sanity/pkg-utils to v6.10.0 ([#251](https://github.com/sanity-io/plugin-kit/issues/251)) ([44a11e2](https://github.com/sanity-io/plugin-kit/commit/44a11e282350c367114e3ea4f35298aed0dffc87))
+- **deps:** Update dependency @sanity/pkg-utils to v6.10.1 ([#256](https://github.com/sanity-io/plugin-kit/issues/256)) ([49174b7](https://github.com/sanity-io/plugin-kit/commit/49174b7b243d4614b5855244442194263f67ccd6))
+- **deps:** Update dependency @sanity/pkg-utils to v6.10.6 ([51491a2](https://github.com/sanity-io/plugin-kit/commit/51491a278560e4df5a3fb1464f62b3043d3127f4))
+- **deps:** Update dependency @sanity/pkg-utils to v6.10.7 ([#268](https://github.com/sanity-io/plugin-kit/issues/268)) ([a276906](https://github.com/sanity-io/plugin-kit/commit/a27690632362b1fe3855ca867829da0ef640bdcc))
+- **deps:** Update dependency @sanity/pkg-utils to v6.9.3 ([#242](https://github.com/sanity-io/plugin-kit/issues/242)) ([faa349a](https://github.com/sanity-io/plugin-kit/commit/faa349a93fc2402598b092f24927db3b1bca2658))
+- **deps:** Update dependency get-it to v8.6.0 ([#244](https://github.com/sanity-io/plugin-kit/issues/244)) ([b50622d](https://github.com/sanity-io/plugin-kit/commit/b50622db2f661b3730c2d65fefb155f55e400fe6))
+- **deps:** Update dependency get-it to v8.6.1 ([#248](https://github.com/sanity-io/plugin-kit/issues/248)) ([723d07b](https://github.com/sanity-io/plugin-kit/commit/723d07bf3b6155423fa3975ab2242469dc5a6d93))
+- **deps:** Update dependency get-it to v8.6.2 ([#252](https://github.com/sanity-io/plugin-kit/issues/252)) ([0bfa52e](https://github.com/sanity-io/plugin-kit/commit/0bfa52e4aa055e9d14663454418b1251585061a6))
+- **deps:** Update dependency get-it to v8.6.3 ([#265](https://github.com/sanity-io/plugin-kit/issues/265)) ([9823bcc](https://github.com/sanity-io/plugin-kit/commit/9823bcc1f65fb283d0ed0f94257f9865dc0c832b))
+- **deps:** Update dependency postcss to v8.4.39 ([#253](https://github.com/sanity-io/plugin-kit/issues/253)) ([aba41cd](https://github.com/sanity-io/plugin-kit/commit/aba41cdc68eb60a97cb8e2afd3714e32874921cc))
+- **deps:** Update dependency postcss to v8.4.40 ([#266](https://github.com/sanity-io/plugin-kit/issues/266)) ([1d6615d](https://github.com/sanity-io/plugin-kit/commit/1d6615d1f204ebe7e26663995cb9d6c1523979c1))
+- migrate husky setup ([3a38d28](https://github.com/sanity-io/plugin-kit/commit/3a38d28dfcef7ca19deaa1025f064b18a49a3d14))
+- pin eslint version ([ca6ca8a](https://github.com/sanity-io/plugin-kit/commit/ca6ca8aa8d516174afd4a8bccdc826dbb6925b0c))
+
 ## [4.0.17](https://github.com/sanity-io/plugin-kit/compare/v4.0.16...v4.0.17) (2024-06-04)
 
 ### Bug Fixes
