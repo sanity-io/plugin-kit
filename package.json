@@ -136,5 +136,8 @@
   "publishConfig": {
     "access": "public"
   },
-  "binname": "sanity-plugin"
+  "binname": "sanity-plugin",
+  "overrides": {
+    "conventional-changelog-conventionalcommits": ">= 8.0.0"
+  }
 }
