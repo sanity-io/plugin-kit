@@ -5,13 +5,12 @@ import {PackageData} from '../actions/inject'
 import {User} from './user'
 
 export function generateReadme(data: PackageData) {
-  const {user, pluginName, license, description} = data
+  const {user, pluginName, license} = data
 
   return (
     outdent`
     # ${pluginName}
 
-    ${v3BannerNotice()}
 
     ${installationSnippet(pluginName ?? 'unknown')}
 
@@ -33,10 +32,6 @@ export function generateReadme(data: PackageData) {
     ${developTestSnippet()}
   ` + '\n'
   )
-}
-
-export function v3BannerNotice() {
-  return `> This is a **Sanity Studio v3** plugin.`
 }
 
 export function installationSnippet(packageName: string) {

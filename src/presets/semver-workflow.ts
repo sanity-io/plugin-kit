@@ -15,12 +15,7 @@ import path from 'path'
 import {readFile, writeFile} from '../util/files'
 import {errorToUndefined} from '../util/errorToUndefined'
 import {PackageJson} from '../actions/verify/types'
-import {
-  developTestSnippet,
-  getLicenseText,
-  installationSnippet,
-  v3BannerNotice,
-} from '../util/readme'
+import {developTestSnippet, getLicenseText, installationSnippet} from '../util/readme'
 import {getUserInfo} from '../util/user'
 
 export const semverWorkflowPreset: Preset = {
@@ -78,10 +73,9 @@ async function updateReadme(options: InjectOptions) {
   const readmePath = path.join(basePath, 'README.md')
   const readme = (await readFile(readmePath, 'utf8').catch(errorToUndefined)) ?? ''
 
-  const {v3Banner, install, usage, developTest, license, releaseSnippet} =
-    await readmeSnippets(options)
+  const {install, usage, developTest, license, releaseSnippet} = await readmeSnippets(options)
 
-  const prependSections = missingSections(readme, [v3Banner, install, usage])
+  const prependSections = missingSections(readme, [install, usage])
   const appendSections = missingSections(readme, [license, developTest, releaseSnippet])
 
   if (prependSections.length || appendSections.length) {
@@ -117,7 +111,6 @@ async function readmeSnippets(options: InjectOptions) {
   `
 
   return {
-    v3Banner: v3BannerNotice(),
     install,
     usage,
     license,
