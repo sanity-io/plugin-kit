@@ -1,6 +1,6 @@
 import path from 'path'
+import {execSync} from 'child_process'
 import xdgBasedir from 'xdg-basedir'
-import {getGitUserInfo as _getGitUserInfo} from 'git-user-info'
 import {validate as isValidEmail} from 'email-validator'
 import {readJsonFile} from './files'
 import {request} from './request'
@@ -98,8 +98,18 @@ async function getSanityUserInfo(): Promise<User | undefined> {
 }
 
 async function getGitUserInfo(): Promise<User | undefined> {
-  const user = await _getGitUserInfo()
-  return user ? {name: user.name, email: user.email} : undefined
+  try {
+    const name = execSync('git config user.name', {encoding: 'utf8'}).trim()
+    const email = execSync('git config user.email', {encoding: 'utf8'}).trim()
+
+    if (!name) {
+      return undefined
+    }
+
+    return {name, email: email || undefined}
+  } catch (err) {
+    return undefined
+  }
 }
 
 function filterString(val: string) {
