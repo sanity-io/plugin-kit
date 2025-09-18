@@ -67,9 +67,24 @@
     "timeout": 120,
     "ts": true
   },
+  "overrides": {
+    "@babel/helpers": "7.28.4",
+    "brace-expansion": "1.1.12",
+    "conventional-changelog-conventionalcommits": ">= 8.0.0",
+    "esbuild": "0.25.0",
+    "micromatch": "4.0.8",
+    "prismjs": "1.30.0",
+    "tap": {
+      "@babel/helpers": "7.28.4",
+      "brace-expansion": "1.1.12",
+      "ws": "5.2.4"
+    },
+    "tmp": "0.2.4",
+    "ws": "5.2.4"
+  },
   "dependencies": {
     "@rexxars/choosealicense-list": "1.1.2",
-    "@sanity/pkg-utils": "6.12.1",
+    "@sanity/pkg-utils": "8.1.12",
     "chalk": "4.1.2",
     "concurrently": "8.2.2",
     "discover-path": "1.0.0",
@@ -99,7 +114,7 @@
     "@commitlint/cli": "19.3.0",
     "@commitlint/config-conventional": "19.2.2",
     "@sanity/semantic-release-preset": "5.0.0",
-    "@sanity/ui-workshop": "^2.0.16",
+    "@sanity/ui-workshop": "^3.3.2",
     "@types/eslint": "^8.56.11",
     "@types/fs-extra": "^11.0.4",
     "@types/inquirer": "^9.0.3",
@@ -121,11 +136,11 @@
     "prettier-plugin-packagejson": "^2.5.1",
     "readdirp": "^3.6.0",
     "rimraf": "^4.4.1",
-    "sanity": "3.60.0",
+    "sanity": "^4.9.0",
     "sinon": "^17.0.2",
     "tap": "^16.3.10",
     "ts-node": "^10.9.2",
-    "typescript": "5.5.3"
+    "typescript": "5.8.3"
   },
   "peerDependencies": {
     "eslint": ">=8.0.0"
@@ -136,8 +151,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "binname": "sanity-plugin",
-  "overrides": {
-    "conventional-changelog-conventionalcommits": ">= 8.0.0"
-  }
+  "binname": "sanity-plugin"
 }

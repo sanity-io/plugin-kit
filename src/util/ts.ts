@@ -1,4 +1,4 @@
-import {loadTSConfig} from '@sanity/pkg-utils'
+import * as ts from 'typescript'
 import path from 'path'
 import {fileExists} from './files'
 
@@ -9,5 +9,11 @@ export async function readTSConfig(options: {basePath: string; filename: string}
 
   if (!exists) return undefined
 
-  return await loadTSConfig({cwd: basePath, tsconfigPath: filename})
+  return ts.readConfigFile(filePath, ts.sys.readFile).config
+    ? ts.parseJsonConfigFileContent(
+        ts.readConfigFile(filePath, ts.sys.readFile).config,
+        ts.sys,
+        basePath,
+      )
+    : undefined
 }
