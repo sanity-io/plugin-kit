@@ -77,10 +77,10 @@
     "tap": {
       "@babel/helpers": "7.28.4",
       "brace-expansion": "1.1.12",
-      "ws": "5.2.4"
+      "ws": "7.5.10"
     },
     "tmp": "0.2.4",
-    "ws": "5.2.4"
+    "ws": "7.5.10"
   },
   "dependencies": {
     "@rexxars/choosealicense-list": "1.1.2",
