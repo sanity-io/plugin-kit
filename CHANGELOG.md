@@ -5,6 +5,12 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.0.20](https://github.com/sanity-io/plugin-kit/compare/v4.0.19...v4.0.20) (2025-10-17)
+
+### Bug Fixes
+
+- remove v3 banner notice ([b7f5884](https://github.com/sanity-io/plugin-kit/commit/b7f58848b49b239818fba740dab3d9e5427eb4d5))
+
 ## [4.0.19](https://github.com/sanity-io/plugin-kit/compare/v4.0.18...v4.0.19) (2024-12-18)
 
 ### Bug Fixes
