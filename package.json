@@ -76,11 +76,9 @@
     "prismjs": "1.30.0",
     "tap": {
       "@babel/helpers": "7.28.4",
-      "brace-expansion": "1.1.12",
-      "ws": "7.5.10"
+      "brace-expansion": "1.1.12"
     },
-    "tmp": "0.2.4",
-    "ws": "7.5.10"
+    "tmp": "0.2.4"
   },
   "dependencies": {
     "@rexxars/choosealicense-list": "1.1.2",
