@@ -71,7 +71,7 @@
     "@babel/helpers": "7.28.4",
     "brace-expansion": "1.1.12",
     "conventional-changelog-conventionalcommits": ">= 8.0.0",
-    "esbuild": "0.25.0",
+    "esbuild": "0.28.0",
     "micromatch": "4.0.8",
     "prismjs": "1.30.0",
     "tap": {
