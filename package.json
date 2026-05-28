@@ -79,7 +79,7 @@
       "brace-expansion": "1.1.12",
       "ws": "5.2.4"
     },
-    "tmp": "0.2.4",
+    "tmp": "0.2.6",
     "ws": "5.2.4"
   },
   "dependencies": {
