@@ -68,14 +68,14 @@
     "ts": true
   },
   "overrides": {
-    "@babel/helpers": "7.28.4",
+    "@babel/helpers": "7.29.7",
     "brace-expansion": "1.1.12",
     "conventional-changelog-conventionalcommits": ">= 8.0.0",
     "esbuild": "0.25.0",
     "micromatch": "4.0.8",
     "prismjs": "1.30.0",
     "tap": {
-      "@babel/helpers": "7.28.4",
+      "@babel/helpers": "7.29.7",
       "brace-expansion": "1.1.12",
       "ws": "5.2.4"
     },
